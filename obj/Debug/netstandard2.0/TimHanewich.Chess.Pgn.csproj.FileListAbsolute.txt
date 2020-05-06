@@ -1,0 +1,8 @@
+C:\Users\TaHan\Documents\GitHub\TimHanewich.Chess.Pgn\bin\Debug\netstandard2.0\TimHanewich.Chess.Pgn.deps.json
+C:\Users\TaHan\Documents\GitHub\TimHanewich.Chess.Pgn\bin\Debug\netstandard2.0\TimHanewich.Chess.Pgn.dll
+C:\Users\TaHan\Documents\GitHub\TimHanewich.Chess.Pgn\bin\Debug\netstandard2.0\TimHanewich.Chess.Pgn.pdb
+C:\Users\TaHan\Documents\GitHub\TimHanewich.Chess.Pgn\obj\Debug\netstandard2.0\TimHanewich.Chess.Pgn.csproj.CoreCompileInputs.cache
+C:\Users\TaHan\Documents\GitHub\TimHanewich.Chess.Pgn\obj\Debug\netstandard2.0\TimHanewich.Chess.Pgn.AssemblyInfoInputs.cache
+C:\Users\TaHan\Documents\GitHub\TimHanewich.Chess.Pgn\obj\Debug\netstandard2.0\TimHanewich.Chess.Pgn.AssemblyInfo.cs
+C:\Users\TaHan\Documents\GitHub\TimHanewich.Chess.Pgn\obj\Debug\netstandard2.0\TimHanewich.Chess.Pgn.dll
+C:\Users\TaHan\Documents\GitHub\TimHanewich.Chess.Pgn\obj\Debug\netstandard2.0\TimHanewich.Chess.Pgn.pdb
