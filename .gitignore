@@ -2,3 +2,5 @@ src/bin/
 src/obj/
 .vs/
 .vscode/
+testing/bin/
+testing/obj/
