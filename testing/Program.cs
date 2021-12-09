@@ -1,4 +1,6 @@
 ﻿using System;
+using TimHanewich.Chess;
+using TimHanewich.Chess.Pgn;
 
 namespace testing
 {
