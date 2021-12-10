@@ -381,7 +381,7 @@ namespace TimHanewich.Chess
 
 
 
-        public float Evaluate(int depth)
+        public float Evaluation(int depth)
         {
             //If depth is 0, return this evaluation via material difference
             if (depth == 0)
@@ -394,7 +394,7 @@ namespace TimHanewich.Chess
                 float MaxEvaluationSeen = float.MinValue;
                 foreach (BoardPosition bp in AvailableMovePositions())
                 {
-                    float eval = bp.Evaluate(depth - 1);
+                    float eval = bp.Evaluation(depth - 1);
                     MaxEvaluationSeen = Math.Max(MaxEvaluationSeen, eval);
                 }
                 return MaxEvaluationSeen;
@@ -404,7 +404,7 @@ namespace TimHanewich.Chess
                 float MinEvaluatioNSeen = float.MaxValue;
                 foreach (BoardPosition bp in AvailableMovePositions())
                 {
-                    float eval = bp.Evaluate(depth - 1);
+                    float eval = bp.Evaluation(depth - 1);
                     MinEvaluatioNSeen = Math.Min(MinEvaluatioNSeen, eval);
                 }
                 return MinEvaluatioNSeen;
