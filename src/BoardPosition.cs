@@ -355,6 +355,29 @@ namespace TimHanewich.Chess
             }
         }
 
+        public BoardPosition[] AvailableMovePositions()
+        {
+            Move[] moves = AvailableMoves();
+            List<BoardPosition> ToReturn = new List<BoardPosition>();
+            foreach (Move m in moves)
+            {
+                BoardPosition ThisMove = this.Copy();
+                ThisMove.ExecuteMove(m);
+                ToReturn.Add(ThisMove);
+            }
+            return ToReturn.ToArray();
+        }
+
+        public string[] AvailableMovePositionsFEN()
+        {
+            BoardPosition[] pos = AvailableMovePositions();
+            List<string> ToReturn = new List<string>();
+            foreach (BoardPosition bp in pos)
+            {
+                ToReturn.Add(bp.ToFEN());
+            }
+            return ToReturn.ToArray();
+        }
 
         /// TOOLKIT BELOW
         
