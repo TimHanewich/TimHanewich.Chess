@@ -6,8 +6,6 @@ namespace TimHanewich.Chess
     public class BoardPosition
     {
         public Color ToMove {get; set;}
-
-
         private List<Piece> _Pieces;
 
         public BoardPosition()
@@ -123,8 +121,26 @@ namespace TimHanewich.Chess
                 }
             }
 
-
-
+            //Who is to move?
+            loc1 = FEN.IndexOf(" ");
+            int loc2 = FEN.IndexOf(" ", loc1 + 1);
+            if (loc2 == -1)
+            {
+                throw new Exception("Supplied FEN is invalid. To move not available.");
+            }
+            string ToMoveStr = FEN.Substring(loc1 + 1, loc2 - loc1 - 1);
+            if (ToMoveStr.ToLower() == "w")
+            {
+                ToMove = Color.White;
+            }
+            else if (ToMoveStr.ToLower() == "b")
+            {
+                ToMove = Color.Black;
+            }
+            else
+            {
+                throw new Exception("Active color '" + ToMoveStr + "' not recognized in FEN.");
+            }
         }
 
         public Piece[] Pieces
