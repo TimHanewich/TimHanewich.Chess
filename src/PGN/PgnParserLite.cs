@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TimHanewich.Chess.Pgn
+namespace TimHanewich.Chess.PGN
 {
     public class PgnParserLite
         {
