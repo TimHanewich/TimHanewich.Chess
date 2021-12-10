@@ -284,5 +284,27 @@ namespace TimHanewich.Chess
             return White - Black;
         }
 
+        public Move[] AvailableMoves()
+        {
+            List<Move> ToReturn = new List<Move>();
+
+            foreach (Piece p in _Pieces)
+            {
+                if (p.Color == ToMove)
+                {
+                    Position[] PosMovesForPiece = p.AvailableMoves(this);
+                    foreach (Position PotMove in PosMovesForPiece)
+                    {
+                        Move m = new Move();
+                        m.Piece = p;
+                        m.ToPosition = PotMove;
+                        ToReturn.Add(m);
+                    }
+                }
+            }
+
+            return ToReturn.ToArray();
+        }
+
     }
 }
