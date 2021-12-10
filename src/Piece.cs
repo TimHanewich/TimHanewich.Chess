@@ -461,7 +461,7 @@ namespace TimHanewich.Chess
                 {
                     if (OnPosition.Rank() < 8 && OnPosition.File() != 'H')
                     {
-                        OnPosition = OnPosition.Up().Down();
+                        OnPosition = OnPosition.Up().Right();
                     }
                     else
                     {
