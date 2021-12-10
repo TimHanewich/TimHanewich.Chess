@@ -286,6 +286,8 @@ namespace TimHanewich.Chess
             }
             else if (Type == PieceType.King)
             {
+                //This algorithm is incomplete. Obviously the King cannot place himself in check. So need to evaluate each potential move here and ensure it is not putting the knight in check. if it isn't, add it as a potential move!
+
                 //Up?
                 if (Position.Rank() < 8)
                 {
