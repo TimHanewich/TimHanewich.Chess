@@ -302,11 +302,16 @@ namespace TimHanewich.Chess
 
         public Move[] AvailableMoves()
         {
+            return AvailableMoves(ToMove);
+        }
+
+        public Move[] AvailableMoves(Color by_color)
+        {
             List<Move> ToReturn = new List<Move>();
 
             foreach (Piece p in _Pieces)
             {
-                if (p.Color == ToMove)
+                if (p.Color == by_color)
                 {
                     Position[] PosMovesForPiece = p.AvailableMoves(this);
                     foreach (Position PotMove in PosMovesForPiece)
@@ -378,6 +383,46 @@ namespace TimHanewich.Chess
             }
             return ToReturn.ToArray();
         }
+
+        public bool IsCheck()
+        {
+            //Is the king at risk right now? Is another piece threatening capture?
+            
+            //Find the king's position
+            foreach (Piece p in _Pieces)
+            {
+                if (p.Color == ToMove) //To move only
+                {
+                    if (p.Type == PieceType.King)
+                    {
+                        Move[] PotentialMovesByOpponent = null;
+                        if (ToMove == Color.White)
+                        {
+                            PotentialMovesByOpponent = AvailableMoves(Color.Black);
+                        }
+                        else
+                        {
+                            PotentialMovesByOpponent = AvailableMoves(Color.White);
+                        }
+
+                        //If any of the moves of the opponent are to my kinds position, I am in check
+                        bool InCheck = false;
+                        foreach (Move m in PotentialMovesByOpponent)
+                        {
+                            if (m.ToPosition == p.Position)
+                            {
+                                InCheck = true;
+                            }
+                        }
+                        return InCheck;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
 
 
 
