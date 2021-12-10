@@ -42,7 +42,7 @@ namespace TimHanewich.Chess
                     int? NumericValue = null; 
                     try
                     {
-                        NumericValue = Convert.ToInt32(c);
+                        NumericValue = Convert.ToInt32(c.ToString());
                     }
                     catch
                     {
@@ -107,13 +107,14 @@ namespace TimHanewich.Chess
                         {
                             OnPosition = OnPosition.Right();
                         }
-                    }
-
-                    
+                    }                    
                 }
            
                 //Advance to the next rank (1 down)
-                OnPosition = PositionToolkit.Parse("A" + Convert.ToString(OnPosition.Rank() - 1));
+                if (OnPosition.Rank() > 1)
+                {
+                    OnPosition = PositionToolkit.Parse("A" + Convert.ToString(OnPosition.Rank() - 1));
+                }
             }
 
         }
