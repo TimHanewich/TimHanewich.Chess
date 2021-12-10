@@ -17,6 +17,8 @@ namespace TimHanewich.Chess
 
         public BoardPosition(string FEN)
         {
+            Pieces = new List<Piece>();
+
             int loc1 = FEN.IndexOf(" ");
             if (loc1 == -1)
             {
@@ -102,6 +104,10 @@ namespace TimHanewich.Chess
                             p.Color = Color.Black;
                         }
 
+
+                        //Add the piece
+                        Pieces.Add(p);
+
                         //Advance the onposition by 1
                         if (OnPosition.File() != 'H')
                         {
@@ -116,6 +122,8 @@ namespace TimHanewich.Chess
                     OnPosition = PositionToolkit.Parse("A" + Convert.ToString(OnPosition.Rank() - 1));
                 }
             }
+
+
 
         }
 
