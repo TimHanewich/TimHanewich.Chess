@@ -26,7 +26,7 @@ namespace TimHanewich.Chess
             }
 
             //Get the positon part
-            string PositionPortion = FEN.Substring(0, loc1 - 1);
+            string PositionPortion = FEN.Substring(0, loc1);
             
             //Split it up
             string[] Rows = PositionPortion.Split(new string[] {"/"}, StringSplitOptions.None);
