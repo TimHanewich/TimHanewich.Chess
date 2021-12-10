@@ -306,5 +306,10 @@ namespace TimHanewich.Chess
             return ToReturn.ToArray();
         }
 
+        public BoardPosition Copy()
+        {
+            return new BoardPosition(ToFEN());
+        }
+
     }
 }
