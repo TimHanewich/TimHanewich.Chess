@@ -383,6 +383,12 @@ namespace TimHanewich.Chess
 
         public float Evaluation(int depth)
         {
+            float eval = EvaluationWithPruning(depth, float.MinValue, float.MaxValue);
+            return eval;
+        }
+
+        private float EvaluationWithPruning(int depth, float alpha, float beta)
+        {
             //If depth is 0, return this evaluation via material difference
             if (depth == 0)
             {
@@ -394,24 +400,32 @@ namespace TimHanewich.Chess
                 float MaxEvaluationSeen = float.MinValue;
                 foreach (BoardPosition bp in AvailableMovePositions())
                 {
-                    float eval = bp.Evaluation(depth - 1);
+                    float eval = bp.EvaluationWithPruning(depth - 1, alpha, beta);
                     MaxEvaluationSeen = Math.Max(MaxEvaluationSeen, eval);
+                    alpha = Math.Max(alpha, eval);
+                    if (beta <= alpha)
+                    {
+                        break;
+                    }
                 }
                 return MaxEvaluationSeen;
             }
             else //Black
             {
-                float MinEvaluatioNSeen = float.MaxValue;
+                float MinEvaluationSeen = float.MaxValue;
                 foreach (BoardPosition bp in AvailableMovePositions())
                 {
-                    float eval = bp.Evaluation(depth - 1);
-                    MinEvaluatioNSeen = Math.Min(MinEvaluatioNSeen, eval);
+                    float eval = bp.EvaluationWithPruning(depth - 1, alpha, beta);
+                    MinEvaluationSeen = Math.Min(MinEvaluationSeen, eval);
+                    beta = Math.Min(beta, eval);
+                    if (beta <= alpha)
+                    {
+                        break;
+                    }
                 }
-                return MinEvaluatioNSeen;
+                return MinEvaluationSeen;
             }
         }
-
-
 
 
         /// TOOLKIT BELOW
