@@ -259,8 +259,168 @@ namespace TimHanewich.Chess
                     }
                 }
             }
+            else if (Type == PieceType.Bishop)
+            {
+                ToReturn.AddRange(PotentialLinearMoves(board, 0));
+                ToReturn.AddRange(PotentialLinearMoves(board, 1));
+                ToReturn.AddRange(PotentialLinearMoves(board, 2));
+                ToReturn.AddRange(PotentialLinearMoves(board, 3));
+            }
+            else if (Type == PieceType.Rook)
+            {
+                ToReturn.AddRange(PotentialLinearMoves(board, 4));
+                ToReturn.AddRange(PotentialLinearMoves(board, 5));
+                ToReturn.AddRange(PotentialLinearMoves(board, 6));
+                ToReturn.AddRange(PotentialLinearMoves(board, 7));
+            }
+            else if (Type == PieceType.Queen)
+            {
+                ToReturn.AddRange(PotentialLinearMoves(board, 0));
+                ToReturn.AddRange(PotentialLinearMoves(board, 1));
+                ToReturn.AddRange(PotentialLinearMoves(board, 2));
+                ToReturn.AddRange(PotentialLinearMoves(board, 3));
+                ToReturn.AddRange(PotentialLinearMoves(board, 4));
+                ToReturn.AddRange(PotentialLinearMoves(board, 5));
+                ToReturn.AddRange(PotentialLinearMoves(board, 6));
+                ToReturn.AddRange(PotentialLinearMoves(board, 7));
+            }
 
             return ToReturn.ToArray();
+        }
+
+
+        //TOOLKIT
+
+        //For a bishop, rook or queen to use. Direction:
+        //0 = up, right
+        //1 = down, right
+        //2 = down, left
+        //3 = up, left
+        //4 = up
+        //5 = right
+        //6 = down
+        //7 = left
+        private Position[] PotentialLinearMoves(BoardPosition board, int direction)
+        {
+            List<Position> ToReturn = new List<Position>();
+            bool StopCollecting = false;
+            Position OnPosition = Position; //Starting position
+            while (StopCollecting == false)
+            {
+                //Increment to next position
+                if (direction == 0)
+                {
+                    if (Position.Rank() < 8 && Position.File() != 'H')
+                    {
+                        OnPosition = OnPosition.Up().Down();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 1)
+                {
+                    if (Position.Rank() > 1 && Position.File() != 'H')
+                    {
+                        OnPosition = OnPosition.Down().Right();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 2)
+                {
+                    if (Position.Rank() > 1 && Position.File() != 'A')
+                    {
+                        OnPosition = OnPosition.Down().Left();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 3)
+                {
+                    if (Position.Rank() < 8 && Position.File() != 'A')
+                    {
+                        OnPosition = OnPosition.Up().Left();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 4)
+                {
+                    if (Position.Rank() < 8)
+                    {
+                        OnPosition = OnPosition.Up();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 5)
+                {
+                    if (Position.File() != 'H')
+                    {
+                        OnPosition = OnPosition.Right();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 6)
+                {
+                    if (Position.Rank() > 1)
+                    {
+                        OnPosition = OnPosition.Down();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 7)
+                {
+                    if (Position.File() != 'A')
+                    {
+                        OnPosition = OnPosition.Left();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+
+
+                //Add and move on or stop here?
+                if (StopCollecting == false)
+                {
+                    Piece OccupyingPiece = board.FindOccupyingPiece(OnPosition);
+                    if (OccupyingPiece == null) //if the position is empty, add it and move on
+                    {
+                        ToReturn.Add(OnPosition);
+                    }
+                    else
+                    {
+                        if (OccupyingPiece.Color != Color) //It is occupied by an opposing piece. So we can capture it. Add it
+                        {
+                            ToReturn.Add(OnPosition);
+                            StopCollecting = true; //Stop collecting (don't go further because we cannot pass the piece)
+                        }
+                        else //It is occupied by the same color. We can't take our own piece so stop.
+                        {
+                            StopCollecting = true;
+                        }
+                    }
+                }
+            }
+            return ToReturn.ToArray();            
         }
     }
 }
