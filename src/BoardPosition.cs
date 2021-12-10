@@ -386,17 +386,22 @@ namespace TimHanewich.Chess
 
         public bool IsCheck()
         {
+            return IsCheck(ToMove);
+        }
+
+        public bool IsCheck(Color threatened)
+        {
             //Is the king at risk right now? Is another piece threatening capture?
             
             //Find the king's position
             foreach (Piece p in _Pieces)
             {
-                if (p.Color == ToMove) //To move only
+                if (p.Color == threatened)
                 {
                     if (p.Type == PieceType.King)
                     {
                         Move[] PotentialMovesByOpponent = null;
-                        if (ToMove == Color.White)
+                        if (threatened == Color.White)
                         {
                             PotentialMovesByOpponent = AvailableMoves(Color.Black);
                         }
@@ -422,17 +427,45 @@ namespace TimHanewich.Chess
             return false;
         }
 
-
-
-
-
-        public float Evaluation(int depth)
+        public bool IsCheckMate()
         {
-            float eval = EvaluationWithPruning(depth, float.MinValue, float.MaxValue);
+            if (IsCheck() == false)
+            {
+                return false;
+            }
+            else //Since we are in check, see if there are any moves that we could play that would put us out of check.
+            {
+                BoardPosition[] PotentialNewPositions = AvailableMovePositions();
+                bool IsWayOut = false;
+                foreach (BoardPosition bp in PotentialNewPositions)
+                {
+                    if (bp.IsCheck(ToMove) == false)
+                    {
+                        IsWayOut = true;
+                    }
+                }
+                
+                //if there is a way out of the current check, return false
+                if (IsWayOut)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+
+
+        public float Evaluate(int depth)
+        {
+            float eval = EvaluateWithPruning(depth, float.MinValue, float.MaxValue);
             return eval;
         }
 
-        private float EvaluationWithPruning(int depth, float alpha, float beta)
+        private float EvaluateWithPruning(int depth, float alpha, float beta)
         {
             //If depth is 0, return this evaluation via material difference
             if (depth == 0)
@@ -445,7 +478,7 @@ namespace TimHanewich.Chess
                 float MaxEvaluationSeen = float.MinValue;
                 foreach (BoardPosition bp in AvailableMovePositions())
                 {
-                    float eval = bp.EvaluationWithPruning(depth - 1, alpha, beta);
+                    float eval = bp.EvaluateWithPruning(depth - 1, alpha, beta);
                     MaxEvaluationSeen = Math.Max(MaxEvaluationSeen, eval);
                     alpha = Math.Max(alpha, eval);
                     if (beta <= alpha)
@@ -460,7 +493,7 @@ namespace TimHanewich.Chess
                 float MinEvaluationSeen = float.MaxValue;
                 foreach (BoardPosition bp in AvailableMovePositions())
                 {
-                    float eval = bp.EvaluationWithPruning(depth - 1, alpha, beta);
+                    float eval = bp.EvaluateWithPruning(depth - 1, alpha, beta);
                     MinEvaluationSeen = Math.Min(MinEvaluationSeen, eval);
                     beta = Math.Min(beta, eval);
                     if (beta <= alpha)
