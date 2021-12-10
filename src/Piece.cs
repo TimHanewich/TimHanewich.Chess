@@ -102,9 +102,9 @@ namespace TimHanewich.Chess
                     }
 
                     //Down 2?
-                    if (Position.Rank() == 6)
+                    if (Position.Rank() == 7)
                     {
-                        if (board.PositionIsOccupied(Position.Down().Down()))
+                        if (board.PositionIsOccupied(Position.Down().Down()) == false)
                         {
                             ToReturn.Add(Position.Down().Down());
                         }
