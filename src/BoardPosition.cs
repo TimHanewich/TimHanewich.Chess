@@ -329,12 +329,23 @@ namespace TimHanewich.Chess
 
         public void ExecuteMove(Move m)
         {
+            //Move & Capture if necessary
             Piece Occ = FindOccupyingPiece(m.ToPosition);
             if (Occ != null)
             {
                 RemovePiece(Occ); //it was a capture
             }
             m.Piece.Position = m.ToPosition;
+
+            //Flip ToMove
+            if (m.Piece.Color == Color.White)
+            {
+                ToMove = Color.Black;
+            }
+            else if (m.Piece.Color == Color.Black)
+            {
+                ToMove = Color.White;
+            }
         }
 
 
