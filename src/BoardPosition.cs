@@ -253,5 +253,23 @@ namespace TimHanewich.Chess
             return null; //Return null if nothing found.
         }
 
+        public float MaterialDisparity()
+        {
+            float White = 0f;
+            float Black = 0f;
+            foreach (Piece p in _Pieces)
+            {
+                if (p.Color == Color.White)
+                {
+                    White = White + p.Value;
+                }
+                else if (p.Color == Color.Black)
+                {
+                    Black = Black + p.Value;
+                }
+            }
+            return White - Black;
+        }
+
     }
 }
