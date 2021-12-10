@@ -284,6 +284,153 @@ namespace TimHanewich.Chess
                 ToReturn.AddRange(PotentialLinearMoves(board, 6));
                 ToReturn.AddRange(PotentialLinearMoves(board, 7));
             }
+            else if (Type == PieceType.King)
+            {
+                //Up?
+                if (Position.Rank() < 8)
+                {
+                    Position PotMove = Position.Up();
+                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
+                    if (OccPiece == null)
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else
+                    {
+                        if (OccPiece.Color != Color)
+                        {
+                            ToReturn.Add(PotMove);
+                        }
+                    }
+                }
+
+                //Up right?
+                if (Position.Rank() < 8 && Position.File() != 'H')
+                {
+                    Position PotMove = Position.Up().Right();
+                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
+                    if (OccPiece == null)
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else
+                    {
+                        if (OccPiece.Color != Color)
+                        {
+                            ToReturn.Add(PotMove);
+                        }
+                    }
+                }
+
+                //Right?
+                if (Position.File() != 'H')
+                {
+                    Position PotMove = Position.Right();
+                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
+                    if (OccPiece == null)
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else
+                    {
+                        if (OccPiece.Color != Color)
+                        {
+                            ToReturn.Add(PotMove);
+                        }
+                    }
+                }
+
+                //Down, right?
+                if (Position.Rank() > 1 && Position.File() != 'H')
+                {
+                    Position PotMove = Position.Down().Right();
+                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
+                    if (OccPiece == null)
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else
+                    {
+                        if (OccPiece.Color != Color)
+                        {
+                            ToReturn.Add(PotMove);
+                        }
+                    }
+                }
+
+                //Down?
+                if (Position.Rank() > 1)
+                {
+                    Position PotMove = Position.Down();
+                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
+                    if (OccPiece == null)
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else
+                    {
+                        if (OccPiece.Color != Color)
+                        {
+                            ToReturn.Add(PotMove);
+                        }
+                    }
+                }
+
+                //Down, left?
+                if (Position.Rank() > 1 && Position.File() != 'A')
+                {
+                    Position PotMove = Position.Down().Left();
+                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
+                    if (OccPiece == null)
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else
+                    {
+                        if (OccPiece.Color != Color)
+                        {
+                            ToReturn.Add(PotMove);
+                        }
+                    }
+                }
+
+                //Left?
+                if (Position.File() != 'A')
+                {
+                    Position PotMove = Position.Left();
+                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
+                    if (OccPiece == null)
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else
+                    {
+                        if (OccPiece.Color != Color)
+                        {
+                            ToReturn.Add(PotMove);
+                        }
+                    }
+                }
+
+                //Up, left?
+                if (Position.Rank() < 8 && Position.File() != 'A')
+                {
+                    Position PotMove = Position.Up().Left();
+                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
+                    if (OccPiece == null)
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else
+                    {
+                        if (OccPiece.Color != Color)
+                        {
+                            ToReturn.Add(PotMove);
+                        }
+                    }
+                }
+
+            }
 
             return ToReturn.ToArray();
         }
