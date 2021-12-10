@@ -241,7 +241,7 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
 
-        private Piece FindOccupyingPiece(Position pos)
+        public Piece FindOccupyingPiece(Position pos)
         {
             foreach (Piece p in _Pieces)
             {
@@ -251,6 +251,19 @@ namespace TimHanewich.Chess
                 }
             }
             return null; //Return null if nothing found.
+        }
+
+        public bool PositionIsOccupied(Position pos)
+        {
+            Piece p = FindOccupyingPiece(pos);
+            if (p == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         public float MaterialDisparity()
