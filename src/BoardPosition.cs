@@ -379,6 +379,41 @@ namespace TimHanewich.Chess
             return ToReturn.ToArray();
         }
 
+
+
+        public float Evaluate(int depth)
+        {
+            //If depth is 0, return this evaluation via material difference
+            if (depth == 0)
+            {
+                return MaterialDisparity();
+            }
+
+            if (ToMove == Color.White)
+            {
+                float MaxEvaluationSeen = float.MinValue;
+                foreach (BoardPosition bp in AvailableMovePositions())
+                {
+                    float eval = bp.Evaluate(depth - 1);
+                    MaxEvaluationSeen = Math.Max(MaxEvaluationSeen, eval);
+                }
+                return MaxEvaluationSeen;
+            }
+            else //Black
+            {
+                float MinEvaluatioNSeen = float.MaxValue;
+                foreach (BoardPosition bp in AvailableMovePositions())
+                {
+                    float eval = bp.Evaluate(depth - 1);
+                    MinEvaluatioNSeen = Math.Min(MinEvaluatioNSeen, eval);
+                }
+                return MinEvaluatioNSeen;
+            }
+        }
+
+
+
+
         /// TOOLKIT BELOW
         
         private void RemovePiece(Piece p)
