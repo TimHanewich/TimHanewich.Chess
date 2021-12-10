@@ -311,5 +311,23 @@ namespace TimHanewich.Chess
             return new BoardPosition(ToFEN());
         }
 
+        public void ExecuteMove(Move m)
+        {
+            Piece Occ = FindOccupyingPiece(m.ToPosition);
+            if (Occ != null)
+            {
+                RemovePiece(Occ); //it was a capture
+            }
+            m.Piece.Position = m.ToPosition;
+        }
+
+
+        /// TOOLKIT BELOW
+        
+        private void RemovePiece(Piece p)
+        {
+            _Pieces.Remove(p);
+        }
+
     }
 }
