@@ -302,10 +302,10 @@ namespace TimHanewich.Chess
 
         public Move[] AvailableMoves()
         {
-            return AvailableMoves(ToMove);
+            return AvailableMoves(ToMove, true);
         }
 
-        public Move[] AvailableMoves(Color by_color)
+        public Move[] AvailableMoves(Color by_color, bool CheckLegality)
         {
             List<Move> ToReturn = new List<Move>();
 
@@ -313,7 +313,7 @@ namespace TimHanewich.Chess
             {
                 if (p.Color == by_color)
                 {
-                    Position[] PosMovesForPiece = p.AvailableMoves(this);
+                    Position[] PosMovesForPiece = p.AvailableMoves(this, CheckLegality);
                     foreach (Position PotMove in PosMovesForPiece)
                     {
                         Move m = new Move();
@@ -403,11 +403,11 @@ namespace TimHanewich.Chess
                         Move[] PotentialMovesByOpponent = null;
                         if (threatened == Color.White)
                         {
-                            PotentialMovesByOpponent = AvailableMoves(Color.Black);
+                            PotentialMovesByOpponent = AvailableMoves(Color.Black, false);
                         }
                         else
                         {
-                            PotentialMovesByOpponent = AvailableMoves(Color.White);
+                            PotentialMovesByOpponent = AvailableMoves(Color.White, false);
                         }
 
                         //If any of the moves of the opponent are to my kinds position, I am in check

@@ -44,7 +44,7 @@ namespace TimHanewich.Chess
             }
         }
     
-        public Position[] AvailableMoves(BoardPosition board)
+        public Position[] AvailableMoves(BoardPosition board, bool EnsureLegality)
         {
             List<Position> ToReturn = new List<Position>();
 
@@ -434,6 +434,33 @@ namespace TimHanewich.Chess
 
             }
 
+            //Filter out any moves that would be illegal
+            if (EnsureLegality)
+            {
+                return FilterOutIllegalMoves(board, ToReturn.ToArray());
+            }
+            else
+            {
+                return ToReturn.ToArray();
+            }
+        }
+
+        //For example, filter out moves that put the king in check
+        private Position[] FilterOutIllegalMoves(BoardPosition board, Position[] moves)
+        {
+            List<Position> ToReturn = new List<Position>();
+            foreach (Position pos in moves)
+            {
+                BoardPosition cop = board.Copy();
+                Move m = new Move();
+                m.FromPosition = Position;
+                m.ToPosition = pos;
+                cop.ExecuteMove(m);
+                if (cop.IsCheck() == false)
+                {
+                    ToReturn.Add(pos);
+                }
+            }
             return ToReturn.ToArray();
         }
 
