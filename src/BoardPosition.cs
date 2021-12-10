@@ -151,5 +151,107 @@ namespace TimHanewich.Chess
             }
         }
 
+        public string ToFEN()
+        {
+            string ToReturn = "";
+            
+            //Assemble
+            int BlankBuffer = 0;
+            int CurrentRank = 8;
+            foreach (Position pos in PositionToolkit.FenOrder())
+            {
+                
+                //If we are now on a new rank, add the buffer and then slash
+                if (pos.Rank() != CurrentRank)
+                {
+                    if (BlankBuffer > 0)
+                    {
+                        ToReturn = ToReturn + BlankBuffer.ToString();
+                        BlankBuffer = 0;
+                    }
+                    ToReturn = ToReturn + "/";
+                }
+
+                CurrentRank = pos.Rank();
+
+                //Add to the buffer or add the piece itself.
+                Piece p = FindOccupyingPiece(pos);
+                if (p == null)
+                {
+                    BlankBuffer = BlankBuffer + 1;
+                }
+                else
+                {
+                    //First, if there is a buffer, add it
+                    if (BlankBuffer > 0)
+                    {
+                        ToReturn = ToReturn + BlankBuffer.ToString();
+                        BlankBuffer = 0;
+                    }
+
+                    //To add
+                    string ToAdd = "";
+                    if (p.Type == PieceType.Pawn)
+                    {
+                        ToAdd = "P";
+                    }
+                    else if (p.Type == PieceType.Knight)
+                    {
+                        ToAdd = "N";
+                    }
+                    else if (p.Type == PieceType.Bishop)
+                    {
+                        ToAdd = "B";
+                    }
+                    else if (p.Type == PieceType.Queen)
+                    {
+                        ToAdd = "Q";
+                    }
+                    else if (p.Type == PieceType.King)
+                    {
+                        ToAdd = "K";
+                    }
+                    else if (p.Type == PieceType.Rook)
+                    {
+                        ToAdd = "R";
+                    }
+
+                    //Convert to black?
+                    if (p.Color == Color.Black)
+                    {
+                        ToAdd = ToAdd.ToLower();
+                    }
+
+                    //Add it
+                    ToReturn = ToReturn + ToAdd;
+                    
+                }
+            }
+
+            //Add next to move
+            if (ToMove == Color.White)
+            {
+                ToReturn = ToReturn + " w";
+            }
+            else
+            {
+                ToReturn = ToReturn + " b";
+            }
+
+            return ToReturn;
+        }
+
+        private Piece FindOccupyingPiece(Position pos)
+        {
+            foreach (Piece p in _Pieces)
+            {
+                if (pos == p.Position)
+                {
+                    return p;
+                }
+            }
+            return null; //Return null if nothing found.
+        }
+
     }
 }
