@@ -122,13 +122,22 @@ namespace TimHanewich.Chess
             }
 
             //Who is to move?
+            string ToMoveStr = "";
             loc1 = FEN.IndexOf(" ");
             int loc2 = FEN.IndexOf(" ", loc1 + 1);
-            if (loc2 == -1)
+            if (loc2 > -1)
             {
-                throw new Exception("Supplied FEN is invalid. To move not available.");
+               ToMoveStr = FEN.Substring(loc1 + 1, loc2 - loc1 - 1); 
             }
-            string ToMoveStr = FEN.Substring(loc1 + 1, loc2 - loc1 - 1);
+            else
+            {
+                string LastChar = FEN.Substring(FEN.Length - 1, 1);
+                if (LastChar.ToLower() != "w" && LastChar.ToLower() != "b")
+                {
+                    throw new Exception("FEN is invalid. Last character not recognized as active color.");
+                }
+                ToMoveStr = LastChar;
+            }
             if (ToMoveStr.ToLower() == "w")
             {
                 ToMove = Color.White;
