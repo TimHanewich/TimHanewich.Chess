@@ -237,6 +237,13 @@ namespace TimHanewich.Chess
                 }
             }
 
+            //Finally, add any remaining white space at the end if some existds
+            if (BlankBuffer > 0)
+            {
+                ToReturn = ToReturn + BlankBuffer.ToString();
+                BlankBuffer = 0;
+            }
+
             //Add next to move
             if (ToMove == Color.White)
             {
