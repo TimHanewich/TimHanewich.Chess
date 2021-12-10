@@ -137,6 +137,128 @@ namespace TimHanewich.Chess
                     }
                 }
             }
+            else if (Type == PieceType.Knight)
+            {
+                //Up 2, left 1
+                if (Position.Rank() < 7 && Position.File() != 'A')
+                {
+                    Position PotMove = Position.Up().Up().Left();
+                    Piece Occ = board.FindOccupyingPiece(PotMove);
+                    if (Occ == null) //If it is empty we can jump to it
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else if (Occ.Color != Color) //If it is an opposing color, we can take
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                }
+
+                //Up 2, right 1
+                if (Position.Rank() < 7 && Position.File() != 'H')
+                {
+                    Position PotMove = Position.Up().Up().Right();
+                    Piece Occ = board.FindOccupyingPiece(PotMove);
+                    if (Occ == null) //If it is empty we can jump to it
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else if (Occ.Color != Color) //If it is an opposing color, we can take
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                }
+
+                //Up 1, left 2
+                if (Position.Rank() < 8 && Position.File() != 'A' && Position.File() != 'B')
+                {
+                    Position PotMove = Position.Up().Left().Left();
+                    Piece Occ = board.FindOccupyingPiece(PotMove);
+                    if (Occ == null) //If it is empty we can jump to it
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else if (Occ.Color != Color) //If it is an opposing color, we can take
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                }
+
+                //Up 1, right 2
+                if (Position.Rank() < 8 && Position.File() != 'G' && Position.File() != 'H')
+                {
+                    Position PotMove = Position.Up().Right().Right();
+                    Piece Occ = board.FindOccupyingPiece(PotMove);
+                    if (Occ == null) //If it is empty we can jump to it
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else if (Occ.Color != Color) //If it is an opposing color, we can take
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                }
+
+                //Down 1, left 2
+                if (Position.Rank() > 1 && Position.File() != 'A' && Position.File() != 'B')
+                {
+                    Position PotMove = Position.Down().Left().Left();
+                    Piece Occ = board.FindOccupyingPiece(PotMove);
+                    if (Occ == null) //If it is empty we can jump to it
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else if (Occ.Color != Color) //If it is an opposing color, we can take
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                }
+
+                //Down 1, right 2
+                if (Position.Rank() > 1 && Position.File() != 'G' && Position.File() != 'H')
+                {
+                    Position PotMove = Position.Down().Right().Right();
+                    Piece Occ = board.FindOccupyingPiece(PotMove);
+                    if (Occ == null) //If it is empty we can jump to it
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else if (Occ.Color != Color) //If it is an opposing color, we can take
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                }
+
+                //Down 2, left 1
+                if (Position.Rank() > 2 && Position.File() != 'A')
+                {
+                    Position PotMove = Position.Down().Down().Left();
+                    Piece Occ = board.FindOccupyingPiece(PotMove);
+                    if (Occ == null) //If it is empty we can jump to it
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else if (Occ.Color != Color) //If it is an opposing color, we can take
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                }
+
+                //Down 2, right 1
+                if (Position.Rank() > 2 && Position.File() != 'H')
+                {
+                    Position PotMove = Position.Down().Down().Right();
+                    Piece Occ = board.FindOccupyingPiece(PotMove);
+                    if (Occ == null) //If it is empty we can jump to it
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                    else if (Occ.Color != Color) //If it is an opposing color, we can take
+                    {
+                        ToReturn.Add(PotMove);
+                    }
+                }
+            }
 
             return ToReturn.ToArray();
         }
