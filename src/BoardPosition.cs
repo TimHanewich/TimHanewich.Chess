@@ -8,16 +8,16 @@ namespace TimHanewich.Chess
         public Color ToMove {get; set;}
 
 
-        private List<Piece> Pieces;
+        private List<Piece> _Pieces;
 
         public BoardPosition()
         {
-            Pieces = new List<Piece>();
+            _Pieces = new List<Piece>();
         }
 
         public BoardPosition(string FEN)
         {
-            Pieces = new List<Piece>();
+            _Pieces = new List<Piece>();
 
             int loc1 = FEN.IndexOf(" ");
             if (loc1 == -1)
@@ -106,7 +106,7 @@ namespace TimHanewich.Chess
 
 
                         //Add the piece
-                        Pieces.Add(p);
+                        _Pieces.Add(p);
 
                         //Advance the onposition by 1
                         if (OnPosition.File() != 'H')
@@ -125,6 +125,14 @@ namespace TimHanewich.Chess
 
 
 
+        }
+
+        public Piece[] Pieces
+        {
+            get
+            {
+                return _Pieces.ToArray();
+            }
         }
 
     }
