@@ -310,7 +310,7 @@ namespace TimHanewich.Chess
                 //Increment to next position
                 if (direction == 0)
                 {
-                    if (Position.Rank() < 8 && Position.File() != 'H')
+                    if (OnPosition.Rank() < 8 && OnPosition.File() != 'H')
                     {
                         OnPosition = OnPosition.Up().Down();
                     }
@@ -321,7 +321,7 @@ namespace TimHanewich.Chess
                 }
                 else if (direction == 1)
                 {
-                    if (Position.Rank() > 1 && Position.File() != 'H')
+                    if (OnPosition.Rank() > 1 && OnPosition.File() != 'H')
                     {
                         OnPosition = OnPosition.Down().Right();
                     }
@@ -332,7 +332,7 @@ namespace TimHanewich.Chess
                 }
                 else if (direction == 2)
                 {
-                    if (Position.Rank() > 1 && Position.File() != 'A')
+                    if (OnPosition.Rank() > 1 && OnPosition.File() != 'A')
                     {
                         OnPosition = OnPosition.Down().Left();
                     }
@@ -343,7 +343,7 @@ namespace TimHanewich.Chess
                 }
                 else if (direction == 3)
                 {
-                    if (Position.Rank() < 8 && Position.File() != 'A')
+                    if (OnPosition.Rank() < 8 && OnPosition.File() != 'A')
                     {
                         OnPosition = OnPosition.Up().Left();
                     }
@@ -354,7 +354,7 @@ namespace TimHanewich.Chess
                 }
                 else if (direction == 4)
                 {
-                    if (Position.Rank() < 8)
+                    if (OnPosition.Rank() < 8)
                     {
                         OnPosition = OnPosition.Up();
                     }
@@ -365,7 +365,7 @@ namespace TimHanewich.Chess
                 }
                 else if (direction == 5)
                 {
-                    if (Position.File() != 'H')
+                    if (OnPosition.File() != 'H')
                     {
                         OnPosition = OnPosition.Right();
                     }
@@ -376,7 +376,7 @@ namespace TimHanewich.Chess
                 }
                 else if (direction == 6)
                 {
-                    if (Position.Rank() > 1)
+                    if (OnPosition.Rank() > 1)
                     {
                         OnPosition = OnPosition.Down();
                     }
@@ -387,7 +387,7 @@ namespace TimHanewich.Chess
                 }
                 else if (direction == 7)
                 {
-                    if (Position.File() != 'A')
+                    if (OnPosition.File() != 'A')
                     {
                         OnPosition = OnPosition.Left();
                     }
