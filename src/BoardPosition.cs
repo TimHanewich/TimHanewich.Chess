@@ -359,7 +359,7 @@ namespace TimHanewich.Chess
                 ToMove = Color.White;
             }
         }
-
+        
         public BoardPosition[] AvailableMovePositions()
         {
             Move[] moves = AvailableMoves();
