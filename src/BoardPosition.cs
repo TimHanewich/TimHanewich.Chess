@@ -312,7 +312,7 @@ namespace TimHanewich.Chess
                     foreach (Position PotMove in PosMovesForPiece)
                     {
                         Move m = new Move();
-                        m.Piece = p;
+                        m.FromPosition = p.Position;
                         m.ToPosition = PotMove;
                         ToReturn.Add(m);
                     }
@@ -329,20 +329,27 @@ namespace TimHanewich.Chess
 
         public void ExecuteMove(Move m)
         {
+            //Get piece to move
+            Piece PieceToMove = FindOccupyingPiece(m.FromPosition);
+            if (PieceToMove == null)
+            {
+                throw new Exception("Move " + m.FromPosition.ToString() + " to " + m.ToPosition.ToString() + " is invalid. No piece was occupying " + m.FromPosition.ToString());
+            }
+
             //Move & Capture if necessary
             Piece Occ = FindOccupyingPiece(m.ToPosition);
             if (Occ != null)
             {
                 RemovePiece(Occ); //it was a capture
             }
-            m.Piece.Position = m.ToPosition;
+            PieceToMove.Position = m.ToPosition;
 
             //Flip ToMove
-            if (m.Piece.Color == Color.White)
+            if (PieceToMove.Color == Color.White)
             {
                 ToMove = Color.Black;
             }
-            else if (m.Piece.Color == Color.Black)
+            else if (PieceToMove.Color == Color.Black)
             {
                 ToMove = Color.White;
             }
