@@ -30,7 +30,91 @@ namespace TimHanewich.Chess
             string[] Rows = PositionPortion.Split(new string[] {"/"}, StringSplitOptions.None);
 
             //Assemble the pieces
-            
+            Position OnPosition = Position.A8;
+            foreach (string row in Rows)
+            {
+
+                //Convert each character to a piece of empty space
+                foreach (char c in row)
+                {
+
+                    //Try to get numeric value
+                    int? NumericValue = null; 
+                    try
+                    {
+                        NumericValue = Convert.ToInt32(c);
+                    }
+                    catch
+                    {
+                        NumericValue = null;
+                    }
+
+
+                    //If it is a number, make space. If not, make it a piece
+                    if (NumericValue.HasValue)
+                    {
+                        for (int t = 0; t < NumericValue.Value; t++)
+                        {
+                            if (OnPosition.File() != 'H')
+                            {
+                                OnPosition = OnPosition.Right();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Piece p = new Piece();
+                        p.Position = OnPosition;
+
+                        //Piece type
+                        if (c.ToString().ToLower() == "r")
+                        {
+                            p.Type = PieceType.Rook;
+                        }
+                        else if (c.ToString().ToLower() == "n")
+                        {
+                            p.Type = PieceType.Knight;
+                        }
+                        else if (c.ToString().ToLower() == "b")
+                        {
+                            p.Type = PieceType.Bishop;
+                        }
+                        else if (c.ToString().ToLower() == "q")
+                        {
+                            p.Type = PieceType.Queen;
+                        }
+                        else if (c.ToString().ToLower() == "k")
+                        {
+                            p.Type = PieceType.King;
+                        }
+                        else if (c.ToString().ToLower() == "p")
+                        {
+                            p.Type = PieceType.Pawn;
+                        }
+
+                        //Piece color
+                        if (c.ToString().ToUpper() == c.ToString()) //If the to upper version is the same as the notation itself, it is capital. And if it is capital, it is white.
+                        {
+                            p.Color = Color.White;
+                        }
+                        else
+                        {
+                            p.Color = Color.Black;
+                        }
+
+                        //Advance the onposition by 1
+                        if (OnPosition.File() != 'H')
+                        {
+                            OnPosition = OnPosition.Right();
+                        }
+                    }
+
+                    
+                }
+           
+                //Advance to the next rank (1 down)
+                OnPosition = PositionToolkit.Parse("A" + Convert.ToString(OnPosition.Rank() - 1));
+            }
 
         }
 
