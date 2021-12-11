@@ -455,6 +455,7 @@ namespace TimHanewich.Chess
         }
 
 
+        #region "EVALUATION"
 
         public float Evaluate(int depth)
         {
@@ -501,6 +502,8 @@ namespace TimHanewich.Chess
                 return MinEvaluationSeen;
             }
         }
+
+        #endregion
 
 
         /// TOOLKIT BELOW
