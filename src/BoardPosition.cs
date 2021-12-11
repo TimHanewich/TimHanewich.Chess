@@ -347,13 +347,20 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
 
-        public void ExecuteMove(Move m, PieceType? promote_pawn_to = null)
+        public void ExecuteMove(Move m, PieceType promote_pawn_to = PieceType.Queen)
         {
             //Get piece to move
             Piece PieceToMove = FindOccupyingPiece(m.FromPosition);
             if (PieceToMove == null)
             {
                 throw new Exception("Move " + m.FromPosition.ToString() + " to " + m.ToPosition.ToString() + " is invalid. No piece was occupying " + m.FromPosition.ToString());
+            }
+
+            //First, If this is a pawn move, check if there is a pawn promotion
+            bool IsPawnPromo = false;
+            if (PieceToMove.Type == PieceType.Pawn)
+            {
+                IsPawnPromo = m.IsPawnPromotion(this);
             }
 
             //Move & Capture if necessary
@@ -363,6 +370,25 @@ namespace TimHanewich.Chess
                 RemovePiece(Occ); //it was a capture
             }
             PieceToMove.Position = m.ToPosition;
+
+            //Is this was a pawn move, now promote the pawn
+            if (IsPawnPromo)
+            {
+
+                //Check for illegal
+                if (promote_pawn_to == PieceType.Pawn)
+                {
+                    throw new Exception("Invalid move. Unable to promote pawn to pawn.");
+                }
+                else if (promote_pawn_to == PieceType.King)
+                {
+                    throw new Exception("Invalid move. Unable to promote pawn to king.");
+                }
+                
+                //Do the promotion
+                PieceToMove.Type = promote_pawn_to;
+            }
+
 
             //Flip ToMove
             if (PieceToMove.Color == Color.White)
