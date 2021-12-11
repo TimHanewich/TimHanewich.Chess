@@ -347,7 +347,7 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
 
-        public void ExecuteMove(Move m)
+        public void ExecuteMove(Move m, PieceType? promote_pawn_to = null)
         {
             //Get piece to move
             Piece PieceToMove = FindOccupyingPiece(m.FromPosition);
