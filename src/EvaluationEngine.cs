@@ -5,7 +5,7 @@ namespace TimHanewich.Chess
 {
     public class EvaluationEngine
     {
-        public event StringHandler EvaluationStatusUpdate;
+        public event StringHandler EvaluationStatusUpdated;
 
         public MoveAssessment[] FindBestMoves(BoardPosition position, int depth)
         {
@@ -65,7 +65,7 @@ namespace TimHanewich.Chess
         {
             try
             {
-                EvaluationStatusUpdate.Invoke(s);
+                EvaluationStatusUpdated.Invoke(s);
             }
             catch
             {
