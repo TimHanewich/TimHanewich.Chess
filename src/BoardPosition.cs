@@ -329,7 +329,22 @@ namespace TimHanewich.Chess
 
         public BoardPosition Copy()
         {
-            return new BoardPosition(ToFEN());
+            BoardPosition ToReturn = new BoardPosition();
+
+            //Copy ToMove
+            ToReturn.ToMove = ToMove;
+
+            //Copy each piece
+            foreach (Piece p in _Pieces)
+            {
+                Piece NP = new Piece();
+                NP.Color = p.Color;
+                NP.Position = p.Position;
+                NP.Type = p.Type;
+                ToReturn._Pieces.Add(NP);
+            }
+
+            return ToReturn;
         }
 
         public void ExecuteMove(Move m)
