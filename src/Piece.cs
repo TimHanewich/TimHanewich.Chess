@@ -451,17 +451,44 @@ namespace TimHanewich.Chess
             List<Position> ToReturn = new List<Position>();
             foreach (Position pos in moves)
             {
-                BoardPosition cop = board.Copy();
-                Move m = new Move();
-                m.FromPosition = Position;
-                m.ToPosition = pos;
-                cop.ExecuteMove(m);
-                if (cop.IsCheck() == false)
+                bool IsLegal = MoveIsLegal(board, pos);
+                if (IsLegal)
                 {
                     ToReturn.Add(pos);
                 }
             }
             return ToReturn.ToArray();
+        }
+
+        private bool MoveIsLegal(BoardPosition board, Position destination)
+        {
+            BoardPosition copy = board.Copy();
+            Move m = new Move();
+            m.FromPosition = Position;
+            m.ToPosition = destination;
+            copy.ExecuteMove(m);
+
+            //Executing the move above flips the color.
+            //To test if the previous color that made the move was put in check, we must flip the color BACK to what it was before executing this
+            //This is because the "IsCheck" method checkes if the color to move is in check (being threatened)
+            if (copy.ToMove == Color.White)
+            {
+                copy.ToMove = Color.Black;
+            }
+            else if (copy.ToMove == Color.Black)
+            {
+                copy.ToMove = Color.White;
+            }
+        
+            if (copy.IsCheck())
+            {
+                return false; //If this move put that color in check, say the move is not legal
+            }
+            else
+            {
+                return true; //if it isn't in check, this move is legal, so return true;
+            }
+
         }
 
 

@@ -384,24 +384,21 @@ namespace TimHanewich.Chess
             return ToReturn.ToArray();
         }
 
-        public bool IsCheck()
-        {
-            return IsCheck(ToMove);
-        }
 
-        public bool IsCheck(Color threatened)
+        //Will only check if the current color to move is in check.
+        public bool IsCheck()
         {
             //Is the king at risk right now? Is another piece threatening capture?
             
             //Find the king's position
             foreach (Piece p in _Pieces)
             {
-                if (p.Color == threatened)
+                if (p.Color == ToMove)
                 {
                     if (p.Type == PieceType.King)
                     {
                         Move[] PotentialMovesByOpponent = null;
-                        if (threatened == Color.White)
+                        if (ToMove == Color.White)
                         {
                             PotentialMovesByOpponent = AvailableMoves(Color.Black, false);
                         }
@@ -439,7 +436,7 @@ namespace TimHanewich.Chess
                 bool IsWayOut = false;
                 foreach (BoardPosition bp in PotentialNewPositions)
                 {
-                    if (bp.IsCheck(ToMove) == false)
+                    if (bp.IsCheck() == false)
                     {
                         IsWayOut = true;
                     }
