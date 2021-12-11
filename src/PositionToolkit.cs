@@ -530,7 +530,7 @@ namespace TimHanewich.Chess
                 case Position.H2:
                     return Position.H1;
                 default:
-                    throw new Exception("Minumum rank already achieved.");
+                    throw new Exception("Trying to go down from " + position.ToString() + "? Minumum rank already achieved.");
                     
             }
         }
