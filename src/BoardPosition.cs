@@ -407,9 +407,35 @@ namespace TimHanewich.Chess
             List<BoardPosition> ToReturn = new List<BoardPosition>();
             foreach (Move m in moves)
             {
-                BoardPosition ThisMove = this.Copy();
-                ThisMove.ExecuteMove(m);
-                ToReturn.Add(ThisMove);
+
+                //If this is a pawn promotion, add all of the potential promotions (rook, bishop, knight, queen)
+                if (m.IsPawnPromotion(this))
+                {
+                    //Create boards
+                    BoardPosition PromoQueen = this.Copy();
+                    BoardPosition PromoRook = this.Copy();
+                    BoardPosition PromoBishop = this.Copy();
+                    BoardPosition PromoKnight = this.Copy();
+                    
+                    //Execute
+                    PromoQueen.ExecuteMove(m, PieceType.Queen);
+                    PromoRook.ExecuteMove(m, PieceType.Rook);
+                    PromoBishop.ExecuteMove(m, PieceType.Bishop);
+                    PromoKnight.ExecuteMove(m, PieceType.Knight);
+
+                    //Add
+                    ToReturn.Add(PromoQueen);
+                    ToReturn.Add(PromoRook);
+                    ToReturn.Add(PromoBishop);
+                    ToReturn.Add(PromoKnight);
+                }
+                else //If it is not a pawn promotion, execute it
+                {
+                    BoardPosition ThisMoveBoard = this.Copy();
+                    ThisMoveBoard.ExecuteMove(m);
+                    ToReturn.Add(ThisMoveBoard);
+                }
+                
             }
             return ToReturn.ToArray();
         }
