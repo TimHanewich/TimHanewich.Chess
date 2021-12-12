@@ -77,19 +77,37 @@ namespace TimHanewich.Chess
                     if (p.Color == MovingPiece.Color)
                     {
                         if (p.Type == MovingPiece.Type)
-                        {
-                            //What is the difference? Is it rank or is it file?
-                            if (p.Position.Rank() == MovingPiece.Position.Rank())
+                        { 
+                            //Can this piece also move to the destination?
+                            bool ThisPieceCanMoveThereToo = false;
+                            foreach (Position ppp in p.AvailableMoves(position, true))
                             {
-                                DisambiguatingNotation = MovingPiece.Position.File().ToString().ToLower();
+                                if (ppp == ToPosition)
+                                {
+                                    ThisPieceCanMoveThereToo = true;
+                                }
                             }
-                            else if (p.Position.File() == MovingPiece.Position.File())
+                            
+                            //If it can move there too, disambiguate
+                            if (ThisPieceCanMoveThereToo)
                             {
-                                DisambiguatingNotation = MovingPiece.Position.Rank().ToString();
-                            }
+                                //What is the difference? Is it rank or is it file?
+                                if (p.Position.Rank() == MovingPiece.Position.Rank())
+                                {
+                                    DisambiguatingNotation = MovingPiece.Position.File().ToString().ToLower();
+                                }
+                                else if (p.Position.File() == MovingPiece.Position.File())
+                                {
+                                    DisambiguatingNotation = MovingPiece.Position.Rank().ToString();
+                                }
+                            }   
                         }
                     }
                 }
+            }
+            if (DisambiguatingNotation != "")
+            {
+                Console.WriteLine("Got a dis: " + DisambiguatingNotation);
             }
 
 
