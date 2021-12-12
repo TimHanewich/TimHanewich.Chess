@@ -12,7 +12,6 @@ namespace testing
         static void Main(string[] args)
         {
 
-            BoardPosition bp = new BoardPosition("6k1/8/6b1/8/5b2/4P1P1/8/K7 w - - 2 2");
             PlayEngine();
             
         }
@@ -20,6 +19,16 @@ namespace testing
         public static void PrintStatus(string s)
         {
             Console.WriteLine(s);
+        }
+
+        public static void PrintPercentComplete(float f)
+        {
+            Console.WriteLine("New percent complete: " + f.ToString());
+        }
+
+        public static void PrintTimeRemaining(TimeSpan ts)
+        {
+            Console.WriteLine("Time Remaining: " + ts.Seconds.ToString("#,##0.0") + " seconds");
         }
 
         public static void TimeEvaluationTest()
@@ -43,6 +52,8 @@ namespace testing
             
             EvaluationEngine ee = new EvaluationEngine();
             ee.EvaluationStatusUpdated += PrintStatus;
+            //ee.EvaluationProgressUpdated += PrintPercentComplete;
+            ee.EvaluationEstimatedTimeRemainingUpdated += PrintTimeRemaining;
             
             while (true)
             {
