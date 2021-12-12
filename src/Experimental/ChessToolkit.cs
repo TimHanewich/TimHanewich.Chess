@@ -80,7 +80,7 @@ namespace TimHanewich.Chess.Experimental
             throw new Exception("Fatal error while converting piece to byte.");
         }
     
-        public static byte GetPosition(this Byte[] structure, Position pos)
+        public static byte GetPositionByte(this Byte[] structure, Position pos)
         {
             if (structure.Length != 64)
             {
@@ -218,6 +218,67 @@ namespace TimHanewich.Chess.Experimental
                     return structure[63];
                 default:
                     throw new Exception("Position '" + pos.ToString() + "' not recognized");
+            }
+        }
+    
+        public static Piece? GetPositionPiece(this Byte[] structure, Position pos)
+        {
+            byte b = GetPositionByte(structure, pos);
+            if (b == 0)
+            {
+                return null;
+            }
+            else if (b == 1)
+            {
+                return new Piece(true, PieceType.King);
+            }
+            else if (b == 2)
+            {
+                return new Piece(true, PieceType.Queen);
+            }
+            else if (b == 3)
+            {
+                return new Piece(true, PieceType.Rook);
+            }
+            else if (b == 4)
+            {
+                return new Piece(true, PieceType.Bishop);
+            }
+            else if (b == 5)
+            {
+                return new Piece(true, PieceType.Knight);
+            }
+            else if (b == 6)
+            {
+                return new Piece(true, PieceType.Pawn);
+            }
+            else if (b == 7)
+            {
+                return new Piece(false, PieceType.King);
+            }
+            else if (b == 8)
+            {
+                return new Piece(false, PieceType.Queen);
+            }
+            else if (b == 9)
+            {
+                return new Piece(false, PieceType.Rook);
+            }
+            else if (b == 10)
+            {
+                return new Piece(false, PieceType.Bishop);
+            }
+            else if (b == 11)
+            {
+                return new Piece(false, PieceType.Knight);
+            }
+            else if (b == 12)
+            {
+                return new Piece(false, PieceType.Pawn);
+            }
+            else
+            {
+                throw new Exception("Unable to convert byte '" + b.ToString() + "' into a piece.");
             }
         }
     }

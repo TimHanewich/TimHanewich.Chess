@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TimHanewich.Chess.Experimental
 {
@@ -6,5 +7,10 @@ namespace TimHanewich.Chess.Experimental
     {
         private byte[] BoardStructure;
         public bool WhiteToMove {get; set;}
+
+        public BoardPosition[] AvailableMoves()
+        {
+            
+        }
     }
 }
