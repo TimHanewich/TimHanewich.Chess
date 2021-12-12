@@ -1276,5 +1276,75 @@ namespace TimHanewich.Chess
             return ToReturn.ToArray();
         }
 
+        public static Position[] InOrder()
+        {
+            List<Position> ToReturn = new List<Position>();
+            ToReturn.Add(Position.A1);
+            ToReturn.Add(Position.A2);
+            ToReturn.Add(Position.A3);
+            ToReturn.Add(Position.A4);
+            ToReturn.Add(Position.A5);
+            ToReturn.Add(Position.A6);
+            ToReturn.Add(Position.A7);
+            ToReturn.Add(Position.A8);
+            ToReturn.Add(Position.B1);
+            ToReturn.Add(Position.B2);
+            ToReturn.Add(Position.B3);
+            ToReturn.Add(Position.B4);
+            ToReturn.Add(Position.B5);
+            ToReturn.Add(Position.B6);
+            ToReturn.Add(Position.B7);
+            ToReturn.Add(Position.B8);
+            ToReturn.Add(Position.C1);
+            ToReturn.Add(Position.C2);
+            ToReturn.Add(Position.C3);
+            ToReturn.Add(Position.C4);
+            ToReturn.Add(Position.C5);
+            ToReturn.Add(Position.C6);
+            ToReturn.Add(Position.C7);
+            ToReturn.Add(Position.C8);
+            ToReturn.Add(Position.D1);
+            ToReturn.Add(Position.D2);
+            ToReturn.Add(Position.D3);
+            ToReturn.Add(Position.D4);
+            ToReturn.Add(Position.D5);
+            ToReturn.Add(Position.D6);
+            ToReturn.Add(Position.D7);
+            ToReturn.Add(Position.D8);
+            ToReturn.Add(Position.E1);
+            ToReturn.Add(Position.E2);
+            ToReturn.Add(Position.E3);
+            ToReturn.Add(Position.E4);
+            ToReturn.Add(Position.E5);
+            ToReturn.Add(Position.E6);
+            ToReturn.Add(Position.E7);
+            ToReturn.Add(Position.E8);
+            ToReturn.Add(Position.F1);
+            ToReturn.Add(Position.F2);
+            ToReturn.Add(Position.F3);
+            ToReturn.Add(Position.F4);
+            ToReturn.Add(Position.F5);
+            ToReturn.Add(Position.F6);
+            ToReturn.Add(Position.F7);
+            ToReturn.Add(Position.F8);
+            ToReturn.Add(Position.G1);
+            ToReturn.Add(Position.G2);
+            ToReturn.Add(Position.G3);
+            ToReturn.Add(Position.G4);
+            ToReturn.Add(Position.G5);
+            ToReturn.Add(Position.G6);
+            ToReturn.Add(Position.G7);
+            ToReturn.Add(Position.G8);
+            ToReturn.Add(Position.H1);
+            ToReturn.Add(Position.H2);
+            ToReturn.Add(Position.H3);
+            ToReturn.Add(Position.H4);
+            ToReturn.Add(Position.H5);
+            ToReturn.Add(Position.H6);
+            ToReturn.Add(Position.H7);
+            ToReturn.Add(Position.H8);
+            return ToReturn.ToArray();
+        }
+
     }
 }
