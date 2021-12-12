@@ -291,7 +291,7 @@ namespace TimHanewich.Chess
                 {
                     White = White + p.Value;
                 }
-                else if (p.Color == Color.Black)
+                else
                 {
                     Black = Black + p.Value;
                 }
