@@ -130,7 +130,7 @@ namespace TimHanewich.Chess
 
 
             //String it all together and return
-            string ToReturn = PieceNotation + CaptureNotation + DisambiguatingNotation + PositionNotation + CheckCheckMateNotation;
+            string ToReturn = PieceNotation + DisambiguatingNotation + CaptureNotation + PositionNotation + CheckCheckMateNotation;
             return ToReturn;
         }
     }
