@@ -884,6 +884,113 @@ namespace TimHanewich.Chess
             }
         }
 
+        public static Position DownRight(this Position position)
+        {
+            switch (position)
+            {
+                case Position.G8:
+                    return Position.H7;
+                case Position.G7:
+                    return Position.H6;
+                case Position.G6:
+                    return Position.H5;
+                case Position.G5:
+                    return Position.H4;
+                case Position.G4:
+                    return Position.H3;
+                case Position.G3:
+                    return Position.H2;
+                case Position.G2:
+                    return Position.H1;
+                case Position.F8:
+                    return Position.G7;
+                case Position.F7:
+                    return Position.G6;
+                case Position.F6:
+                    return Position.G5;
+                case Position.F5:
+                    return Position.G4;
+                case Position.F4:
+                    return Position.G3;
+                case Position.F3:
+                    return Position.G2;
+                case Position.F2:
+                    return Position.G1;
+                case Position.E8:
+                    return Position.F7;
+                case Position.E7:
+                    return Position.F6;
+                case Position.E6:
+                    return Position.F5;
+                case Position.E5:
+                    return Position.F4;
+                case Position.E4:
+                    return Position.F3;
+                case Position.E3:
+                    return Position.F2;
+                case Position.E2:
+                    return Position.F1;
+                case Position.D8:
+                    return Position.E7;
+                case Position.D7:
+                    return Position.E6;
+                case Position.D6:
+                    return Position.E5;
+                case Position.D5:
+                    return Position.E4;
+                case Position.D4:
+                    return Position.E3;
+                case Position.D3:
+                    return Position.E2;
+                case Position.D2:
+                    return Position.E1;
+                case Position.C8:
+                    return Position.D7;
+                case Position.C7:
+                    return Position.D6;
+                case Position.C6:
+                    return Position.D5;
+                case Position.C5:
+                    return Position.D4;
+                case Position.C4:
+                    return Position.D3;
+                case Position.C3:
+                    return Position.D2;
+                case Position.C2:
+                    return Position.D1;
+                case Position.B8:
+                    return Position.C7;
+                case Position.B7:
+                    return Position.C6;
+                case Position.B6:
+                    return Position.C5;
+                case Position.B5:
+                    return Position.C4;
+                case Position.B4:
+                    return Position.C3;
+                case Position.B3:
+                    return Position.C2;
+                case Position.B2:
+                    return Position.C1;
+                case Position.A8:
+                    return Position.B7;
+                case Position.A7:
+                    return Position.B6;
+                case Position.A6:
+                    return Position.B5;
+                case Position.A5:
+                    return Position.B4;
+                case Position.A4:
+                    return Position.B3;
+                case Position.A3:
+                    return Position.B2;
+                case Position.A2:
+                    return Position.B1;
+                default:
+                    throw new Exception("A downward and rightward move is impossible from position " + position.ToString());
+            }
+        }
+
 
         public static Position[] FenOrder()
         {
