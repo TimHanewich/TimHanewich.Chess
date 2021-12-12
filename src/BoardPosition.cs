@@ -271,15 +271,14 @@ namespace TimHanewich.Chess
 
         public bool PositionIsOccupied(Position pos)
         {
-            Piece p = FindOccupyingPiece(pos);
-            if (p == null)
+            foreach (Piece p in _Pieces)
             {
-                return false;
+                if (p.Position == pos)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                return true;
-            }
+            return false;
         }
 
         public float MaterialDisparity()
