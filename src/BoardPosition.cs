@@ -394,7 +394,7 @@ namespace TimHanewich.Chess
             {
                 ToMove = Color.Black;
             }
-            else if (PieceToMove.Color == Color.Black)
+            else
             {
                 ToMove = Color.White;
             }
