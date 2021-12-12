@@ -105,10 +105,6 @@ namespace TimHanewich.Chess
                     }
                 }
             }
-            if (DisambiguatingNotation != "")
-            {
-                Console.WriteLine("Got a dis: " + DisambiguatingNotation);
-            }
 
 
             //Get the Position part
