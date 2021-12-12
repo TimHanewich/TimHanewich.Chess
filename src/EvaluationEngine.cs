@@ -19,7 +19,7 @@ namespace TimHanewich.Chess
             for (int t = 0; t < PotentialMoves.Length; t++)
             {
                 float PercentComplete = Convert.ToSingle(t) / Convert.ToSingle(PotentialMoves.Length);
-                Console.WriteLine("Evaluating move " + t.ToString("#,##0") + " / " + PotentialMoves.Length.ToString("#,##0") + " (" + PercentComplete.ToString("#0%") + ")...");
+                Console.WriteLine("Evaluating move " + (t+1).ToString("#,##0") + " / " + PotentialMoves.Length.ToString("#,##0") + " (" + PercentComplete.ToString("#0%") + ")...");
                 BoardPosition np = position.Copy();
                 np.ExecuteMove(PotentialMoves[t]);
                 float eval = np.Evaluate(depth - 1); //Minus one because this is already one step down
