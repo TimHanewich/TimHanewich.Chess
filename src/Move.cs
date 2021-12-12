@@ -115,8 +115,22 @@ namespace TimHanewich.Chess
             //Get the Position part
             string PositionNotation = ToPosition.ToString().ToLower();
 
+            //Is it it a check or check mate?
+            string CheckCheckMateNotation = "";
+            BoardPosition ResultingPosition = position.Copy();
+            ResultingPosition.ExecuteMove(this);
+            if (ResultingPosition.IsCheckMate())
+            {
+                CheckCheckMateNotation = "#";
+            }
+            else if (ResultingPosition.IsCheck())
+            {
+                CheckCheckMateNotation = "+";
+            }
+
+
             //String it all together and return
-            string ToReturn = PieceNotation + CaptureNotation + DisambiguatingNotation + PositionNotation;
+            string ToReturn = PieceNotation + CaptureNotation + DisambiguatingNotation + PositionNotation + CheckCheckMateNotation;
             return ToReturn;
         }
     }
