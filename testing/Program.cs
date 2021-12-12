@@ -13,15 +13,7 @@ namespace testing
         {
 
             BoardPosition bp = new BoardPosition("6k1/8/6b1/8/5b2/4P1P1/8/K7 w - - 2 2");
-
-
-
-            Move[] Moves = bp.AvailableMoves();
-            foreach (Move m in Moves)
-            {
-                Console.WriteLine(m.ToAlgebraicNotation(bp));
-            }
-            
+            PlayEngine();
             
         }
 
@@ -61,8 +53,8 @@ namespace testing
                 {
                     Console.WriteLine("I have no moves to play! I resign.");
                 }
-                PlayBoard.ExecuteMove(moves[0].Move); //Execute move
                 string AsNotation = moves[0].Move.ToAlgebraicNotation(PlayBoard);
+                PlayBoard.ExecuteMove(moves[0].Move); //Execute move
                 Console.WriteLine("I play " + AsNotation + " (" + moves[0].Move.FromPosition.ToString() + " --> " + moves[0].Move.ToPosition.ToString() + ")");
 
                 //Make their move

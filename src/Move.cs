@@ -49,7 +49,7 @@ namespace TimHanewich.Chess
             Piece MovingPiece = position.FindOccupyingPiece(FromPosition);
             if (MovingPiece == null)
             {
-                throw new Exception("Unable to convert move to algebraic notation. Piece not found on from position square.");
+                throw new Exception("Move Unable to convert move " + FromPosition.ToString() + " to " + ToPosition.ToString() + " to algebraic notation. Piece not found on from position square.");
             }
 
             //Get the beginning piece notation
