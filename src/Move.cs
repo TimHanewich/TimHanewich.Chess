@@ -161,5 +161,95 @@ namespace TimHanewich.Chess
             }
             return ToReturn;
         }
+    
+        public Move()
+        {
+
+        }
+
+        public Move(string algebraic_notation, BoardPosition position)
+        {
+            string disecting = algebraic_notation;
+
+            //Strip out the x
+            disecting = disecting.Replace("x", "");
+
+            //Get the to position
+            int DestinationRank = FindLastNumber(disecting).Value;
+            int DestinationRankPosition = disecting.LastIndexOf(DestinationRank.ToString());
+            string DestinationFile = disecting.Substring(DestinationRankPosition - 1, 1);
+            ToPosition = PositionToolkit.Parse(DestinationFile.Trim().ToUpper() + DestinationRank.ToString());
+
+            //What piece is this moving?
+            PieceType Moving;
+            string PieceNotation = algebraic_notation.Substring(0, 1);
+            if (PieceNotation == "K")
+            {
+                Moving = PieceType.King;
+            }
+            else if (PieceNotation == "Q")
+            {
+                Moving = PieceType.Queen;
+            }
+            else if (PieceNotation == "R")
+            {
+                Moving = PieceType.Rook;
+            }
+            else if (PieceNotation == "B")
+            {
+                Moving = PieceType.Bishop;
+            }
+            else if (PieceNotation == "K")
+            {
+                Moving = PieceType.Knight;
+            }
+            else
+            {
+                Moving = PieceType.Pawn;
+            }
+
+            //Get the from position
+            foreach (Piece p in position.Pieces)
+            {
+                if (p.Color == position.ToMove)
+                {
+                    if (p.Type == Moving)
+                    {
+                        Position[] moves = p.AvailableMoves(position, true);
+                        foreach (Position pos in moves)
+                        {
+                            if (pos == ToPosition)
+                            {
+                                FromPosition = p.Position;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private int? FindLastNumber(string inside)
+        {
+            int? ToReturn = null;
+            for (int t = 1; t <= 8; t++)
+            {
+                int val = inside.LastIndexOf(t.ToString());
+                if (val != -1)
+                {
+                    if (ToReturn == null)
+                    {
+                        ToReturn = val;
+                    }
+                    else
+                    {
+                        if (val > ToReturn.Value)
+                        {
+                            ToReturn = val;
+                        }
+                    }
+                }
+            }
+            return ToReturn;
+        }
     }
 }
