@@ -44,7 +44,7 @@ namespace TimHanewich.Chess
             }
         }
     
-        public string ToAlgebraicNotation(BoardPosition position)
+        public string ToAlgebraicNotation(BoardPosition position, PieceType promote_pawn_to = PieceType.Queen)
         {
             Piece MovingPiece = position.FindOccupyingPiece(FromPosition);
             if (MovingPiece == null)
@@ -53,27 +53,8 @@ namespace TimHanewich.Chess
             }
 
             //Get the beginning piece notation
-            string PieceNotation = "";
-            if (MovingPiece.Type == PieceType.Rook)
-            {
-                PieceNotation = "R";
-            }
-            else if (MovingPiece.Type ==  PieceType.King)
-            {
-                PieceNotation = "K";
-            }
-            else if (MovingPiece.Type == PieceType.Queen)
-            {
-                PieceNotation = "Q";
-            }
-            else if (MovingPiece.Type == PieceType.Bishop)
-            {
-                PieceNotation = "B";
-            }
-            else if (MovingPiece.Type == PieceType.Knight)
-            {
-                PieceNotation = "N";
-            }
+            string PieceNotation = GetPieceNotation(MovingPiece.Type);
+            
 
             //Is this a take? Is it a capture of an enemy piece?
             string CaptureNotation = "";
@@ -115,6 +96,13 @@ namespace TimHanewich.Chess
             //Get the Position part
             string PositionNotation = ToPosition.ToString().ToLower();
 
+            //Pawn promotion?
+            string PromotionNotation = "";
+            if (IsPawnPromotion(position))
+            {
+                PromotionNotation = "=" + GetPieceNotation(promote_pawn_to);
+            }
+
             //Is it it a check or check mate?
             string CheckCheckMateNotation = "";
             BoardPosition ResultingPosition = position.Copy();
@@ -130,7 +118,33 @@ namespace TimHanewich.Chess
 
 
             //String it all together and return
-            string ToReturn = PieceNotation + DisambiguatingNotation + CaptureNotation + PositionNotation + CheckCheckMateNotation;
+            string ToReturn = PieceNotation + DisambiguatingNotation + CaptureNotation + PositionNotation + PromotionNotation + CheckCheckMateNotation;
+            return ToReturn;
+        }
+    
+        private string GetPieceNotation(PieceType type)
+        {
+            string ToReturn = "";
+            if (type == PieceType.Rook)
+            {
+                ToReturn = "R";
+            }
+            else if (type ==  PieceType.King)
+            {
+                ToReturn = "K";
+            }
+            else if (type == PieceType.Queen)
+            {
+                ToReturn = "Q";
+            }
+            else if (type == PieceType.Bishop)
+            {
+                ToReturn = "B";
+            }
+            else if (type == PieceType.Knight)
+            {
+                ToReturn = "N";
+            }
             return ToReturn;
         }
     }
