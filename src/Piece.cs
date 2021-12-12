@@ -70,7 +70,7 @@ namespace TimHanewich.Chess
                     //Capture left?
                     if (Position.File() != 'A')
                     {
-                        Piece PotCap = board.FindOccupyingPiece(Position.Up().Left());
+                        Piece PotCap = board.FindOccupyingPiece(Position.UpLeft());
                         if (PotCap != null)
                         {
                             if (PotCap.Color == Color.Black)
@@ -83,7 +83,7 @@ namespace TimHanewich.Chess
                     //Capture right?
                     if (Position.File() != 'H')
                     {
-                        Piece PotCap = board.FindOccupyingPiece(Position.Up().Right());
+                        Piece PotCap = board.FindOccupyingPiece(Position.UpRight());
                         if (PotCap != null)
                         {
                             if (PotCap.Color == Color.Black)
@@ -113,7 +113,7 @@ namespace TimHanewich.Chess
                     //Capture left?
                     if (Position.File() != 'A')
                     {
-                        Piece PotCap = board.FindOccupyingPiece(Position.Down().Left());
+                        Piece PotCap = board.FindOccupyingPiece(Position.DownLeft());
                         if (PotCap != null)
                         {
                             if (PotCap.Color == Color.White)
@@ -126,7 +126,7 @@ namespace TimHanewich.Chess
                     //Capture right?
                     if (Position.File() != 'H')
                     {
-                        Piece PotCap = board.FindOccupyingPiece(Position.Down().Right());
+                        Piece PotCap = board.FindOccupyingPiece(Position.DownRight());
                         if (PotCap != null)
                         {
                             if (PotCap.Color == Color.White)
@@ -142,7 +142,7 @@ namespace TimHanewich.Chess
                 //Up 2, left 1
                 if (Position.Rank() < 7 && Position.File() != 'A')
                 {
-                    Position PotMove = Position.Up().Up().Left();
+                    Position PotMove = Position.Up().UpLeft();
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
@@ -157,7 +157,7 @@ namespace TimHanewich.Chess
                 //Up 2, right 1
                 if (Position.Rank() < 7 && Position.File() != 'H')
                 {
-                    Position PotMove = Position.Up().Up().Right();
+                    Position PotMove = Position.Up().UpRight();
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
@@ -172,7 +172,7 @@ namespace TimHanewich.Chess
                 //Up 1, left 2
                 if (Position.Rank() < 8 && Position.File() != 'A' && Position.File() != 'B')
                 {
-                    Position PotMove = Position.Up().Left().Left();
+                    Position PotMove = Position.UpLeft().Left();
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
@@ -187,7 +187,7 @@ namespace TimHanewich.Chess
                 //Up 1, right 2
                 if (Position.Rank() < 8 && Position.File() != 'G' && Position.File() != 'H')
                 {
-                    Position PotMove = Position.Up().Right().Right();
+                    Position PotMove = Position.UpRight().Right();
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
@@ -202,7 +202,7 @@ namespace TimHanewich.Chess
                 //Down 1, left 2
                 if (Position.Rank() > 1 && Position.File() != 'A' && Position.File() != 'B')
                 {
-                    Position PotMove = Position.Down().Left().Left();
+                    Position PotMove = Position.DownLeft().Left();
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
@@ -217,7 +217,7 @@ namespace TimHanewich.Chess
                 //Down 1, right 2
                 if (Position.Rank() > 1 && Position.File() != 'G' && Position.File() != 'H')
                 {
-                    Position PotMove = Position.Down().Right().Right();
+                    Position PotMove = Position.DownRight().Right();
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
@@ -232,7 +232,7 @@ namespace TimHanewich.Chess
                 //Down 2, left 1
                 if (Position.Rank() > 2 && Position.File() != 'A')
                 {
-                    Position PotMove = Position.Down().Down().Left();
+                    Position PotMove = Position.Down().DownLeft();
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
@@ -247,7 +247,7 @@ namespace TimHanewich.Chess
                 //Down 2, right 1
                 if (Position.Rank() > 2 && Position.File() != 'H')
                 {
-                    Position PotMove = Position.Down().Down().Right();
+                    Position PotMove = Position.Down().DownRight();
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
@@ -309,7 +309,7 @@ namespace TimHanewich.Chess
                 //Up right?
                 if (Position.Rank() < 8 && Position.File() != 'H')
                 {
-                    Position PotMove = Position.Up().Right();
+                    Position PotMove = Position.UpRight();
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
@@ -345,7 +345,7 @@ namespace TimHanewich.Chess
                 //Down, right?
                 if (Position.Rank() > 1 && Position.File() != 'H')
                 {
-                    Position PotMove = Position.Down().Right();
+                    Position PotMove = Position.DownRight();
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
@@ -381,7 +381,7 @@ namespace TimHanewich.Chess
                 //Down, left?
                 if (Position.Rank() > 1 && Position.File() != 'A')
                 {
-                    Position PotMove = Position.Down().Left();
+                    Position PotMove = Position.DownLeft();
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
@@ -417,7 +417,7 @@ namespace TimHanewich.Chess
                 //Up, left?
                 if (Position.Rank() < 8 && Position.File() != 'A')
                 {
-                    Position PotMove = Position.Up().Left();
+                    Position PotMove = Position.UpLeft();
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
@@ -515,7 +515,7 @@ namespace TimHanewich.Chess
                 {
                     if (OnPosition.Rank() < 8 && OnPosition.File() != 'H')
                     {
-                        OnPosition = OnPosition.Up().Right();
+                        OnPosition = OnPosition.UpRight();
                     }
                     else
                     {
@@ -526,7 +526,7 @@ namespace TimHanewich.Chess
                 {
                     if (OnPosition.Rank() > 1 && OnPosition.File() != 'H')
                     {
-                        OnPosition = OnPosition.Down().Right();
+                        OnPosition = OnPosition.DownRight();
                     }
                     else
                     {
@@ -537,7 +537,7 @@ namespace TimHanewich.Chess
                 {
                     if (OnPosition.Rank() > 1 && OnPosition.File() != 'A')
                     {
-                        OnPosition = OnPosition.Down().Left();
+                        OnPosition = OnPosition.DownLeft();
                     }
                     else
                     {
@@ -548,7 +548,7 @@ namespace TimHanewich.Chess
                 {
                     if (OnPosition.Rank() < 8 && OnPosition.File() != 'A')
                     {
-                        OnPosition = OnPosition.Up().Left();
+                        OnPosition = OnPosition.UpLeft();
                     }
                     else
                     {
