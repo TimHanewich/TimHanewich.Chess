@@ -5,7 +5,7 @@ namespace TimHanewich.Chess.Experimental
 {
     public class GameState
     {
-        private int[] BoardStructure;
+        private int[] BoardState;
         public bool WhiteToMove {get; set;}
     }
 }
