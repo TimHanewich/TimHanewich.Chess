@@ -489,6 +489,12 @@ namespace TimHanewich.Chess.Experimental
 
         #endregion
 
+        #region "Piece movements"
+
+
+
+        #endregion
+
 
         public static byte ToByte(this Piece p)
         {
@@ -549,7 +555,7 @@ namespace TimHanewich.Chess.Experimental
             throw new Exception("Fatal error while converting piece to byte.");
         }
     
-        public static byte GetPositionByte(this Byte[] structure, Position pos)
+        public static byte FindOccupyingByte(this Byte[] structure, Position pos)
         {
             if (structure.Length != 64)
             {
@@ -690,9 +696,9 @@ namespace TimHanewich.Chess.Experimental
             }
         }
     
-        public static Piece? GetPositionPiece(this Byte[] structure, Position pos)
+        public static Piece? FindOccupyingPiece(this Byte[] structure, Position pos)
         {
-            byte b = GetPositionByte(structure, pos);
+            byte b = FindOccupyingByte(structure, pos);
             if (b == 0)
             {
                 return null;
