@@ -22,7 +22,7 @@ namespace TimHanewich.Chess.Experimental
 
         #region "Positioning"
 
-        public static char File(this byte array_position)
+        public static char File(this int array_position)
         {
             if (array_position >= 56)
             {
@@ -58,7 +58,7 @@ namespace TimHanewich.Chess.Experimental
             }
         }
 
-        public static byte Rank(this byte array_position)
+        public static byte Rank(this int array_position)
         {
             switch (array_position)
             {
@@ -210,7 +210,7 @@ namespace TimHanewich.Chess.Experimental
 
         //These return the index of the position in the byte array relative to the starting position (in byte format)
 
-        public static byte Up(this byte array_position)
+        public static int Up(this int array_position)
         {
             switch (array_position)
             {
@@ -332,7 +332,7 @@ namespace TimHanewich.Chess.Experimental
             }
         }
 
-        public static byte Down(this byte array_position)
+        public static int Down(this int array_position)
         {
             switch (array_position)
             {
@@ -463,7 +463,7 @@ namespace TimHanewich.Chess.Experimental
             }
         }
 
-        public static byte Right(this byte array_position)
+        public static int Right(this int array_position)
         {
             if (array_position.File() == 'H')
             {
@@ -475,7 +475,7 @@ namespace TimHanewich.Chess.Experimental
             }
         }
 
-        public static byte Left(this byte array_position)
+        public static int Left(this int array_position)
         {
             if (array_position.File() == 'A')
             {
@@ -496,7 +496,7 @@ namespace TimHanewich.Chess.Experimental
         #endregion
 
 
-        public static byte ToByte(this Piece p)
+        public static int ToCode(this Piece p)
         {
             if (p.IsWhite)
             {
@@ -555,7 +555,7 @@ namespace TimHanewich.Chess.Experimental
             throw new Exception("Fatal error while converting piece to byte.");
         }
     
-        public static byte FindOccupyingByte(this Byte[] structure, Position pos)
+        public static int FindOccupyingCode(this int[] structure, Position pos)
         {
             if (structure.Length != 64)
             {
@@ -696,9 +696,9 @@ namespace TimHanewich.Chess.Experimental
             }
         }
     
-        public static Piece? FindOccupyingPiece(this Byte[] structure, Position pos)
+        public static Piece? FindOccupyingPiece(this int[] structure, Position pos)
         {
-            byte b = FindOccupyingByte(structure, pos);
+            int b = FindOccupyingCode(structure, pos);
             if (b == 0)
             {
                 return null;
@@ -753,7 +753,7 @@ namespace TimHanewich.Chess.Experimental
             }
             else
             {
-                throw new Exception("Unable to convert byte '" + b.ToString() + "' into a piece.");
+                throw new Exception("Unable to convert code '" + b.ToString() + "' into a piece.");
             }
         }
     }

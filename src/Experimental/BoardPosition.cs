@@ -5,7 +5,7 @@ namespace TimHanewich.Chess.Experimental
 {
     public class BoardPosition
     {
-        private byte[] BoardStructure;
+        private int[] BoardStructure;
         public bool WhiteToMove {get; set;}
 
         public BoardPosition[] AvailableMoves()
