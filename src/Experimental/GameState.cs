@@ -28,7 +28,7 @@ namespace TimHanewich.Chess.Experimental
             string[] Rows = PositionPortion.Split(new string[] {"/"}, StringSplitOptions.None);
 
             //Assemble the board state
-            List<int> BuildingBoardState = new List<int>();
+            BoardState = new int[64];
             Position OnPosition = Position.A8;
             foreach (string row in Rows)
             {
@@ -57,7 +57,7 @@ namespace TimHanewich.Chess.Experimental
                             if (OnPosition.File() != 'H')
                             {
                                 //Add empty space to the board state
-                                BuildingBoardState.Add(0);
+                                BoardState[OnPosition.PositionToArrayPosition()] = 0;
 
                                 //Increment to the right
                                 OnPosition = OnPosition.Right();
@@ -112,7 +112,7 @@ namespace TimHanewich.Chess.Experimental
 
 
                         //Add the piece
-                        BuildingBoardState.Add(pieceCode);
+                        BoardState[OnPosition.PositionToArrayPosition()] = pieceCode;
 
                         //Advance the on position by 1
                         if (OnPosition.File() != 'H')
@@ -148,16 +148,71 @@ namespace TimHanewich.Chess.Experimental
             }
             if (ToMoveStr.ToLower() == "w")
             {
-                ToMove = Color.White;
+                WhiteToMove = true;
             }
             else if (ToMoveStr.ToLower() == "b")
             {
-                ToMove = Color.Black;
+                WhiteToMove = false;
             }
             else
             {
                 throw new Exception("Active color '" + ToMoveStr + "' not recognized in FEN.");
             }
+        }
+    
+        public string Print()
+        {
+            string ToReturn = "┌────────┐" + Environment.NewLine + "|";
+            int OnRank = 8;
+            foreach (Position p in PositionToolkit.FenOrder())
+            {
+
+                //If we are on a new row now, add a new line
+                if (p.Rank() != OnRank)
+                {
+                    ToReturn = ToReturn + "|" + " " + (p.Rank() + 1).ToString("#,##0") + Environment.NewLine + "|";
+                    OnRank = p.Rank();
+                }
+
+
+                int Code = BoardState[p.PositionToArrayPosition()];
+                Piece? ThisPiece = Code.ToPiece();
+                if (ThisPiece.HasValue)
+                {
+                    string PieceNotation = ChessToolkit.GetPieceNotation(ThisPiece.Value.Type);
+
+                    //If the piece notation is blank, it means it is a pawn. this is because in algebraic notation, a pawn has not piece notation.
+                    if (PieceNotation == "")
+                    {
+                        PieceNotation = "p";
+                    }
+
+                    //Capital or lowercase based on color
+                    if (ThisPiece.Value.IsWhite)
+                    {
+                        PieceNotation = PieceNotation.ToUpper();
+                    }
+                    else
+                    {
+                        PieceNotation = PieceNotation.ToLower();
+                    }
+
+                    //Mark it
+                    ToReturn = ToReturn + PieceNotation;
+                }
+                else
+                {
+                    ToReturn = ToReturn + " ";
+                }
+            }
+
+            //Finish it off
+            ToReturn = ToReturn + "| 1" + Environment.NewLine + "└────────┘";
+
+            //Lower letters
+            ToReturn = ToReturn + Environment.NewLine + " ABCDEFGH ";
+
+            return ToReturn;
         }
     }
 }

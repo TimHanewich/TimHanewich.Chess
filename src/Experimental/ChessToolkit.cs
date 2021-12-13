@@ -845,6 +845,45 @@ namespace TimHanewich.Chess.Experimental
             throw new Exception("Fatal error while converting piece to byte.");
         }
     
+        public static Piece? ToPiece(this int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    return null;
+                
+                case 1:
+                    return new Piece(true, PieceType.King);
+                case 2:
+                    return new Piece(true, PieceType.Queen);
+                case 3:
+                    return new Piece(true, PieceType.Rook);
+                case 4:
+                    return new Piece(true, PieceType.Bishop);
+                case 5:
+                    return new Piece(true, PieceType.Knight);
+                case 6:
+                    return new Piece(true, PieceType.Pawn);
+                
+                case 7:
+                    return new Piece(false, PieceType.King);
+                case 8:
+                    return new Piece(false, PieceType.Queen);
+                case 9:
+                    return new Piece(false, PieceType.Rook);
+                case 10:
+                    return new Piece(false, PieceType.Bishop);
+                case 11:
+                    return new Piece(false, PieceType.Knight);
+                case 12:
+                    return new Piece(false, PieceType.Pawn);
+
+                default:
+                    throw new Exception("Code '" + i.ToString() + "' is not a valid piece code.");
+                
+            }
+        }
+
         public static int FindOccupyingCode(this int[] structure, Position pos)
         {
             if (structure.Length != 64)
@@ -1046,5 +1085,32 @@ namespace TimHanewich.Chess.Experimental
                 throw new Exception("Unable to convert code '" + b.ToString() + "' into a piece.");
             }
         }
+    
+        public static string GetPieceNotation(PieceType type)
+        {
+            string ToReturn = "";
+            if (type == PieceType.Rook)
+            {
+                ToReturn = "R";
+            }
+            else if (type ==  PieceType.King)
+            {
+                ToReturn = "K";
+            }
+            else if (type == PieceType.Queen)
+            {
+                ToReturn = "Q";
+            }
+            else if (type == PieceType.Bishop)
+            {
+                ToReturn = "B";
+            }
+            else if (type == PieceType.Knight)
+            {
+                ToReturn = "N";
+            }
+            return ToReturn;
+        }
+    
     }
 }   
