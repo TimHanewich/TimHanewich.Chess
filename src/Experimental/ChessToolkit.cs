@@ -204,6 +204,296 @@ namespace TimHanewich.Chess.Experimental
             }
         }
 
+        public static int PositionToArrayPosition(this Position pos)
+        {
+            switch (pos)
+            {
+                case Position.A1:
+                    return 0;
+                case Position.A2:
+                    return 1;
+                case Position.A3:
+                    return 2;
+                case Position.A4:
+                    return 3;
+                case Position.A5:
+                    return 4;
+                case Position.A6:
+                    return 5;
+                case Position.A7:
+                    return 6;
+                case Position.A8:
+                    return 7;
+
+                case Position.B1:
+                    return 8;
+                case Position.B2:
+                    return 9;
+                case Position.B3:
+                    return 10;
+                case Position.B4:
+                    return 11;
+                case Position.B5:
+                    return 12;
+                case Position.B6:
+                    return 13;
+                case Position.B7:
+                    return 14;
+                case Position.B8:
+                    return 15;
+
+                case Position.C1:
+                    return 16;
+                case Position.C2:
+                    return 17;
+                case Position.C3:
+                    return 18;
+                case Position.C4:
+                    return 19;
+                case Position.C5:
+                    return 20;
+                case Position.C6:
+                    return 21;
+                case Position.C7:
+                    return 22;
+                case Position.C8:
+                    return 23;
+
+                case Position.D1:
+                    return 24;
+                case Position.D2:
+                    return 25;
+                case Position.D3:
+                    return 26;
+                case Position.D4:
+                    return 27;
+                case Position.D5:
+                    return 28;
+                case Position.D6:
+                    return 29;
+                case Position.D7:
+                    return 30;
+                case Position.D8:
+                    return 31;
+
+                case Position.E1:
+                    return 32;
+                case Position.E2:
+                    return 33;
+                case Position.E3:
+                    return 34;
+                case Position.E4:
+                    return 35;
+                case Position.E5:
+                    return 36;
+                case Position.E6:
+                    return 37;
+                case Position.E7:
+                    return 38;
+                case Position.E8:
+                    return 39;
+
+                case Position.F1:
+                    return 40;
+                case Position.F2:
+                    return 41;
+                case Position.F3:
+                    return 42;
+                case Position.F4:
+                    return 43;
+                case Position.F5:
+                    return 44;
+                case Position.F6:
+                    return 45;
+                case Position.F7:
+                    return 46;
+                case Position.F8:
+                    return 47;
+
+                case Position.G1:
+                    return 48;
+                case Position.G2:
+                    return 49;
+                case Position.G3:
+                    return 50;
+                case Position.G4:
+                    return 51;
+                case Position.G5:
+                    return 52;
+                case Position.G6:
+                    return 53;
+                case Position.G7:
+                    return 54;
+                case Position.G8:
+                    return 55;
+
+                case Position.H1:
+                    return 56;
+                case Position.H2:
+                    return 57;
+                case Position.H3:
+                    return 58;
+                case Position.H4:
+                    return 59;
+                case Position.H5:
+                    return 60;
+                case Position.H6:
+                    return 61;
+                case Position.H7:
+                    return 62;
+                case Position.H8:
+                    return 63;
+
+                default:
+                    throw new Exception("Unable to convert position '" + pos.ToString() + "' to an array position.");
+            }
+        }
+
+        public static Position ArrayPositionToPosition(this int arr_pos)
+        {
+            switch (arr_pos)
+            {
+                case 0:
+                    return Position.A1;
+                case 1:
+                    return Position.A2;
+                case 2:
+                    return Position.A3;
+                case 3:
+                    return Position.A4;
+                case 4:
+                    return Position.A5;
+                case 5:
+                    return Position.A6;
+                case 6:
+                    return Position.A7;
+                case 7:
+                    return Position.A8;
+
+                case 8:
+                    return Position.B1;
+                case 9:
+                    return Position.B2;
+                case 10:
+                    return Position.B3;
+                case 11:
+                    return Position.B4;
+                case 12:
+                    return Position.B5;
+                case 13:
+                    return Position.B6;
+                case 14:
+                    return Position.B7;
+                case 15:
+                    return Position.B8;
+
+                case 16:
+                    return Position.C1;
+                case 17:
+                    return Position.C2;
+                case 18:
+                    return Position.C3;
+                case 19:
+                    return Position.C4;
+                case 20:
+                    return Position.C5;
+                case 21:
+                    return Position.C6;
+                case 22:
+                    return Position.C7;
+                case 23:
+                    return Position.C8;
+
+                case 24:
+                    return Position.D1;
+                case 25:
+                    return Position.D2;
+                case 26:
+                    return Position.D3;
+                case 27:
+                    return Position.D4;
+                case 28:
+                    return Position.D5;
+                case 29:
+                    return Position.D6;
+                case 30:
+                    return Position.D7;
+                case 31:
+                    return Position.D8;
+
+                case 32:
+                    return Position.E1;
+                case 33:
+                    return Position.E2;
+                case 34:
+                    return Position.E3;
+                case 35:
+                    return Position.E4;
+                case 36:
+                    return Position.E5;
+                case 37:
+                    return Position.E6;
+                case 38:
+                    return Position.E7;
+                case 39:
+                    return Position.E8;
+
+                case 40:
+                    return Position.F1;
+                case 41:
+                    return Position.F2;
+                case 42:
+                    return Position.F3;
+                case 43:
+                    return Position.F4;
+                case 44:
+                    return Position.F5;
+                case 45:
+                    return Position.F6;
+                case 46:
+                    return Position.F7;
+                case 47:
+                    return Position.F8;
+                
+                case 48:
+                    return Position.G1;
+                case 49:
+                    return Position.G2;
+                case 50:
+                    return Position.G3;
+                case 51:
+                    return Position.G4;
+                case 52:
+                    return Position.G5;
+                case 53:
+                    return Position.G6;
+                case 54:
+                    return Position.G7;
+                case 55:
+                    return Position.G8;
+
+                case 56:
+                    return Position.H1;
+                case 57:
+                    return Position.H2;
+                case 58:
+                    return Position.H3;
+                case 59:
+                    return Position.H4;
+                case 60:
+                    return Position.H5;
+                case 61:
+                    return Position.H6;
+                case 62:
+                    return Position.H7;
+                case 63:
+                    return Position.H8;
+
+                default:
+                    throw new Exception("Unable to determine array position for position '" + arr_pos.ToString() + "'");
+            }
+        }
+
         #endregion
 
         #region "Movemment"
