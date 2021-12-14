@@ -3,14 +3,15 @@ using System.Collections.Generic;
 
 namespace TimHanewich.Chess.Experimental
 {
-    public class GameState
+    public struct GameState
     {
         private int[] BoardState;
         public bool WhiteToMove {get; set;}
 
-        public GameState()
+        public GameState(int[] board_state, bool white_to_move)
         {
-
+            BoardState = board_state;
+            WhiteToMove = white_to_move;
         }
 
         public GameState(string FEN)
@@ -224,5 +225,48 @@ namespace TimHanewich.Chess.Experimental
         {
             return FindOccupyingPiece(p).HasValue;
         }
+    
+        public GameState[] PotentialNextStates()
+        {
+            List<GameState> ToReturn = new List<GameState>();
+            for (int arrPos = 0; arrPos < BoardState.Length; arrPos++)
+            {
+                Piece? ThisPiece = arrPos.ToPiece();
+                if (ThisPiece.HasValue)
+                {
+                    Position[] PotentialMovesForThisPiece = Piece.AvailableMoves(this, ThisPiece.Value, arrPos.ArrayPositionToPosition());
+                    foreach (Position potMove in PotentialMovesForThisPiece)
+                    {
+                        Move PotMoveToMake = new Move(arrPos.ArrayPositionToPosition(), potMove);
+                        GameState PotentialState = this.Clone();
+                        PotentialState.ExecuteMove(PotMoveToMake);
+                        ToReturn.Add(PotentialState);
+                    }
+                }
+            }
+            return ToReturn.ToArray();
+        }
+
+        public void ExecuteMove(Move m)
+        {
+            Piece? ToMove = FindOccupyingPiece(m.Origin);
+            if (ToMove.HasValue == false)
+            {
+                throw new Exception("Unable to execute move. Move is invalid! A piece is not occupying the origin position");
+            }
+
+            //Mark the origin as empty now
+            BoardState[m.Origin.PositionToArrayPosition()] = 0; //0 means an empty square
+
+            //Move the piece to the new square
+            BoardState[m.Destination.PositionToArrayPosition()] = ToMove.Value.ToCode();
+        }
+
+        public GameState Clone()
+        {
+            int[] NewBoardState = (int[])BoardState.Clone();
+            return new GameState(NewBoardState, WhiteToMove);
+        }
+
     }
 }

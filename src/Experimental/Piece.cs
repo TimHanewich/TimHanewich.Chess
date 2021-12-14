@@ -353,7 +353,7 @@ namespace TimHanewich.Chess.Experimental
                 {
                     Position PotMove = from_position.DownRight();
                     Piece? OccPiece = gs.FindOccupyingPiece(PotMove);
-                    if (OccPiece.HasValue)
+                    if (OccPiece.HasValue == false)
                     {
                         ToReturn.Add(PotMove);
                     }
