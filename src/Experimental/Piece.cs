@@ -50,7 +50,7 @@ namespace TimHanewich.Chess.Experimental
             }
         }
 
-        public static Position[] AvailableMoves(GameState gs, Piece p, Position from_position)
+        public static Position[] AvailableMoves(GameState gs, Piece p, Position from_position, bool EnsureLegality = true)
         {
             List<Position> ToReturn = new List<Position>();
 
@@ -440,18 +440,15 @@ namespace TimHanewich.Chess.Experimental
 
             }
 
-            // //Filter out any moves that would be illegal
-            // if (EnsureLegality)
-            // {
-            //     return FilterOutIllegalMoves(board, ToReturn.ToArray());
-            // }
-            // else
-            // {
-            //     return ToReturn.ToArray();
-            // }
-
-            return ToReturn.ToArray();
-
+            //Filter out any moves that would be illegal
+            if (EnsureLegality)
+            {
+                return FilterOutIllegalMoves(gs, from_position, ToReturn.ToArray());
+            }
+            else
+            {
+                return ToReturn.ToArray();
+            }
         }
 
 
@@ -460,50 +457,33 @@ namespace TimHanewich.Chess.Experimental
 
 
         //For example, filter out moves that put the king in check
-        // private Position[] FilterOutIllegalMoves(GameState board, Position origin, Position[] moves_to)
-        // {
-        //     List<Position> ToReturn = new List<Position>();
-        //     foreach (Position pos in moves_to)
-        //     {
-        //         bool IsLegal = MoveIsLegal(board, origin, pos);
-        //         if (IsLegal)
-        //         {
-        //             ToReturn.Add(pos);
-        //         }
-        //     }
-        //     return ToReturn.ToArray();
-        // }
+        private static Position[] FilterOutIllegalMoves(GameState board, Position origin, Position[] moves_to)
+        {
+            List<Position> ToReturn = new List<Position>();
+            foreach (Position pos in moves_to)
+            {
+                bool IsLegal = MoveIsLegal(board, origin, pos);
+                if (IsLegal)
+                {
+                    ToReturn.Add(pos);
+                }
+            }
+            return ToReturn.ToArray();
+        }
 
-        // private bool MoveIsLegal(GameState board, Position origin, Position destination)
-        // {
-        //     BoardPosition copy = board.Copy();
-        //     Move m = new Move();
-        //     m.FromPosition = origin;
-        //     m.ToPosition = destination;
-        //     copy.ExecuteMove(m);
+        private static bool MoveIsLegal(GameState board, Position origin, Position destination)
+        {
+            GameState NGS = board.Clone();
+            Move m = new Move(origin, destination);
+            NGS.ExecuteMove(m);
 
-        //     //Executing the move above flips the color.
-        //     //To test if the previous color that made the move was put in check, we must flip the color BACK to what it was before executing this
-        //     //This is because the "IsCheck" method checkes if the color to move is in check (being threatened)
-        //     if (copy.ToMove == Color.White)
-        //     {
-        //         copy.ToMove = Color.Black;
-        //     }
-        //     else if (copy.ToMove == Color.Black)
-        //     {
-        //         copy.ToMove = Color.White;
-        //     }
+            //Executing the move above flips the color.
+            //To test if the previous color that made the move was put in check, we must flip the color BACK to what it was before executing this
+            //This is because the "IsCheck" method checkes if the color to move is in check (being threatened)
+            NGS.WhiteToMove = !NGS.WhiteToMove;
         
-        //     if (copy.IsCheck())
-        //     {
-        //         return false; //If this move put that color in check, say the move is not legal
-        //     }
-        //     else
-        //     {
-        //         return true; //if it isn't in check, this move is legal, so return true;
-        //     }
-
-        // }
+            return !NGS.IsCheck();
+        }
 
 
 
