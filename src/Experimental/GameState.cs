@@ -228,13 +228,18 @@ namespace TimHanewich.Chess.Experimental
     
         public Move[] PotentialNextMoves()
         {
+            return PotentialNextMoves(WhiteToMove);
+        }
+
+        public Move[] PotentialNextMoves(bool white_to_move)
+        {
             List<Move> ToReturn = new List<Move>();
             for (int arrPos = 0; arrPos < BoardState.Length; arrPos++)
             {
                 Piece? ThisPiece = BoardState[arrPos].ToPiece();
                 if (ThisPiece.HasValue)
                 {
-                    if (ThisPiece.Value.IsWhite == WhiteToMove)
+                    if (ThisPiece.Value.IsWhite == white_to_move)
                     {
                         Position[] PotentialMovesForThisPiece = Piece.AvailableMoves(this, ThisPiece.Value, arrPos.ArrayPositionToPosition());
                         foreach (Position potMove in PotentialMovesForThisPiece)
@@ -303,6 +308,62 @@ namespace TimHanewich.Chess.Experimental
             int[] NewBoardState = (int[])BoardState.Clone();
             return new GameState(NewBoardState, WhiteToMove);
         }
+
+        #region "Check/Checkmate checking"
+
+        public bool IsCheck()
+        {
+            //Find the kings position
+            for (int arrPos = 0; arrPos < BoardState.Length; arrPos++)
+            {
+                Piece? p = BoardState[arrPos].ToPiece();
+                if (p.HasValue)
+                {
+                    if (p.Value.IsWhite == WhiteToMove) //It is the color that has to move right now
+                    {
+                        if (p.Value.Type == PieceType.King)
+                        {
+                            //Now we have located the king.
+                            //Now that we have the king and it's position, check if the opposing color has the ability to strike this position currently (if it were their turn of course) from their current position
+                            Move[] PotentialMovesByOpponent = this.PotentialNextMoves(!WhiteToMove);
+                            
+                            bool InCheck = false;
+                            foreach (Move m in PotentialMovesByOpponent)
+                            {
+                                if (m.Destination == arrPos.ArrayPositionToPosition()) //They can reach this current square (where the king is located)
+                                {
+                                    InCheck = true;
+                                }
+                            }
+                            return InCheck;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool IsCheckMate()
+        {
+            if (IsCheck() == false)
+            {
+                return false;
+            }   
+            else
+            {
+                GameState[] PNS = PotentialNextStates();
+                foreach (GameState gs in PNS)
+                {
+                    if (gs.IsCheck() == false)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
+        #endregion
 
     }
 }
