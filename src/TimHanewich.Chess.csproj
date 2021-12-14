@@ -4,16 +4,26 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Tim Hanewich</Authors>
-    <Version>1</Version>
-    <Description>A lightweight class library for reading PGN files.</Description>
-    <PackageIcon>KnightIcon.jpg</PackageIcon>
+    <Version>0.1.0</Version>
+    <Description>Various resources for parsing PGN, evaluating positions, parsing and printing FEN, and more.</Description>
+    <PackageIcon>pawn.png</PackageIcon>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
     <FileVersion>0.0.0.0</FileVersion>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <Copyright>Tim Hanewich</Copyright>
+    <PackageLicenseFile>license.md</PackageLicenseFile>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/TimHanewich/TimHanewich.Chess</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>chess</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="KnightIcon.jpg">
+    <None Include="..\license.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="pawn.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
