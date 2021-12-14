@@ -231,7 +231,7 @@ namespace TimHanewich.Chess.Experimental
             return PotentialNextMoves(WhiteToMove);
         }
 
-        public Move[] PotentialNextMoves(bool white_to_move)
+        public Move[] PotentialNextMoves(bool white_to_move, bool check_legality = true)
         {
             List<Move> ToReturn = new List<Move>();
             for (int arrPos = 0; arrPos < BoardState.Length; arrPos++)
@@ -241,7 +241,7 @@ namespace TimHanewich.Chess.Experimental
                 {
                     if (ThisPiece.Value.IsWhite == white_to_move)
                     {
-                        Position[] PotentialMovesForThisPiece = Piece.AvailableMoves(this, ThisPiece.Value, arrPos.ArrayPositionToPosition());
+                        Position[] PotentialMovesForThisPiece = Piece.AvailableMoves(this, ThisPiece.Value, arrPos.ArrayPositionToPosition(), check_legality);
                         foreach (Position potMove in PotentialMovesForThisPiece)
                         {
                             Move PotMoveToMake = new Move(arrPos.ArrayPositionToPosition(), potMove);
@@ -301,6 +301,9 @@ namespace TimHanewich.Chess.Experimental
 
             //Move the piece to the new square
             BoardState[m.Destination.PositionToArrayPosition()] = ToMove.Value.ToCode();
+
+            //Flip the next to move
+            WhiteToMove = !WhiteToMove;
         }
 
         public GameState Clone()
@@ -325,7 +328,7 @@ namespace TimHanewich.Chess.Experimental
                         {
                             //Now we have located the king.
                             //Now that we have the king and it's position, check if the opposing color has the ability to strike this position currently (if it were their turn of course) from their current position
-                            Move[] PotentialMovesByOpponent = this.PotentialNextMoves(!WhiteToMove);
+                            Move[] PotentialMovesByOpponent = this.PotentialNextMoves(!WhiteToMove, false); //do not check legality. Because it is impossible for both to be in check at the same time.
                             
                             bool InCheck = false;
                             foreach (Move m in PotentialMovesByOpponent)

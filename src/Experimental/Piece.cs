@@ -50,7 +50,7 @@ namespace TimHanewich.Chess.Experimental
             }
         }
 
-        public static Position[] AvailableMoves(GameState gs, Piece p, Position from_position, bool EnsureLegality = true)
+        public static Position[] AvailableMoves(GameState gs, Piece p, Position from_position, bool CheckLegality = true)
         {
             List<Position> ToReturn = new List<Position>();
 
@@ -441,7 +441,7 @@ namespace TimHanewich.Chess.Experimental
             }
 
             //Filter out any moves that would be illegal
-            if (EnsureLegality)
+            if (CheckLegality)
             {
                 return FilterOutIllegalMoves(gs, from_position, ToReturn.ToArray());
             }
@@ -482,7 +482,15 @@ namespace TimHanewich.Chess.Experimental
             //This is because the "IsCheck" method checkes if the color to move is in check (being threatened)
             NGS.WhiteToMove = !NGS.WhiteToMove;
         
-            return !NGS.IsCheck();
+            bool IsNowInCheck = NGS.IsCheck();
+            if (IsNowInCheck)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
 
