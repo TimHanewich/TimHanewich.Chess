@@ -3,15 +3,10 @@ using System.Collections.Generic;
 
 namespace TimHanewich.Chess
 {
-    public class BoardPosition
+    public struct BoardPosition
     {
         public Color ToMove {get; set;}
         private List<Piece> _Pieces;
-
-        public BoardPosition()
-        {
-            _Pieces = new List<Piece>();
-        }
 
         public BoardPosition(string FEN)
         {
@@ -329,6 +324,7 @@ namespace TimHanewich.Chess
         public BoardPosition Copy()
         {
             BoardPosition ToReturn = new BoardPosition();
+            ToReturn._Pieces = new List<Piece>();
 
             //Copy ToMove
             ToReturn.ToMove = ToMove;
