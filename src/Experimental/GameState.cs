@@ -368,5 +368,55 @@ namespace TimHanewich.Chess.Experimental
 
         #endregion
 
+        #region "EVALUATION"
+
+        public float Evaluate(int depth)
+        {
+            float eval = EvaluateWithPruning(depth, float.MinValue, float.MaxValue);
+            return eval;
+        }
+
+        private float EvaluateWithPruning(int depth, float alpha, float beta)
+        {
+            //If depth is 0, return this evaluation via material difference
+            if (depth == 0)
+            {
+                return MaterialDisparity();
+            }
+
+            if (WhiteToMove)
+            {
+                float MaxEvaluationSeen = float.MinValue;
+                foreach (GameState gs in PotentialNextStates())
+                {
+                    float eval = gs.EvaluateWithPruning(depth - 1, alpha, beta);
+                    MaxEvaluationSeen = Math.Max(MaxEvaluationSeen, eval);
+                    alpha = Math.Max(alpha, eval);
+                    if (beta <= alpha)
+                    {
+                        break;
+                    }
+                }
+                return MaxEvaluationSeen;
+            }
+            else //Black
+            {
+                float MinEvaluationSeen = float.MaxValue;
+                foreach (GameState gs in PotentialNextStates())
+                {
+                    float eval = gs.EvaluateWithPruning(depth - 1, alpha, beta);
+                    MinEvaluationSeen = Math.Min(MinEvaluationSeen, eval);
+                    beta = Math.Min(beta, eval);
+                    if (beta <= alpha)
+                    {
+                        break;
+                    }
+                }
+                return MinEvaluationSeen;
+            }
+        }
+
+        #endregion
+
     }
 }
