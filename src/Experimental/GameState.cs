@@ -226,26 +226,40 @@ namespace TimHanewich.Chess.Experimental
             return FindOccupyingPiece(p).HasValue;
         }
     
-        public GameState[] PotentialNextStates()
+        public Move[] PotentialNextMoves()
         {
-            List<GameState> ToReturn = new List<GameState>();
+            List<Move> ToReturn = new List<Move>();
             for (int arrPos = 0; arrPos < BoardState.Length; arrPos++)
             {
-                Piece? ThisPiece = arrPos.ToPiece();
+                Piece? ThisPiece = BoardState[arrPos].ToPiece();
                 if (ThisPiece.HasValue)
                 {
-                    Position[] PotentialMovesForThisPiece = Piece.AvailableMoves(this, ThisPiece.Value, arrPos.ArrayPositionToPosition());
-                    foreach (Position potMove in PotentialMovesForThisPiece)
+                    if (ThisPiece.Value.IsWhite == WhiteToMove)
                     {
-                        Move PotMoveToMake = new Move(arrPos.ArrayPositionToPosition(), potMove);
-                        GameState PotentialState = this.Clone();
-                        PotentialState.ExecuteMove(PotMoveToMake);
-                        ToReturn.Add(PotentialState);
+                        Position[] PotentialMovesForThisPiece = Piece.AvailableMoves(this, ThisPiece.Value, arrPos.ArrayPositionToPosition());
+                        foreach (Position potMove in PotentialMovesForThisPiece)
+                        {
+                            Move PotMoveToMake = new Move(arrPos.ArrayPositionToPosition(), potMove);
+                            ToReturn.Add(PotMoveToMake);
+                        }
                     }
                 }
             }
             return ToReturn.ToArray();
         }
+
+        public GameState[] PotentialNextStates()
+        {
+            List<GameState> ToReturn = new List<GameState>();
+            foreach (Move m in PotentialNextMoves())
+            {
+                GameState NGS = this.Clone();
+                NGS.ExecuteMove(m);
+                ToReturn.Add(NGS);
+            }
+            return ToReturn.ToArray();
+        }
+
 
         public void ExecuteMove(Move m)
         {
