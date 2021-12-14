@@ -364,7 +364,7 @@ namespace TimHanewich.Chess
 
             //Move & Capture if necessary
             Piece? Occ = FindOccupyingPiece(m.ToPosition);
-            if (Occ.HasValue == false)
+            if (Occ.HasValue)
             {
                 RemovePiece(Occ.Value); //it was a capture
             }
