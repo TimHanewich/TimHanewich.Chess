@@ -222,14 +222,7 @@ namespace TimHanewich.Chess.Experimental
     
         public bool PositionIsOccupied(Position p)
         {
-            if (FindOccupyingPiece(p).HasValue)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return FindOccupyingPiece(p).HasValue;
         }
     }
 }
