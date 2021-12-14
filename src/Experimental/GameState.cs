@@ -214,5 +214,22 @@ namespace TimHanewich.Chess.Experimental
 
             return ToReturn;
         }
+    
+        public Piece? FindOccupyingPiece(Position p)
+        {
+            return BoardState[p.PositionToArrayPosition()].ToPiece();
+        }
+    
+        public bool PositionIsOccupied(Position p)
+        {
+            if (FindOccupyingPiece(p).HasValue)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
