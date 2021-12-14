@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\src\TimHanewich.Chess.Pgn.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="TimHanewich.Toolkit" Version="3.4.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="TimHanewich.Toolkit" Version="3.4.0" />
+    <ProjectReference Include="..\src\TimHanewich.Chess.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

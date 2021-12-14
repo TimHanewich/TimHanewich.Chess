@@ -13,6 +13,7 @@ namespace testing
         {
 
             TimeEvaluationTest();
+            Console.ReadLine();
             
         }
 
