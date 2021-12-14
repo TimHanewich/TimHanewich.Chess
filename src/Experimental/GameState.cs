@@ -260,6 +260,28 @@ namespace TimHanewich.Chess.Experimental
             return ToReturn.ToArray();
         }
 
+        public float MaterialDisparity()
+        {
+            float White = 0f;
+            float Black = 0f;
+            foreach (int i in BoardState)
+            {
+                Piece? p = i.ToPiece();
+                if (p.HasValue)
+                {
+                    if (p.Value.IsWhite)
+                    {
+                        White = White + p.Value.Value;
+                    }
+                    else
+                    {
+                        Black = Black + p.Value.Value;
+                    }
+                }
+            }
+            return White - Black;
+        }
+
 
         public void ExecuteMove(Move m)
         {
