@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TimHanewich.Chess
 {
-    public class Piece
+    public struct Piece
     {
         public Color Color {get; set;}
         public PieceType Type {get; set;}
@@ -70,12 +70,12 @@ namespace TimHanewich.Chess
                     //Capture left?
                     if (Position.File() != 'A')
                     {
-                        Piece PotCap = board.FindOccupyingPiece(Position.UpLeft());
-                        if (PotCap != null)
+                        Piece? PotCap = board.FindOccupyingPiece(Position.UpLeft());
+                        if (PotCap.HasValue)
                         {
-                            if (PotCap.Color == Color.Black)
+                            if (PotCap.Value.Color == Color.Black)
                             {
-                                ToReturn.Add(PotCap.Position);
+                                ToReturn.Add(PotCap.Value.Position);
                             }
                         }
                     }
@@ -83,12 +83,12 @@ namespace TimHanewich.Chess
                     //Capture right?
                     if (Position.File() != 'H')
                     {
-                        Piece PotCap = board.FindOccupyingPiece(Position.UpRight());
-                        if (PotCap != null)
+                        Piece? PotCap = board.FindOccupyingPiece(Position.UpRight());
+                        if (PotCap.HasValue)
                         {
-                            if (PotCap.Color == Color.Black)
+                            if (PotCap.Value.Color == Color.Black)
                             {
-                                ToReturn.Add(PotCap.Position);
+                                ToReturn.Add(PotCap.Value.Position);
                             }
                         }
                     }
@@ -113,12 +113,12 @@ namespace TimHanewich.Chess
                     //Capture left?
                     if (Position.File() != 'A')
                     {
-                        Piece PotCap = board.FindOccupyingPiece(Position.DownLeft());
-                        if (PotCap != null)
+                        Piece? PotCap = board.FindOccupyingPiece(Position.DownLeft());
+                        if (PotCap.HasValue)
                         {
-                            if (PotCap.Color == Color.White)
+                            if (PotCap.Value.Color == Color.White)
                             {
-                                ToReturn.Add(PotCap.Position);
+                                ToReturn.Add(PotCap.Value.Position);
                             }
                         }
                     }
@@ -126,12 +126,12 @@ namespace TimHanewich.Chess
                     //Capture right?
                     if (Position.File() != 'H')
                     {
-                        Piece PotCap = board.FindOccupyingPiece(Position.DownRight());
-                        if (PotCap != null)
+                        Piece? PotCap = board.FindOccupyingPiece(Position.DownRight());
+                        if (PotCap.HasValue)
                         {
-                            if (PotCap.Color == Color.White)
+                            if (PotCap.Value.Color == Color.White)
                             {
-                                ToReturn.Add(PotCap.Position);
+                                ToReturn.Add(PotCap.Value.Position);
                             }
                         }
                     }
@@ -142,121 +142,49 @@ namespace TimHanewich.Chess
                 //Up 2, left 1
                 if (Position.Rank() < 7 && Position.File() != 'A')
                 {
-                    Position PotMove = Position.Up().UpLeft();
-                    Piece Occ = board.FindOccupyingPiece(PotMove);
-                    if (Occ == null) //If it is empty we can jump to it
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else if (Occ.Color != Color) //If it is an opposing color, we can take
-                    {
-                        ToReturn.Add(PotMove);
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Up().UpLeft());
                 }
 
                 //Up 2, right 1
                 if (Position.Rank() < 7 && Position.File() != 'H')
                 {
-                    Position PotMove = Position.Up().UpRight();
-                    Piece Occ = board.FindOccupyingPiece(PotMove);
-                    if (Occ == null) //If it is empty we can jump to it
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else if (Occ.Color != Color) //If it is an opposing color, we can take
-                    {
-                        ToReturn.Add(PotMove);
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Up().UpRight());
                 }
 
                 //Up 1, left 2
                 if (Position.Rank() < 8 && Position.File() != 'A' && Position.File() != 'B')
                 {
-                    Position PotMove = Position.UpLeft().Left();
-                    Piece Occ = board.FindOccupyingPiece(PotMove);
-                    if (Occ == null) //If it is empty we can jump to it
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else if (Occ.Color != Color) //If it is an opposing color, we can take
-                    {
-                        ToReturn.Add(PotMove);
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.UpLeft().Left());
                 }
 
                 //Up 1, right 2
                 if (Position.Rank() < 8 && Position.File() != 'G' && Position.File() != 'H')
                 {
-                    Position PotMove = Position.UpRight().Right();
-                    Piece Occ = board.FindOccupyingPiece(PotMove);
-                    if (Occ == null) //If it is empty we can jump to it
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else if (Occ.Color != Color) //If it is an opposing color, we can take
-                    {
-                        ToReturn.Add(PotMove);
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Up().Right().Right());
                 }
 
                 //Down 1, left 2
                 if (Position.Rank() > 1 && Position.File() != 'A' && Position.File() != 'B')
                 {
-                    Position PotMove = Position.DownLeft().Left();
-                    Piece Occ = board.FindOccupyingPiece(PotMove);
-                    if (Occ == null) //If it is empty we can jump to it
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else if (Occ.Color != Color) //If it is an opposing color, we can take
-                    {
-                        ToReturn.Add(PotMove);
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.DownLeft().Left());
                 }
 
                 //Down 1, right 2
                 if (Position.Rank() > 1 && Position.File() != 'G' && Position.File() != 'H')
                 {
-                    Position PotMove = Position.DownRight().Right();
-                    Piece Occ = board.FindOccupyingPiece(PotMove);
-                    if (Occ == null) //If it is empty we can jump to it
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else if (Occ.Color != Color) //If it is an opposing color, we can take
-                    {
-                        ToReturn.Add(PotMove);
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.DownRight().Right());
                 }
 
                 //Down 2, left 1
                 if (Position.Rank() > 2 && Position.File() != 'A')
                 {
-                    Position PotMove = Position.Down().DownLeft();
-                    Piece Occ = board.FindOccupyingPiece(PotMove);
-                    if (Occ == null) //If it is empty we can jump to it
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else if (Occ.Color != Color) //If it is an opposing color, we can take
-                    {
-                        ToReturn.Add(PotMove);
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Down().DownLeft());
                 }
 
                 //Down 2, right 1
                 if (Position.Rank() > 2 && Position.File() != 'H')
                 {
-                    Position PotMove = Position.Down().DownRight();
-                    Piece Occ = board.FindOccupyingPiece(PotMove);
-                    if (Occ == null) //If it is empty we can jump to it
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else if (Occ.Color != Color) //If it is an opposing color, we can take
-                    {
-                        ToReturn.Add(PotMove);
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Down().DownRight());
                 }
             }
             else if (Type == PieceType.Bishop)
@@ -288,150 +216,53 @@ namespace TimHanewich.Chess
             {
                 //This algorithm is incomplete. Obviously the King cannot place himself in check. So need to evaluate each potential move here and ensure it is not putting the knight in check. if it isn't, add it as a potential move!
 
-                //Up?
+                //Up?   
                 if (Position.Rank() < 8)
                 {
-                    Position PotMove = Position.Up();
-                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
-                    if (OccPiece == null)
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else
-                    {
-                        if (OccPiece.Color != Color)
-                        {
-                            ToReturn.Add(PotMove);
-                        }
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Up());                    
                 }
 
                 //Up right?
                 if (Position.Rank() < 8 && Position.File() != 'H')
                 {
-                    Position PotMove = Position.UpRight();
-                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
-                    if (OccPiece == null)
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else
-                    {
-                        if (OccPiece.Color != Color)
-                        {
-                            ToReturn.Add(PotMove);
-                        }
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.UpRight()); 
                 }
 
                 //Right?
                 if (Position.File() != 'H')
                 {
-                    Position PotMove = Position.Right();
-                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
-                    if (OccPiece == null)
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else
-                    {
-                        if (OccPiece.Color != Color)
-                        {
-                            ToReturn.Add(PotMove);
-                        }
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Right()); 
                 }
 
                 //Down, right?
                 if (Position.Rank() > 1 && Position.File() != 'H')
                 {
-                    Position PotMove = Position.DownRight();
-                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
-                    if (OccPiece == null)
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else
-                    {
-                        if (OccPiece.Color != Color)
-                        {
-                            ToReturn.Add(PotMove);
-                        }
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.DownRight()); 
                 }
 
                 //Down?
                 if (Position.Rank() > 1)
                 {
-                    Position PotMove = Position.Down();
-                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
-                    if (OccPiece == null)
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else
-                    {
-                        if (OccPiece.Color != Color)
-                        {
-                            ToReturn.Add(PotMove);
-                        }
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Down()); 
                 }
 
                 //Down, left?
                 if (Position.Rank() > 1 && Position.File() != 'A')
                 {
-                    Position PotMove = Position.DownLeft();
-                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
-                    if (OccPiece == null)
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else
-                    {
-                        if (OccPiece.Color != Color)
-                        {
-                            ToReturn.Add(PotMove);
-                        }
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.DownLeft()); 
                 }
 
                 //Left?
                 if (Position.File() != 'A')
                 {
-                    Position PotMove = Position.Left();
-                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
-                    if (OccPiece == null)
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else
-                    {
-                        if (OccPiece.Color != Color)
-                        {
-                            ToReturn.Add(PotMove);
-                        }
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.Left()); 
                 }
 
                 //Up, left?
                 if (Position.Rank() < 8 && Position.File() != 'A')
                 {
-                    Position PotMove = Position.UpLeft();
-                    Piece OccPiece = board.FindOccupyingPiece(PotMove);
-                    if (OccPiece == null)
-                    {
-                        ToReturn.Add(PotMove);
-                    }
-                    else
-                    {
-                        if (OccPiece.Color != Color)
-                        {
-                            ToReturn.Add(PotMove);
-                        }
-                    }
+                    AddPositionIfMoveable(ref ToReturn, board, Position.UpLeft()); 
                 }
-
             }
 
             //Filter out any moves that would be illegal
@@ -491,6 +322,19 @@ namespace TimHanewich.Chess
 
         }
 
+        #region "property setting"
+
+        public void SetPosition(Position pos)
+        {
+            Position = pos;
+        }
+
+        public void SetPieceType(PieceType pt)
+        {
+            Type = pt;
+        }
+
+        #endregion
 
         //TOOLKIT
 
@@ -604,14 +448,14 @@ namespace TimHanewich.Chess
                 //Add and move on or stop here?
                 if (StopCollecting == false)
                 {
-                    Piece OccupyingPiece = board.FindOccupyingPiece(OnPosition);
+                    Piece? OccupyingPiece = board.FindOccupyingPiece(OnPosition);
                     if (OccupyingPiece == null) //if the position is empty, add it and move on
                     {
                         ToReturn.Add(OnPosition);
                     }
                     else
                     {
-                        if (OccupyingPiece.Color != Color) //It is occupied by an opposing piece. So we can capture it. Add it
+                        if (OccupyingPiece.Value.Color != Color) //It is occupied by an opposing piece. So we can capture it. Add it
                         {
                             ToReturn.Add(OnPosition);
                             StopCollecting = true; //Stop collecting (don't go further because we cannot pass the piece)
@@ -625,5 +469,23 @@ namespace TimHanewich.Chess
             }
             return ToReturn.ToArray();            
         }
+    
+        private void AddPositionIfMoveable(ref List<Position> ToAddTo, BoardPosition board, Position pos)
+        {
+            Piece? BeingOccupied = board.FindOccupyingPiece(pos);
+            if (BeingOccupied.HasValue == false) //it is empty. So it is moveable. Add it!
+            {
+                ToAddTo.Add(pos);
+            }
+            else
+            {
+                if (BeingOccupied.Value.Color != this.Color)
+                {
+                    ToAddTo.Add(pos); //Add it becuase it is not our color. We can capture it.
+                }
+            }
+        }
+    
+    
     }
 }

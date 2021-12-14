@@ -9,18 +9,18 @@ namespace TimHanewich.Chess
 
         public bool IsPawnPromotion(BoardPosition position)
         {
-            Piece p = position.FindOccupyingPiece(FromPosition);
+            Piece? p = position.FindOccupyingPiece(FromPosition);
             if (p == null)
             {
                 return false;
             }
-            if (p.Type != PieceType.Pawn)
+            if (p.Value.Type != PieceType.Pawn)
             {
                 return false;
             }
             
             //Check
-            if (p.Color == Color.White)
+            if (p.Value.Color == Color.White)
             {
                 if (FromPosition.Rank() == 7 && ToPosition.Rank() == 8)
                 {
@@ -46,22 +46,22 @@ namespace TimHanewich.Chess
     
         public string ToAlgebraicNotation(BoardPosition position, PieceType promote_pawn_to = PieceType.Queen)
         {
-            Piece MovingPiece = position.FindOccupyingPiece(FromPosition);
-            if (MovingPiece == null)
+            Piece? MovingPiece = position.FindOccupyingPiece(FromPosition);
+            if (MovingPiece.HasValue == false)
             {
                 throw new Exception("Move Unable to convert move " + FromPosition.ToString() + " to " + ToPosition.ToString() + " to algebraic notation. Piece not found on from position square.");
             }
 
             //Get the beginning piece notation
-            string PieceNotation = GetPieceNotation(MovingPiece.Type);
+            string PieceNotation = GetPieceNotation(MovingPiece.Value.Type);
             
 
             //Is this a take? Is it a capture of an enemy piece?
             string CaptureNotation = "";
-            Piece CapturingPiece = position.FindOccupyingPiece(ToPosition);
-            if (CapturingPiece != null)
+            Piece? CapturingPiece = position.FindOccupyingPiece(ToPosition);
+            if (CapturingPiece.HasValue)
             {
-                if (CapturingPiece.Color != MovingPiece.Color)
+                if (CapturingPiece.Value.Color != MovingPiece.Value.Color)
                 {
                     CaptureNotation = "x";
                 }
@@ -74,9 +74,9 @@ namespace TimHanewich.Chess
             {
                 if (p.Position != FromPosition)
                 {
-                    if (p.Color == MovingPiece.Color)
+                    if (p.Color == MovingPiece.Value.Color)
                     {
-                        if (p.Type == MovingPiece.Type)
+                        if (p.Type == MovingPiece.Value.Type)
                         { 
                             //Can this piece also move to the destination?
                             bool ThisPieceCanMoveThereToo = false;
@@ -92,13 +92,13 @@ namespace TimHanewich.Chess
                             if (ThisPieceCanMoveThereToo)
                             {
                                 //What is the difference? Is it rank or is it file?
-                                if (p.Position.Rank() == MovingPiece.Position.Rank())
+                                if (p.Position.Rank() == MovingPiece.Value.Position.Rank())
                                 {
-                                    DisambiguatingNotation = MovingPiece.Position.File().ToString().ToLower();
+                                    DisambiguatingNotation = MovingPiece.Value.Position.File().ToString().ToLower();
                                 }
-                                else if (p.Position.File() == MovingPiece.Position.File())
+                                else if (p.Position.File() == MovingPiece.Value.Position.File())
                                 {
-                                    DisambiguatingNotation = MovingPiece.Position.Rank().ToString();
+                                    DisambiguatingNotation = MovingPiece.Value.Position.Rank().ToString();
                                 }
                             }   
                         }

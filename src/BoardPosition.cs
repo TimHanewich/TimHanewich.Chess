@@ -184,8 +184,8 @@ namespace TimHanewich.Chess
                 CurrentRank = pos.Rank();
 
                 //Add to the buffer or add the piece itself.
-                Piece p = FindOccupyingPiece(pos);
-                if (p == null)
+                Piece? p = FindOccupyingPiece(pos);
+                if (p.HasValue == false)
                 {
                     BlankBuffer = BlankBuffer + 1;
                 }
@@ -200,33 +200,33 @@ namespace TimHanewich.Chess
 
                     //To add
                     string ToAdd = "";
-                    if (p.Type == PieceType.Pawn)
+                    if (p.Value.Type == PieceType.Pawn)
                     {
                         ToAdd = "P";
                     }
-                    else if (p.Type == PieceType.Knight)
+                    else if (p.Value.Type == PieceType.Knight)
                     {
                         ToAdd = "N";
                     }
-                    else if (p.Type == PieceType.Bishop)
+                    else if (p.Value.Type == PieceType.Bishop)
                     {
                         ToAdd = "B";
                     }
-                    else if (p.Type == PieceType.Queen)
+                    else if (p.Value.Type == PieceType.Queen)
                     {
                         ToAdd = "Q";
                     }
-                    else if (p.Type == PieceType.King)
+                    else if (p.Value.Type == PieceType.King)
                     {
                         ToAdd = "K";
                     }
-                    else if (p.Type == PieceType.Rook)
+                    else if (p.Value.Type == PieceType.Rook)
                     {
                         ToAdd = "R";
                     }
 
                     //Convert to black?
-                    if (p.Color == Color.Black)
+                    if (p.Value.Color == Color.Black)
                     {
                         ToAdd = ToAdd.ToLower();
                     }
@@ -257,7 +257,7 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
 
-        public Piece FindOccupyingPiece(Position pos)
+        public Piece? FindOccupyingPiece(Position pos)
         {
             foreach (Piece p in _Pieces)
             {
@@ -349,26 +349,26 @@ namespace TimHanewich.Chess
         public void ExecuteMove(Move m, PieceType promote_pawn_to = PieceType.Queen)
         {
             //Get piece to move
-            Piece PieceToMove = FindOccupyingPiece(m.FromPosition);
-            if (PieceToMove == null)
+            Piece? PieceToMove = FindOccupyingPiece(m.FromPosition);
+            if (PieceToMove.HasValue == false)
             {
                 throw new Exception("Move " + m.FromPosition.ToString() + " to " + m.ToPosition.ToString() + " is invalid. No piece was occupying " + m.FromPosition.ToString());
             }
 
             //First, If this is a pawn move, check if there is a pawn promotion
             bool IsPawnPromo = false;
-            if (PieceToMove.Type == PieceType.Pawn)
+            if (PieceToMove.Value.Type == PieceType.Pawn)
             {
                 IsPawnPromo = m.IsPawnPromotion(this);
             }
 
             //Move & Capture if necessary
-            Piece Occ = FindOccupyingPiece(m.ToPosition);
-            if (Occ != null)
+            Piece? Occ = FindOccupyingPiece(m.ToPosition);
+            if (Occ.HasValue == false)
             {
-                RemovePiece(Occ); //it was a capture
+                RemovePiece(Occ.Value); //it was a capture
             }
-            PieceToMove.Position = m.ToPosition;
+            PieceToMove.Value.SetPosition(m.ToPosition); //Make the move
 
             //Is this was a pawn move, now promote the pawn
             if (IsPawnPromo)
@@ -385,12 +385,12 @@ namespace TimHanewich.Chess
                 }
                 
                 //Do the promotion
-                PieceToMove.Type = promote_pawn_to;
+                PieceToMove.Value.SetPieceType(promote_pawn_to);
             }
 
 
             //Flip ToMove
-            if (PieceToMove.Color == Color.White)
+            if (PieceToMove.Value.Color == Color.White)
             {
                 ToMove = Color.Black;
             }
