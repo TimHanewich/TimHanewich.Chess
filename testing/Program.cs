@@ -12,7 +12,7 @@ namespace testing
         static void Main(string[] args)
         {
 
-            PlayEngine();
+            TimeEvaluationTest();
             
         }
 
