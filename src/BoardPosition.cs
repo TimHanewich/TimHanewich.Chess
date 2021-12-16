@@ -556,6 +556,19 @@ namespace TimHanewich.Chess
                 return MaterialDisparity();
             }
 
+
+            //First try to retrieve from the TranspositionTable
+            EvaluationPackage RetrievedEP = tt.Find(this.BoardRepresentation());
+            if (RetrievedEP != null) //If we have it
+            {
+                if (RetrievedEP.Depth >= depth) //If the depth of what we have is equal to or deeper than what is being asked for right now
+                {
+                    return RetrievedEP.Evaluation;
+                }
+            }
+
+            //Get to return
+            float ToReturn = float.NaN;
             if (ToMove == Color.White)
             {
                 float MaxEvaluationSeen = float.MinValue;
@@ -569,7 +582,7 @@ namespace TimHanewich.Chess
                         break;
                     }
                 }
-                return MaxEvaluationSeen;
+                ToReturn = MaxEvaluationSeen;
             }
             else //Black
             {
@@ -584,8 +597,17 @@ namespace TimHanewich.Chess
                         break;
                     }
                 }
-                return MinEvaluationSeen;
+                ToReturn = MinEvaluationSeen;
             }
+
+            //Save this position and evaluation to the TranspositionTable
+            EvaluationPackage ep = new EvaluationPackage();
+            ep.Depth = depth;
+            ep.Evaluation = ToReturn;
+            tt.Add(this.BoardRepresentation(), ep);
+
+            //Return it!
+            return ToReturn;
         }
 
         #endregion
