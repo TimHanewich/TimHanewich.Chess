@@ -586,10 +586,11 @@ namespace TimHanewich.Chess
 
         #region "Board representation generation"
 
+        //Returns a 65-integer array. The first 64 int's are piece codes, arranged by position (A1, A2, etc). The last byte indicates the next to move. White = 0, Black = 1.
         public int[] BoardRepresentation()
         {
             //Create and prepare what to return
-            int[] ToReturn = new int[64];
+            int[] ToReturn = new int[65];
             for (int t = 0; t < ToReturn.Length; t++) //Set all 0 by default (nothing)
             {
                 ToReturn[t] = 0;
@@ -599,6 +600,16 @@ namespace TimHanewich.Chess
             foreach (Piece p in _Pieces)
             {
                 ToReturn[Convert.ToInt32(p.Position)] = p.ToCode();
+            }
+
+            //To move code
+            if (ToMove == Color.White)
+            {
+                ToReturn[64] = 0;
+            }
+            else
+            {
+                ToReturn[64] = 1;
             }
 
             return ToReturn;
