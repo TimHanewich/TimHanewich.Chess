@@ -584,6 +584,29 @@ namespace TimHanewich.Chess
 
         #endregion
 
+        #region "Board representation generation"
+
+        public int[] BoardRepresentation()
+        {
+            //Create and prepare what to return
+            int[] ToReturn = new int[64];
+            for (int t = 0; t < ToReturn.Length; t++) //Set all 0 by default (nothing)
+            {
+                ToReturn[t] = 0;
+            }
+
+            //Populate for each piece
+            foreach (Piece p in _Pieces)
+            {
+                
+            }
+        }
+
+        #endregion
+
+
+
+
 
         /// TOOLKIT BELOW
         
