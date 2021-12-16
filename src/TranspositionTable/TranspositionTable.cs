@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TimHanewich.Chess
 {
@@ -11,6 +12,20 @@ namespace TimHanewich.Chess
         public TranspositionTable()
         {
             dict = new Dictionary<int[], EvaluationPackage>(new IntArrayComparer());
+        }
+
+        public KeyValuePair<int[], EvaluationPackage>[] Values
+        {
+            get
+            {
+                
+                List<KeyValuePair<int[], EvaluationPackage>> ToReturn = new List<KeyValuePair<int[], EvaluationPackage>>();
+                foreach (KeyValuePair<int[], EvaluationPackage> kvp in dict)
+                {
+                    ToReturn.Add(kvp);
+                }
+                return ToReturn.ToArray();
+            }
         }
 
         public void Add(int[] position, EvaluationPackage ep)
