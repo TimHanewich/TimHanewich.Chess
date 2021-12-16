@@ -102,7 +102,6 @@ namespace TimHanewich.Chess
             return ToReturn.ToArray();
         }
 
-
         private void UpdateStatus(string s)
         {
             try

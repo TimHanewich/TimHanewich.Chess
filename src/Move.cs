@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TimHanewich.Chess
 {
@@ -44,6 +45,9 @@ namespace TimHanewich.Chess
             }
         }
     
+
+        #region "Move sorting"
+
         public bool IsCapture(BoardPosition position)
         {
             Piece PieceToCapture = position.FindOccupyingPiece(ToPosition);
@@ -70,6 +74,58 @@ namespace TimHanewich.Chess
             Piece Capturing = position.FindOccupyingPiece(FromPosition);
             return Captured.Value - Captured.Value;
         }
+
+        public static Move[] OrderMovesForEvaluation(BoardPosition position, Move[] moves)
+        {
+
+            //Assess the capture value for each move
+            List<KeyValuePair<Move, float?>> kvps = new List<KeyValuePair<Move, float?>>();
+            foreach (Move m in moves)
+            {
+                float? ThisMoveCaptureValue = m.CaptureValue(position);
+                kvps.Add(new KeyValuePair<Move, float?>(m, ThisMoveCaptureValue));
+            }
+
+            //Separate those that have values and those that do not
+            List<KeyValuePair<Move, float?>> HaveValues = new List<KeyValuePair<Move, float?>>();
+            List<Move> DoNotHaveValues = new List<Move>();
+            foreach (KeyValuePair<Move, float?> kvp in kvps)
+            {
+                if (kvp.Value.HasValue)
+                {
+                    HaveValues.Add(kvp);
+                }
+                else
+                {
+                    DoNotHaveValues.Add(kvp.Key);
+                }
+            }
+    
+            //Sort the best by their value
+            List<Move> ToReturn = new List<Move>();
+            while (HaveValues.Count > 0)
+            {
+                KeyValuePair<Move, float?> winner = HaveValues[0];
+                foreach (KeyValuePair<Move, float?> kvp in HaveValues)
+                {
+                    if (kvp.Value.Value > winner.Value.Value)
+                    {
+                        winner = kvp;
+                    }
+                }
+                ToReturn.Add(winner.Key);
+                HaveValues.Remove(winner);
+            }
+
+            //Add the rest that do not have values
+            ToReturn.AddRange(DoNotHaveValues.ToArray());
+
+            return ToReturn.ToArray();
+
+        }
+
+
+        #endregion
 
         #region "Algebraic notation"
 
