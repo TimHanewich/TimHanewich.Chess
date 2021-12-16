@@ -598,8 +598,10 @@ namespace TimHanewich.Chess
             //Populate for each piece
             foreach (Piece p in _Pieces)
             {
-                
+                ToReturn[Convert.ToInt32(p.Position)] = p.ToCode();
             }
+
+            return ToReturn;
         }
 
         #endregion
