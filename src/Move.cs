@@ -57,6 +57,20 @@ namespace TimHanewich.Chess
             }
         }
 
+        //Returns the difference in capture material.
+        //For example, capturing a queen with a pawn is 10 - 1 = 9. Capturing a Rook with a bishop is 5 - 3 = 2
+        //If this is NOT a capture, null is returned.
+        public float? CaptureValue(BoardPosition position)
+        {
+            Piece Captured = position.FindOccupyingPiece(ToPosition);
+            if (Captured == null) //If we are not capturing anything, return null
+            {
+                return null;
+            }
+            Piece Capturing = position.FindOccupyingPiece(FromPosition);
+            return Captured.Value - Captured.Value;
+        }
+
         #region "Algebraic notation"
 
         public string ToAlgebraicNotation(BoardPosition position, PieceType promote_pawn_to = PieceType.Queen)
