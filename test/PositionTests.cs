@@ -4,7 +4,7 @@ using TimHanewich.Chess;
 
 namespace test
 {
-    public class UnitTest1
+    public class PositionTest
     {
         [Theory]
         [InlineData(Position.A1, Position.A2)]
