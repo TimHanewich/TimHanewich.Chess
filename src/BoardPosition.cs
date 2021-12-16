@@ -301,10 +301,15 @@ namespace TimHanewich.Chess
 
         public Move[] AvailableMoves()
         {
-            return AvailableMoves(ToMove, true);
+            return AvailableMoves(ToMove, true, false);
         }
 
-        public Move[] AvailableMoves(Color by_color, bool CheckLegality)
+        public Move[] AvailableMoves(bool order_moves)
+        {
+            return AvailableMoves(ToMove, true, true);
+        }
+
+        public Move[] AvailableMoves(Color by_color, bool CheckLegality, bool order_moves)
         {
             List<Move> ToReturn = new List<Move>();
 
@@ -323,7 +328,15 @@ namespace TimHanewich.Chess
                 }
             }
 
-            return ToReturn.ToArray();
+            //Order them if asked to
+            if (order_moves)
+            {
+                return Move.OrderMovesForEvaluation(this, ToReturn.ToArray());
+            }
+            else
+            {
+                return ToReturn.ToArray();
+            }
         }
 
         public BoardPosition Copy()
@@ -402,7 +415,7 @@ namespace TimHanewich.Chess
         
         public BoardPosition[] AvailableMovePositions()
         {
-            Move[] moves = AvailableMoves();
+            Move[] moves = AvailableMoves(true);
             List<BoardPosition> ToReturn = new List<BoardPosition>();
             foreach (Move m in moves)
             {
@@ -466,11 +479,11 @@ namespace TimHanewich.Chess
                         Move[] PotentialMovesByOpponent = null;
                         if (ToMove == Color.White)
                         {
-                            PotentialMovesByOpponent = AvailableMoves(Color.Black, false);
+                            PotentialMovesByOpponent = AvailableMoves(Color.Black, false, false);
                         }
                         else
                         {
-                            PotentialMovesByOpponent = AvailableMoves(Color.White, false);
+                            PotentialMovesByOpponent = AvailableMoves(Color.White, false, false);
                         }
 
                         //If any of the moves of the opponent are to my kinds position, I am in check
