@@ -44,6 +44,21 @@ namespace TimHanewich.Chess
             }
         }
     
+        public bool IsCapture(BoardPosition position)
+        {
+            Piece PieceToCapture = position.FindOccupyingPiece(ToPosition);
+            if (PieceToCapture != null) //There is a piece on the ToPosition. So therefore, it is a capture. Do not need to test the color because you wouldn't be able to move to a square where one of your pieces is anyway.
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        #region "Algebraic notation"
+
         public string ToAlgebraicNotation(BoardPosition position, PieceType promote_pawn_to = PieceType.Queen)
         {
             Piece MovingPiece = position.FindOccupyingPiece(FromPosition);
@@ -251,5 +266,7 @@ namespace TimHanewich.Chess
             }
             return ToReturn;
         }
+    
+        #endregion
     }
 }
