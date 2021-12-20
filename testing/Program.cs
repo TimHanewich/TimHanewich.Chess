@@ -11,9 +11,10 @@ namespace testing
     {
         static void Main(string[] args)
         {
+            
+            
+            PlayEngine();
 
-            TimeEvaluationTest();
-            Console.ReadLine();
             
         }
 
@@ -38,7 +39,7 @@ namespace testing
             HanewichTimer ht = new HanewichTimer();
             Console.Write("Evaluating... ");
             ht.StartTimer();
-            float eval = bp.Evaluate(3);
+            float eval = bp.Evaluate(7);
             ht.StopTimer();
             Console.WriteLine(" eval " + eval.ToString() + " in " + ht.GetElapsedTime().TotalSeconds.ToString() + " seconds");
         }
@@ -55,6 +56,9 @@ namespace testing
             ee.EvaluationStatusUpdated += PrintStatus;
             //ee.EvaluationProgressUpdated += PrintPercentComplete;
             ee.EvaluationEstimatedTimeRemainingUpdated += PrintTimeRemaining;
+
+            //Create a history of moves in positions
+            MoveDecisionHistory mdh = new MoveDecisionHistory();
             
             while (true)
             {
@@ -65,9 +69,44 @@ namespace testing
                 {
                     Console.WriteLine("I have no moves to play! I resign.");
                 }
-                string AsNotation = moves[0].Move.ToAlgebraicNotation(PlayBoard);
-                PlayBoard.ExecuteMove(moves[0].Move); //Execute move
-                Console.WriteLine("I play " + AsNotation + " (" + moves[0].Move.FromPosition.ToString() + " --> " + moves[0].Move.ToPosition.ToString() + ")");
+
+                //Print all potential moves
+                foreach (MoveAssessment ma in moves)
+                {
+                    Console.WriteLine(ma.Move.ToAlgebraicNotation(PlayBoard) + " = " + ma.ResultingEvaluation.ToString());
+                }
+
+                //Select the move to make
+                Move ToMake = null;
+                Move MoveMadePreviouslyInThisPosition = mdh.Find(PlayBoard.BoardRepresentation());
+                if (MoveMadePreviouslyInThisPosition == null)
+                {
+                    ToMake = moves[0].Move;
+                }
+                else //We have been in this move previously in this exact position. Try to find a different move
+                {
+                    foreach (MoveAssessment ma in moves)
+                    {
+                        if (ma.Move.ToPosition != MoveMadePreviouslyInThisPosition.ToPosition) //This isn't the move we made last time
+                        {
+                            ToMake = ma.Move;
+                            break;
+                        }
+                    }
+                }
+                if (ToMake == null)
+                {
+                    ToMake = moves[0].Move;
+                }
+
+                //Record the move we are going to make (have selected)
+                mdh.Add(PlayBoard.BoardRepresentation(), ToMake);
+
+                //Print and make the best move to make
+                string AsNotation = ToMake.ToAlgebraicNotation(PlayBoard);
+                PlayBoard.ExecuteMove(ToMake); //Execute move
+                mdh.Add(PlayBoard.BoardRepresentation(), ToMake);
+                Console.WriteLine("I play " + AsNotation + " (" + ToMake.FromPosition.ToString() + " --> " + ToMake.ToPosition.ToString() + ")");
 
                 //Make their move
                 Console.WriteLine();
