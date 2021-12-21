@@ -473,6 +473,8 @@ namespace TimHanewich.Chess
                     {
                         throw new Exception("Unable to execute castling move: " + ex.Message);
                     }
+                    WhiteKingSideCastlingAvailable = false;
+                    WhiteQueenSideCastlingAvailable = false;
                 }
                 else if (m.Castling.Value == CastlingType.QueenSide && ToMove == Color.White)
                 {
@@ -485,6 +487,8 @@ namespace TimHanewich.Chess
                     {
                         throw new Exception("Unable to execute castling move: " + ex.Message);
                     }
+                    WhiteKingSideCastlingAvailable = false;
+                    WhiteQueenSideCastlingAvailable = false;
                 }
                 else if (m.Castling.Value == CastlingType.KingSide && ToMove == Color.Black)
                 {
@@ -497,6 +501,8 @@ namespace TimHanewich.Chess
                     {
                         throw new Exception("Unable to execute castling move: " + ex.Message);
                     }
+                    BlackKingSideCastlingAvailable = false;
+                    BlackQueenSideCastlingAvailable = false;
                 }
                 else if (m.Castling.Value == CastlingType.QueenSide && ToMove == Color.Black)
                 {
@@ -509,6 +515,8 @@ namespace TimHanewich.Chess
                     {
                         throw new Exception("Unable to execute castling move: " + ex.Message);
                     }
+                    BlackKingSideCastlingAvailable = false;
+                    BlackQueenSideCastlingAvailable = false;
                 }
 
                 //Flip to-move
