@@ -422,6 +422,7 @@ namespace TimHanewich.Chess
                 {
                     ToMove = Color.White;
                 }
+                return;
             }
 
             //Get piece to move
