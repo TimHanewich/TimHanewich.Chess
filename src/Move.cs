@@ -351,6 +351,25 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
     
+        public override string ToString()
+        {
+            if (Castling.HasValue)
+            {
+                if (Castling.Value == CastlingType.KingSide)
+                {
+                    return "O-O";
+                }
+                else
+                {
+                    return "O-O-O";
+                }
+            }
+            else
+            {
+                return FromPosition.ToString() + " --> " + ToPosition.ToString();
+            }
+        }
+
         #endregion
     }
 }
