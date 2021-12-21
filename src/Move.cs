@@ -132,6 +132,19 @@ namespace TimHanewich.Chess
 
         public string ToAlgebraicNotation(BoardPosition position, PieceType promote_pawn_to = PieceType.Queen)
         {
+            //Castling?
+            if (Castling.HasValue)
+            {
+                if (Castling.Value == CastlingType.KingSide)
+                {
+                    return "O-O";
+                }
+                else if (Castling.Value == CastlingType.QueenSide)
+                {
+                    return "O-O-O";
+                }
+            }
+
             Piece MovingPiece = position.FindOccupyingPiece(FromPosition);
             if (MovingPiece == null)
             {
