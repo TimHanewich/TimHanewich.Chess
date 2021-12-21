@@ -287,6 +287,32 @@ namespace TimHanewich.Chess
                 ToReturn = ToReturn + " b";
             }
 
+            //Add castling availability
+            if (WhiteKingSideCastlingAvailable == false && WhiteQueenSideCastlingAvailable == false && BlackKingSideCastlingAvailable == false && BlackQueenSideCastlingAvailable == false)
+            {
+                ToReturn = ToReturn + " -";
+            }
+            else
+            {
+                ToReturn = ToReturn + " ";
+                if (WhiteKingSideCastlingAvailable)
+                {
+                    ToReturn = ToReturn + "K";
+                }
+                if (WhiteQueenSideCastlingAvailable)
+                {
+                    ToReturn = ToReturn + "Q";
+                }
+                if (BlackKingSideCastlingAvailable)
+                {
+                    ToReturn = ToReturn + "k";
+                }
+                if (BlackQueenSideCastlingAvailable)
+                {
+                    ToReturn = ToReturn + "q";
+                }
+            }
+
             return ToReturn;
         }
 
