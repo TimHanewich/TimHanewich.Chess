@@ -361,6 +361,69 @@ namespace TimHanewich.Chess
 
         public void ExecuteMove(Move m, PieceType promote_pawn_to = PieceType.Queen)
         {
+            //Is it castling? If so, take care of it separately
+            if (m.Castling.HasValue)
+            {
+                if (m.Castling.Value == CastlingType.KingSide && ToMove == Color.White)
+                {
+                    try
+                    {
+                        FindOccupyingPiece(Position.E1).Position = Position.G1; //Move the king
+                        FindOccupyingPiece(Position.H1).Position = Position.F1;; //move the king-side rook
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Unable to execute castling move: " + ex.Message);
+                    }
+                }
+                else if (m.Castling.Value == CastlingType.QueenSide && ToMove == Color.White)
+                {
+                    try
+                    {
+                        FindOccupyingPiece(Position.E1).Position = Position.C1; //Move the king
+                        FindOccupyingPiece(Position.A1).Position = Position.D1;; //Move the queen-side rook
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Unable to execute castling move: " + ex.Message);
+                    }
+                }
+                else if (m.Castling.Value == CastlingType.KingSide && ToMove == Color.Black)
+                {
+                    try
+                    {
+                        FindOccupyingPiece(Position.E8).Position = Position.G8; //Move the king
+                        FindOccupyingPiece(Position.H8).Position = Position.F8;; //Move the king-side rook
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Unable to execute castling move: " + ex.Message);
+                    }
+                }
+                else if (m.Castling.Value == CastlingType.QueenSide && ToMove == Color.Black)
+                {
+                    try
+                    {
+                        FindOccupyingPiece(Position.E8).Position = Position.C8; //Move the king
+                        FindOccupyingPiece(Position.A8).Position = Position.D8;; //Move the queen-side rook
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Unable to execute castling move: " + ex.Message);
+                    }
+                }
+
+                //Flip to-move
+                if (ToMove == Color.White)
+                {
+                    ToMove = Color.Black;
+                }
+                else if (ToMove == Color.Black)
+                {
+                    ToMove = Color.White;
+                }
+            }
+
             //Get piece to move
             Piece PieceToMove = FindOccupyingPiece(m.FromPosition);
             if (PieceToMove == null)
