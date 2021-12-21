@@ -316,6 +316,11 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
 
+        public override string ToString()
+        {
+            return ToFEN();
+        }
+
         public Piece FindOccupyingPiece(Position pos)
         {
             foreach (Piece p in _Pieces)
