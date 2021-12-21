@@ -7,6 +7,7 @@ namespace TimHanewich.Chess
     {
         public Position FromPosition {get; set;}
         public Position ToPosition {get; set;}
+        public CastlingType? Castling {get; set;}
 
         public bool IsPawnPromotion(BoardPosition position)
         {
