@@ -6,6 +6,10 @@ namespace TimHanewich.Chess
     public class BoardPosition
     {
         public Color ToMove {get; set;}
+        public bool WhiteKingSideCastlingAvailable {get; set;}
+        public bool WhiteQueenSideCastlingAvailable {get; set;}
+        public bool BlackKingSideCastlingAvailable {get; set;}
+        public bool BlackQueenSideCastlingAvailable {get; set;}
         private List<Piece> _Pieces;
 
         public BoardPosition()
@@ -149,6 +153,35 @@ namespace TimHanewich.Chess
             else
             {
                 throw new Exception("Active color '" + ToMoveStr + "' not recognized in FEN.");
+            }
+        
+            //Split up the pieces by space
+            string[] FenComponents = FEN.Split(new String[] {" "}, StringSplitOptions.None);
+
+            //Get castling availability
+            WhiteKingSideCastlingAvailable = false;
+            WhiteQueenSideCastlingAvailable = false;
+            BlackKingSideCastlingAvailable = false;
+            BlackQueenSideCastlingAvailable = false;
+            if (FenComponents.Length >= 3)
+            {
+                string CastlingComponent = FenComponents[2];
+                if (CastlingComponent.Contains("K"))
+                {
+                    WhiteKingSideCastlingAvailable = true;
+                }
+                if (CastlingComponent.Contains("Q"))
+                {
+                    WhiteQueenSideCastlingAvailable = true;
+                }
+                if (CastlingComponent.Contains("k"))
+                {
+                    BlackKingSideCastlingAvailable = true;
+                }
+                if (CastlingComponent.Contains("q"))
+                {
+                    BlackQueenSideCastlingAvailable = true;
+                }
             }
         }
 
