@@ -372,6 +372,7 @@ namespace TimHanewich.Chess
         {
             List<Move> ToReturn = new List<Move>();
 
+            //Get possible moves for each piece
             foreach (Piece p in _Pieces)
             {
                 if (p.Color == by_color)
@@ -384,6 +385,38 @@ namespace TimHanewich.Chess
                         m.ToPosition = PotMove;
                         ToReturn.Add(m);
                     }
+                }
+            }
+
+            //Castling potentially?
+            if (by_color == Color.White)
+            {
+                if (WhiteKingSideCastlingAvailable)
+                {
+                    Move m = new Move();
+                    m.Castling = CastlingType.KingSide;
+                    ToReturn.Add(m);
+                }
+                if (WhiteQueenSideCastlingAvailable)
+                {
+                    Move m = new Move();
+                    m.Castling = CastlingType.QueenSide;
+                    ToReturn.Add(m);
+                }
+            }
+            else if (by_color == Color.Black)
+            {
+                if (BlackKingSideCastlingAvailable)
+                {
+                    Move m = new Move();
+                    m.Castling = CastlingType.KingSide;
+                    ToReturn.Add(m);
+                }
+                if (BlackQueenSideCastlingAvailable)
+                {
+                    Move m = new Move();
+                    m.Castling = CastlingType.QueenSide;
+                    ToReturn.Add(m);
                 }
             }
 
