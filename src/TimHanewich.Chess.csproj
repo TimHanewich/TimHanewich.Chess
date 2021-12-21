@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Authors>Tim Hanewich</Authors>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <Description>Various resources for parsing PGN, evaluating positions, parsing and printing FEN, and more.</Description>
     <PackageIcon>pawn.png</PackageIcon>
     <AssemblyVersion>0.0.0.0</AssemblyVersion>
