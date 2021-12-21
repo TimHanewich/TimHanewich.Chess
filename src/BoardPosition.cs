@@ -379,6 +379,12 @@ namespace TimHanewich.Chess
             //Copy ToMove
             ToReturn.ToMove = ToMove;
 
+            //Copy castling availability
+            ToReturn.WhiteKingSideCastlingAvailable = WhiteKingSideCastlingAvailable;
+            ToReturn.WhiteQueenSideCastlingAvailable = WhiteQueenSideCastlingAvailable;
+            ToReturn.BlackKingSideCastlingAvailable = BlackKingSideCastlingAvailable;
+            ToReturn.BlackQueenSideCastlingAvailable = BlackQueenSideCastlingAvailable;
+
             //Copy each piece
             foreach (Piece p in _Pieces)
             {
