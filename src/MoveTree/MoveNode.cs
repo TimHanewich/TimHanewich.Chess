@@ -6,8 +6,19 @@ namespace TimHanewich.Chess.MoveTree
     public class MoveNode
     {
         public string Move {get; set;}
-        public uint Occurances {get; set;}
         public MoveNode[] ChildNodes {get; set;}
+
+        //Occurences
+        public uint ResultedInWhiteVictory {get; set;}
+        public uint ResultedInDraw {get; set;}
+        public uint ResultedInBlackVictory {get; set;}
+        public uint Occurences
+        {
+            get
+            {
+                return ResultedInWhiteVictory + ResultedInDraw + ResultedInBlackVictory;
+            }
+        }
 
         #region "Constructors"
 
@@ -70,7 +81,7 @@ namespace TimHanewich.Chess.MoveTree
                 }
                 else
                 {
-                    if (node.Occurances > ToReturn.Occurances)
+                    if (node.Occurences > ToReturn.Occurences)
                     {
                         ToReturn = node;
                     }

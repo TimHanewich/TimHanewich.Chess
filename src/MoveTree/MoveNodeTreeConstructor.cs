@@ -61,13 +61,35 @@ namespace TimHanewich.Chess.MoveTree
                         {
                             MoveNode ThisNewMove = new MoveNode();
                             ThisNewMove.Move = move;
-                            ThisNewMove.Occurances = 1;
+                            if (pgn.IsWhiteVictory)
+                            {
+                                ThisNewMove.ResultedInWhiteVictory = 1;
+                            }
+                            else if (pgn.IsDraw)
+                            {
+                                ThisNewMove.ResultedInDraw = 1;
+                            }
+                            else if (pgn.IsBlackVictory)
+                            {
+                                ThisNewMove.ResultedInBlackVictory = 1;
+                            }
                             OnNode.AddChildNode(ThisNewMove);
                             OnNode = ThisNewMove;
                         }
                         else //We have seen this move before. So increment the # of times we have seen it, and then set this as the node we are on now
                         {
-                            MoveThatWasMade.Occurances = MoveThatWasMade.Occurances + 1;
+                            if (pgn.IsWhiteVictory)
+                            {
+                                MoveThatWasMade.ResultedInWhiteVictory = MoveThatWasMade.ResultedInWhiteVictory + 1;
+                            }
+                            else if (pgn.IsDraw)
+                            {
+                                MoveThatWasMade.ResultedInDraw = MoveThatWasMade.ResultedInDraw + 1;
+                            }
+                            else if (pgn.IsBlackVictory)
+                            {
+                                MoveThatWasMade.ResultedInBlackVictory = MoveThatWasMade.ResultedInBlackVictory + 1;
+                            }
                             OnNode = MoveThatWasMade;
                         }
 
