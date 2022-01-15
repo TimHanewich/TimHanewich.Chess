@@ -16,6 +16,11 @@ namespace TimHanewich.Chess.PGN
 
         public string NextGame()
         {
+            if (Buff == null)
+            {
+                return null;
+            }
+
             string NextGame = "";
             NextGame = Buff + Environment.NewLine;
             bool KillNow = false;
@@ -25,7 +30,8 @@ namespace TimHanewich.Chess.PGN
 
                 if (next_line == null)
                 {
-                    return null;
+                    Buff = null;
+                    return NextGame;
                 }
 
                 if (next_line.Contains("[Event "))
