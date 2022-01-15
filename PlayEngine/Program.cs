@@ -2,6 +2,8 @@
 using TimHanewich.Chess;
 using TimHanewich.Chess.MoveTree;
 using TimHanewich.Chess.PGN;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace PlayEngine
 {
@@ -9,19 +11,191 @@ namespace PlayEngine
     {
         static void Main(string[] args)
         {
-            
+            FullGameEngine();
         }
 
         public static void FullGameEngine()
         {
             //////////// SETTINGS //////////
-            int EvalDepth = 6;
             int FollowOpeningBookForMoves = 8;
+            int EvalDepth = 6;
+
+            string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree.json"; //Path to the JSON-serialized MoveNodeTree object to use for the opening.
             ////////////////////////////////
 
+            //Open the move node
+            Console.Write("Opening move node tree serialized file...");
+            string mvtcontent = System.IO.File.ReadAllText(MoveNodeTreePath);
+            Console.WriteLine("Opened");
+            Console.Write("Deserializing move node tree... ");
+            JsonSerializerSettings jsonsettings = new JsonSerializerSettings();
+            jsonsettings.MaxDepth = 256;
+            MoveNodeTree tree = JsonConvert.DeserializeObject<MoveNodeTree>(mvtcontent, jsonsettings);
+            Console.WriteLine("Deserialized!");
+
+            //What color should the bot play?
+            bool PlayingWhite = false;
+            Console.WriteLine("What color am I playing?");
+            Console.WriteLine("0 = White");
+            Console.WriteLine("1 = Black");
+            Console.Write("> ");
+            string playingstr = Console.ReadLine();
+            if (playingstr == "0")
+            {
+                PlayingWhite = true;
+            }
+            else if (playingstr == "1")
+            {
+                PlayingWhite = false;
+            }
+            else
+            {
+                Console.WriteLine("I did not understand that.");
+                return;
+            }
+        
+
+
+
+            //Start the game
+            BoardPosition GAME = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
             
+            //For tracking of book move play
+            MoveNode PositionInMoveTree = tree.GameStart;
+            int BookMovesPlayedSoFar = 0;
+
+            //If it is my turn?
+            bool IsMyTurn;
+            if (PlayingWhite)
+            {
+                IsMyTurn = true;
+            }
+            else
+            {
+                IsMyTurn = false;
+            }
 
 
+            //Move
+            while (true)
+            {
+                if (IsMyTurn == false)
+                {
+                    Console.WriteLine("What move do you play?");
+                    Console.Write("FROM: ");
+                    string FromSquare = Console.ReadLine();
+                    Console.Write("TO: ");
+                    string ToSquare = Console.ReadLine();
+
+                    //Construct the move
+                    Move m = new Move();
+                    m.FromPosition = PositionToolkit.Parse(FromSquare);
+                    m.ToPosition = PositionToolkit.Parse(ToSquare);
+
+                    //If we are still following this in the move tree, attempt to follow
+                    if (PositionInMoveTree != null)
+                    {
+
+                        //Get the algebraic notation for this move
+                        string ThisMoveAlgebraicNotation = m.ToAlgebraicNotation(GAME);
+
+                        //Look to advance the move node
+                        MoveNode NextNodeToAdvanceTo = PositionInMoveTree.FindChildNode(ThisMoveAlgebraicNotation);
+                        if (NextNodeToAdvanceTo == null)
+                        {
+                            Console.WriteLine("We have reached the end of the move tree.");
+                            PositionInMoveTree = null;
+                        }   
+                        else
+                        {
+                            PositionInMoveTree = NextNodeToAdvanceTo;
+                        }
+                    }
+
+                    
+
+                    //Execute
+                    Console.Write("Executing move on my local board... ");
+                    GAME.ExecuteMove(m);
+                    Console.WriteLine("Move executed.");
+                }
+                else //It is MY TURN!
+                {
+
+                    //Go to calculation?
+                    bool GoToCalculation = false;
+
+                    //Should a book move be played? If we should play a book move and CAN play a book move, play it. And then set go to calculation as NO.
+                    if (BookMovesPlayedSoFar < FollowOpeningBookForMoves && PositionInMoveTree != null) //Play a book move
+                    {
+
+                        //Try to find the most popular
+                        Console.WriteLine("Going to try to play a book move!");
+                        Console.Write("Looking for most popular move in this position... ");
+                        MoveNode MostPopularChildNode = PositionInMoveTree.MostPopularChildNode();
+                        if (MostPopularChildNode != null)
+                        {
+                            Console.WriteLine("I found the move I want to play: " + MostPopularChildNode.Move);
+                            
+                            //Find the move
+                            Move ToPlayMove = null;
+                            Move[] PotentialMoves = GAME.AvailableMoves();
+                            foreach (Move m in PotentialMoves)
+                            {
+                                string ThisMoveAlgNot = m.ToAlgebraicNotation(GAME);
+                                if (ThisMoveAlgNot == MostPopularChildNode.Move)
+                                {
+                                    ToPlayMove = m;
+                                }
+                            }
+
+                            //If we found the move, play it
+                            if (ToPlayMove != null)
+                            {
+                                Console.Write("I play " + MostPopularChildNode.Move + " (" + ToPlayMove.FromPosition.ToString() + " to " + ToPlayMove.ToPosition.ToString());
+                                Console.Write("Executing move... ");
+                                GAME.ExecuteMove(ToPlayMove);
+                                Console.WriteLine("Move executed!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Unable to find a move to execute that matches that move's Algebraic Notation (from the move tree).");
+                                Console.WriteLine("This is probably because the algebraric notation engine is not up to par.");
+                                Console.WriteLine("Will evaluate instead.");
+                                GoToCalculation = true;
+                                PositionInMoveTree = null;
+                            }
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Unable to find most popular move in this position. Maybe no more child nodes exist."); 
+                            Console.WriteLine("Going to calculation!");
+                            GoToCalculation = true;
+                            PositionInMoveTree = null;
+                        }
+                    }
+                    else
+                    {
+                        GoToCalculation = true;
+                    }
+                    
+
+
+                    //Should we calculte? if so, do it
+                    if (GoToCalculation)
+                    {
+                        Console.WriteLine("CALCU");
+                        return;
+                    }
+
+
+                }
+
+
+                //Swap the IsMyTurn
+                IsMyTurn = !IsMyTurn;
+            }
         }
 
         public static void FromPositionEngine()
