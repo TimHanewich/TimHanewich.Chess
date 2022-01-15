@@ -14,21 +14,7 @@ namespace testing
         static void Main(string[] args)
         {
             
-            Stream s = System.IO.File.OpenRead(@"C:\Users\tahan\Downloads\lichess_db_standard_rated_2016-07.pgn");
-            
-            MoveNodeTreeConstructor con = new MoveNodeTreeConstructor(s);
-            con.ContinueConstruction(5000, 15);
-            MoveNode pop = con.ResultingMoveNodeTree.GameStart.MostPopularChildNode();
-            while (true)
-            {
-                Console.WriteLine(pop.Move + " " + pop.ResultedInWhiteVictory.ToString() + " " + pop.ResultedInDraw.ToString() + " " + pop.ResultedInBlackVictory.ToString());
-                pop = pop.MostPopularChildNode();
-                if (pop == null)
-                {
-                    Console.WriteLine("Thats it!");
-                    return;
-                }
-            }
+            ConstructMoveTree();
 
             
         }
@@ -42,6 +28,26 @@ namespace testing
             float eval = bp.Evaluate(7);
             ht.StopTimer();
             Console.WriteLine(" eval " + eval.ToString() + " in " + ht.GetElapsedTime().TotalSeconds.ToString() + " seconds");
+        }
+    
+        public static void ConstructMoveTree()
+        {
+            Stream s = System.IO.File.OpenRead(@"C:\Users\tahan\Downloads\lichess_db_standard_rated_2016-07.pgn");
+            MoveNodeTreeConstructor con = new MoveNodeTreeConstructor(s);
+            con.GamesProcessedUpdated += GamesProcessedUpdateHandler;
+            Console.Write("Constructing... ");
+            con.ContinueConstruction(3000000, 50);
+            Console.WriteLine("Construction complete!");
+            
+            //Save
+            Console.Write("Saving to file... ");
+            System.IO.File.WriteAllText(@"C:\Users\tahan\Downloads\MoveTree.json", JsonConvert.SerializeObject(con.ResultingMoveNodeTree));
+            Console.WriteLine("Saved!");
+        }
+
+        public static void GamesProcessedUpdateHandler(int val)
+        {
+            Console.WriteLine("Games processed: " + val.ToString("#,##0"));
         }
     }
 }
