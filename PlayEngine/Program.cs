@@ -103,7 +103,7 @@ namespace PlayEngine
                         MoveNode NextNodeToAdvanceTo = PositionInMoveTree.FindChildNode(ThisMoveAlgebraicNotation);
                         if (NextNodeToAdvanceTo == null)
                         {
-                            Console.WriteLine("We have reached the end of the move tree.");
+                            Console.WriteLine("The move the opponent played was not in the opening book. We have reached the end of the move tree.");
                             PositionInMoveTree = null;
                         }   
                         else
@@ -154,7 +154,8 @@ namespace PlayEngine
                             {
                                 Console.WriteLine("I play " + MostPopularChildNode.Move + " (" + ToPlayMove.FromPosition.ToString() + " to " + ToPlayMove.ToPosition.ToString() + ")");
                                 Console.Write("Executing move... ");
-                                GAME.ExecuteMove(ToPlayMove);
+                                GAME.ExecuteMove(ToPlayMove); //Play the move on the board
+                                PositionInMoveTree = MostPopularChildNode; //Advance the current position in the move tree.
                                 Console.WriteLine("Move executed!");
                             }
                             else
