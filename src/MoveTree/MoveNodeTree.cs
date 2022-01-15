@@ -11,6 +11,8 @@ namespace TimHanewich.Chess.MoveTree
         {
             GameStart = new MoveNode();
         }
+    
+        
     }
 
 }
