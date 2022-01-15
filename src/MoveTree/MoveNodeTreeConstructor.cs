@@ -10,7 +10,7 @@ namespace TimHanewich.Chess.MoveTree
         private MassivePgnFileSplitter Splitter;
 
         //Progress indicators
-        public int GamesAdded;
+        public int GamesProcessed;
         public event IntHandler GamedAddedUpdated;
 
         //Output
@@ -103,10 +103,10 @@ namespace TimHanewich.Chess.MoveTree
                     }
 
                     //Increment the # of games added progress indicator
-                    GamesAdded = GamesAdded + 1;
+                    GamesProcessed = GamesProcessed + 1;
                     try
                     {
-                        GamedAddedUpdated.Invoke(GamesAdded);
+                        GamedAddedUpdated.Invoke(GamesProcessed);
                     }
                     catch
                     {
