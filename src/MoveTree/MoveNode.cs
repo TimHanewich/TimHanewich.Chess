@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TimHanewich.Chess.MoveTree
 {
@@ -27,6 +28,24 @@ namespace TimHanewich.Chess.MoveTree
         }
 
         #endregion
+
+        public void AddChildNode(MoveNode node)
+        {
+            //First ensure that a child node with this move does not already exist
+            foreach (MoveNode n in ChildNodes)
+            {
+                if (n.Move == node.Move)
+                {
+                    throw new Exception("A node for move '" + node.Move + "' alraedy exists in this parent node.");
+                }
+            }
+
+            //Add it
+            List<MoveNode> NewFullList = new List<MoveNode>();
+            NewFullList.AddRange(ChildNodes);
+            NewFullList.Add(node);
+            ChildNodes = NewFullList.ToArray();
+        }
 
     }
 }
