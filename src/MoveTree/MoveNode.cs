@@ -47,5 +47,17 @@ namespace TimHanewich.Chess.MoveTree
             ChildNodes = NewFullList.ToArray();
         }
 
+        public MoveNode FindChildNode(string move)
+        {
+            foreach (MoveNode node in ChildNodes)
+            {
+                if (node.Move == move)
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
+
     }
 }
