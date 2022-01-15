@@ -6,3 +6,5 @@ testing/bin/
 testing/obj/
 test/obj/
 test/bin/
+PlayEngine/bin/
+PlayEngine/obj/
