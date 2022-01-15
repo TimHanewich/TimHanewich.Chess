@@ -58,6 +58,26 @@ namespace TimHanewich.Chess.MoveTree
             }
             return null;
         }
+    
+        public MoveNode MostPopularChildNode()
+        {
+            MoveNode ToReturn = null;
+            foreach (MoveNode node in ChildNodes)
+            {
+                if (ToReturn == null)
+                {
+                    ToReturn = node;
+                }
+                else
+                {
+                    if (node.Occurances > ToReturn.Occurances)
+                    {
+                        ToReturn = node;
+                    }
+                }
+            }
+            return ToReturn;
+        }
 
     }
 }
