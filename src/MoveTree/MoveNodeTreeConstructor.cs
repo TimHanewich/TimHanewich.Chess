@@ -11,7 +11,7 @@ namespace TimHanewich.Chess.MoveTree
 
         //Progress indicators
         public int GamesProcessed;
-        public event IntHandler GamedAddedUpdated;
+        public event IntHandler GamesProcessedUpdated;
 
         //Output
         public MoveNodeTree ResultingMoveNodeTree {get; set;}
@@ -106,7 +106,7 @@ namespace TimHanewich.Chess.MoveTree
                     GamesProcessed = GamesProcessed + 1;
                     try
                     {
-                        GamedAddedUpdated.Invoke(GamesProcessed);
+                        GamesProcessedUpdated.Invoke(GamesProcessed);
                     }
                     catch
                     {
