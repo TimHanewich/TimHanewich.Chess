@@ -10,7 +10,8 @@ namespace TimHanewich.Chess.MoveTree
         private MassivePgnFileSplitter Splitter;
 
         //Progress indicators
-        public uint GamesAdded;
+        public int GamesAdded;
+        public event IntHandler GamedAddedUpdated;
 
         //Output
         public MoveNodeTree ResultingMoveNodeTree {get; set;}
@@ -103,6 +104,14 @@ namespace TimHanewich.Chess.MoveTree
 
                     //Increment the # of games added progress indicator
                     GamesAdded = GamesAdded + 1;
+                    try
+                    {
+                        GamedAddedUpdated.Invoke(GamesAdded);
+                    }
+                    catch
+                    {
+
+                    }
                 }
                 else //If the game WAS null, it means there are no more game lefts. So kill the process. It is over.
                 {
