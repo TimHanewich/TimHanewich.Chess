@@ -1,4 +1,7 @@
 ﻿using System;
+using TimHanewich.Chess;
+using TimHanewich.Chess.MoveTree;
+using TimHanewich.Chess.PGN;
 
 namespace PlayEngine
 {
@@ -84,5 +87,21 @@ namespace PlayEngine
                 Console.WriteLine();
             }
         }
+
+        public static void PrintStatus(string s)
+        {
+            Console.WriteLine(s);
+        }
+
+        public static void PrintPercentComplete(float f)
+        {
+            Console.WriteLine("New percent complete: " + f.ToString());
+        }
+
+        public static void PrintTimeRemaining(TimeSpan ts)
+        {
+            Console.WriteLine("Time Remaining: " + ts.Seconds.ToString("#,##0.0") + " seconds");
+        }
+
     }
 }

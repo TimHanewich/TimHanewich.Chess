@@ -33,21 +33,6 @@ namespace testing
             
         }
 
-        public static void PrintStatus(string s)
-        {
-            Console.WriteLine(s);
-        }
-
-        public static void PrintPercentComplete(float f)
-        {
-            Console.WriteLine("New percent complete: " + f.ToString());
-        }
-
-        public static void PrintTimeRemaining(TimeSpan ts)
-        {
-            Console.WriteLine("Time Remaining: " + ts.Seconds.ToString("#,##0.0") + " seconds");
-        }
-
         public static void TimeEvaluationTest()
         {
             BoardPosition bp = new BoardPosition("1kb4r/3q4/8/4N3/3R2R1/8/1B2K3/8 b k - 0 1");
