@@ -11,7 +11,7 @@ namespace test
         public void PgnParsingTest()
         {
             string content = System.IO.File.ReadAllText("../../../game1.pgn");
-            PgnParserLite pgn = PgnParserLite.ParsePgn(content);
+            PgnFile pgn = PgnFile.ParsePgn(content);
             Assert.True(true);
         }
     }
