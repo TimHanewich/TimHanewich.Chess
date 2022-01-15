@@ -100,6 +100,9 @@ namespace TimHanewich.Chess.MoveTree
                             break; //break out of the current game. Go to the next game.
                         }
                     }
+
+                    //Increment the # of games added progress indicator
+                    GamesAdded = GamesAdded + 1;
                 }
                 else //If the game WAS null, it means there are no more game lefts. So kill the process. It is over.
                 {
