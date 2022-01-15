@@ -243,6 +243,51 @@ namespace TimHanewich.Chess.PGN
             return ppl;
         }
 
+        public bool IsDraw
+        {
+            get
+            {
+                if (Result == "1/2-1/2")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool IsWhiteVictory
+        {
+            get
+            {
+                if (Result == "1-0")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool IsBlackVictory
+        {
+            get
+            {
+                if (Result == "0-1")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         private string GetProperty(string raw_pgn, string property_name)
         {
             int loc1;
