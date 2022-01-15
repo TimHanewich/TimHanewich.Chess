@@ -160,9 +160,19 @@ namespace TimHanewich.Chess
             Piece CapturingPiece = position.FindOccupyingPiece(ToPosition);
             if (CapturingPiece != null)
             {
-                if (CapturingPiece.Color != MovingPiece.Color)
+                if (MovingPiece.Type == PieceType.Pawn)
                 {
-                    CaptureNotation = "x";
+                    if (CapturingPiece.Color != MovingPiece.Color)
+                    {
+                        CaptureNotation = PositionToolkit.File(MovingPiece.Position).ToString().ToLower() + "x";
+                    }
+                }
+                else
+                {
+                    if (CapturingPiece.Color != MovingPiece.Color)
+                    {
+                        CaptureNotation = "x";
+                    }
                 }
             }
 
