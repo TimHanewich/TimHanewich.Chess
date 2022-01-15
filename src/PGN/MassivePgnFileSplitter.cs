@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace TimHanewich.Chess.PGN
 {
@@ -46,6 +47,25 @@ namespace TimHanewich.Chess.PGN
             } while (KillNow == false);
 
             return NextGame.Trim();
+        }
+    
+        public string[] AllGames()
+        {
+            List<string> ToReturn = new List<string>();
+            bool Continue = true;
+            while (Continue)
+            {
+                string ng = NextGame();
+                if (ng == null)
+                {
+                    Continue = false;
+                }
+                else
+                {
+                    ToReturn.Add(ng);
+                }
+            }
+            return ToReturn.ToArray();
         }
     }
 }
