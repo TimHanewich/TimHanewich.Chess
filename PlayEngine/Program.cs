@@ -9,6 +9,11 @@ namespace PlayEngine
     {
         static void Main(string[] args)
         {
+            
+        }
+
+        public static void FromPositionEngine()
+        {
             Console.Write("Original position? FEN>");
             string BeginningFen = Console.ReadLine();
             BoardPosition PlayBoard = new BoardPosition(BeginningFen);
