@@ -23,6 +23,11 @@ namespace TimHanewich.Chess.PGN
             {
                 string next_line = SR.ReadLine();
 
+                if (next_line == null)
+                {
+                    return null;
+                }
+
                 if (next_line.Contains("[Event "))
                 {
                     KillNow = true;
