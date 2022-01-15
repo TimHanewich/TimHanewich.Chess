@@ -24,7 +24,7 @@ namespace TimHanewich.Chess.MoveTree
 
         #endregion
 
-        public void ContinueConstruction(int number_of_games)
+        public void ContinueConstruction(int number_of_games, int to_depth)
         {
             //If the stream has not been set, throw an error
             if (MassivePgnFileStream == null)
@@ -52,6 +52,7 @@ namespace TimHanewich.Chess.MoveTree
                 {
                     //Parse this PGN
                     PgnFile pgn = PgnFile.ParsePgn(ThisGame);
+                    int DepthExploredInThisGame = 0;
                     MoveNode OnNode = ResultingMoveNodeTree.GameStart;
                     foreach (string move in pgn.Moves)
                     {
@@ -69,7 +70,18 @@ namespace TimHanewich.Chess.MoveTree
                             MoveThatWasMade.Occurances = MoveThatWasMade.Occurances + 1;
                             OnNode = MoveThatWasMade;
                         }
+
+                        //Increment the depth we have explored
+                        DepthExploredInThisGame = DepthExploredInThisGame + 1;
+                        if (DepthExploredInThisGame >= to_depth)
+                        {
+                            break; //break out of the current game. Go to the next game.
+                        }
                     }
+                }
+                else //If the game WAS null, it means there are no more game lefts. So kill the process. It is over.
+                {
+                    return;
                 }
             }
         }
