@@ -152,7 +152,7 @@ namespace PlayEngine
                             //If we found the move, play it
                             if (ToPlayMove != null)
                             {
-                                Console.Write("I play " + MostPopularChildNode.Move + " (" + ToPlayMove.FromPosition.ToString() + " to " + ToPlayMove.ToPosition.ToString());
+                                Console.WriteLine("I play " + MostPopularChildNode.Move + " (" + ToPlayMove.FromPosition.ToString() + " to " + ToPlayMove.ToPosition.ToString() + ")");
                                 Console.Write("Executing move... ");
                                 GAME.ExecuteMove(ToPlayMove);
                                 Console.WriteLine("Move executed!");
