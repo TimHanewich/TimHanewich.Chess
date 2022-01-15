@@ -12,6 +12,18 @@ namespace PlayEngine
             
         }
 
+        public static void FullGameEngine()
+        {
+            //////////// SETTINGS //////////
+            int EvalDepth = 6;
+            int FollowOpeningBookForMoves = 8;
+            ////////////////////////////////
+
+            
+
+
+        }
+
         public static void FromPositionEngine()
         {
             Console.Write("Original position? FEN>");
