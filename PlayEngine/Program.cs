@@ -18,7 +18,7 @@ namespace PlayEngine
         public static void FullGameEngine()
         {
             //////////// SETTINGS //////////
-            int FollowOpeningBookForMoves = 3;
+            int FollowOpeningBookForMoves = 6;
             int EvalDepth = 5;
 
             string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree.json"; //Path to the JSON-serialized MoveNodeTree object to use for the opening.

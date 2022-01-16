@@ -11,6 +11,16 @@ namespace PlayEngine.BookMoveSelection
     {
         public MoveNode SelectBookMove(MoveNode on_node, Color playing_as)
         {
+            //If there are no child nodes, return null
+            if (on_node.ChildNodes == null)
+            {
+                return null;
+            }
+            if (on_node.ChildNodes.Length == 0)
+            {
+                return null;
+            }
+
             //Create an assessment for each.
             List<BookMoveAssessment> BookMoveAssessments = new List<BookMoveAssessment>();
             foreach (MoveNode ChildNode in on_node.ChildNodes)
