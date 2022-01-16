@@ -3,6 +3,7 @@ using TimHanewich.Chess.MoveTree;
 using TimHanewich.Chess.PGN;
 using TimHanewich.Chess;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace PlayEngine.BookMoveSelection
 {
@@ -85,7 +86,7 @@ namespace PlayEngine.BookMoveSelection
                 BookMoveAssessment winner = BookMoveAssessments[0];
                 foreach (BookMoveAssessment bma in BookMoveAssessments)
                 {
-                    if (bma.WeightedRanking > winner.WeightedRanking)
+                    if (bma.WeightedRanking < winner.WeightedRanking)
                     {
                         winner = bma;
                     }

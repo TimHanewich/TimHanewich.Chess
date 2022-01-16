@@ -4,6 +4,7 @@ using TimHanewich.Chess.MoveTree;
 using TimHanewich.Chess.PGN;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using PlayEngine.BookMoveSelection;
 
 namespace PlayEngine
 {
@@ -11,7 +12,20 @@ namespace PlayEngine
     {
         static void Main(string[] args)
         {
-            FullGameEngine();
+            string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree.json"; //Path to the JSON-serialized MoveNodeTree object to use for the opening.
+            //Open the move node
+            Console.Write("Opening move node tree serialized file...");
+            string mvtcontent = System.IO.File.ReadAllText(MoveNodeTreePath);
+            Console.WriteLine("Opened");
+            Console.Write("Deserializing move node tree... ");
+            JsonSerializerSettings jsonsettings = new JsonSerializerSettings();
+            jsonsettings.MaxDepth = 256;
+            MoveNodeTree tree = JsonConvert.DeserializeObject<MoveNodeTree>(mvtcontent, jsonsettings);
+            Console.WriteLine("Deserialized!");
+
+            BookMoveSelector selector = new BookMoveSelector();
+            MoveNode node = selector.SelectBookMove(tree.GameStart, Color.White);
+            Console.WriteLine(node.Move);
         }
 
         public static void FullGameEngine()
