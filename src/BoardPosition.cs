@@ -396,13 +396,13 @@ namespace TimHanewich.Chess
             //Castling potentially?
             if (by_color == Color.White)
             {
-                if (WhiteKingSideCastlingAvailable)
+                if (WhiteKingSideCastlingAvailable && FindOccupyingPiece(Position.F1) == null && FindOccupyingPiece(Position.G1) == null)
                 {
                     Move m = new Move();
                     m.Castling = CastlingType.KingSide;
                     ToReturn.Add(m);
                 }
-                if (WhiteQueenSideCastlingAvailable)
+                if (WhiteQueenSideCastlingAvailable && FindOccupyingPiece(Position.B1) == null && FindOccupyingPiece(Position.C1) == null && FindOccupyingPiece(Position.D1) == null)
                 {
                     Move m = new Move();
                     m.Castling = CastlingType.QueenSide;
@@ -411,13 +411,13 @@ namespace TimHanewich.Chess
             }
             else if (by_color == Color.Black)
             {
-                if (BlackKingSideCastlingAvailable)
+                if (BlackKingSideCastlingAvailable && FindOccupyingPiece(Position.F8) == null && FindOccupyingPiece(Position.G8) == null)
                 {
                     Move m = new Move();
                     m.Castling = CastlingType.KingSide;
                     ToReturn.Add(m);
                 }
-                if (BlackQueenSideCastlingAvailable)
+                if (BlackQueenSideCastlingAvailable && FindOccupyingPiece(Position.B8) == null && FindOccupyingPiece(Position.C8) == null && FindOccupyingPiece(Position.D8) == null)
                 {
                     Move m = new Move();
                     m.Castling = CastlingType.QueenSide;
