@@ -179,41 +179,45 @@ namespace TimHanewich.Chess
             //Disambiguating move?
             string DisambiguatingNotation = "";
             //Check if there are any other pieces of the same type that can also move to the destination square
-            foreach (Piece p in position.Pieces)
+            if (MovingPiece.Type != PieceType.Pawn) //Pawns do not need disambigurating moves (well, actually this is required for pawns, but I handle the disambiguating move in the take notation section above somewhere)
             {
-                if (p.Position != FromPosition)
+                foreach (Piece p in position.Pieces)
                 {
-                    if (p.Color == MovingPiece.Color)
+                    if (p.Position != FromPosition)
                     {
-                        if (p.Type == MovingPiece.Type)
-                        { 
-                            //Can this piece also move to the destination?
-                            bool ThisPieceCanMoveThereToo = false;
-                            foreach (Position ppp in p.AvailableMoves(position, true))
-                            {
-                                if (ppp == ToPosition)
+                        if (p.Color == MovingPiece.Color)
+                        {
+                            if (p.Type == MovingPiece.Type)
+                            { 
+                                //Can this piece also move to the destination?
+                                bool ThisPieceCanMoveThereToo = false;
+                                foreach (Position ppp in p.AvailableMoves(position, true))
                                 {
-                                    ThisPieceCanMoveThereToo = true;
+                                    if (ppp == ToPosition)
+                                    {
+                                        ThisPieceCanMoveThereToo = true;
+                                    }
                                 }
+                                
+                                //If it can move there too, disambiguate
+                                if (ThisPieceCanMoveThereToo)
+                                {
+                                    //What is the difference? Is it rank or is it file?
+                                    if (p.Position.Rank() == MovingPiece.Position.Rank())
+                                    {
+                                        DisambiguatingNotation = MovingPiece.Position.File().ToString().ToLower();
+                                    }
+                                    else if (p.Position.File() == MovingPiece.Position.File())
+                                    {
+                                        DisambiguatingNotation = MovingPiece.Position.Rank().ToString();
+                                    }
+                                }   
                             }
-                            
-                            //If it can move there too, disambiguate
-                            if (ThisPieceCanMoveThereToo)
-                            {
-                                //What is the difference? Is it rank or is it file?
-                                if (p.Position.Rank() == MovingPiece.Position.Rank())
-                                {
-                                    DisambiguatingNotation = MovingPiece.Position.File().ToString().ToLower();
-                                }
-                                else if (p.Position.File() == MovingPiece.Position.File())
-                                {
-                                    DisambiguatingNotation = MovingPiece.Position.Rank().ToString();
-                                }
-                            }   
                         }
                     }
                 }
             }
+            
 
 
             //Get the Position part
