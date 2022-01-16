@@ -59,6 +59,14 @@ namespace PlayEngine
 
             //Start the game
             BoardPosition GAME = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+
+            //Create the evaluation engine
+            EvaluationEngine ee = new EvaluationEngine();
+            ee.EvaluationStatusUpdated += PrintStatus;
+            ee.EvaluationEstimatedTimeRemainingUpdated += PrintTimeRemaining;
+
+            //Create a history of move decisions (so there are no repeats)
+            MoveDecisionHistory mdh = new MoveDecisionHistory();
             
             //For tracking of book move play
             MoveNode PositionInMoveTree = tree.GameStart;
@@ -186,8 +194,54 @@ namespace PlayEngine
                     //Should we calculte? if so, do it
                     if (GoToCalculation)
                     {
-                        Console.WriteLine("CALCU");
-                        return;
+                        Console.WriteLine("Going to calculate the best move forward.");
+                        Console.WriteLine("Finding moves...");
+                        MoveAssessment[] moves = ee.FindBestMoves(GAME, EvalDepth);
+                        if (moves.Length == 0)
+                        {
+                            Console.WriteLine("I have no moves to play! I resign.");
+                            return;
+                        }
+
+                        //Print all potential moves
+                        foreach (MoveAssessment ma in moves)
+                        {
+                            Console.WriteLine(ma.Move.ToAlgebraicNotation(GAME) + " = " + ma.ResultingEvaluation.ToString());
+                        }
+
+                        //Select the move to make
+                        Move ToMake = null;
+                        Move MoveMadePreviouslyInThisPosition = mdh.Find(GAME.BoardRepresentation());
+                        if (MoveMadePreviouslyInThisPosition == null)
+                        {
+                            ToMake = moves[0].Move;
+                        }
+                        else //We have been in this move previously in this exact position. Try to find a different move
+                        {
+                            foreach (MoveAssessment ma in moves)
+                            {
+                                if (ma.Move.ToPosition != MoveMadePreviouslyInThisPosition.ToPosition) //This isn't the move we made last time
+                                {
+                                    ToMake = ma.Move;
+                                    break;
+                                }
+                            }
+                        }
+                        if (ToMake == null)
+                        {
+                            ToMake = moves[0].Move;
+                        }
+
+
+                        //Record the move we are going to make (have selected)
+                        mdh.Add(GAME.BoardRepresentation(), ToMake);
+
+
+                        //Print and make the best move to make
+                        string AsNotation = ToMake.ToAlgebraicNotation(GAME);
+                        GAME.ExecuteMove(ToMake); //Execute move
+                        mdh.Add(GAME.BoardRepresentation(), ToMake);
+                        Console.WriteLine("I play " + AsNotation + " (" + ToMake.FromPosition.ToString() + " --> " + ToMake.ToPosition.ToString() + ")");  
                     }
 
 
