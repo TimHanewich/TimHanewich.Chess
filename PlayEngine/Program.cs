@@ -12,20 +12,7 @@ namespace PlayEngine
     {
         static void Main(string[] args)
         {
-            string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree.json"; //Path to the JSON-serialized MoveNodeTree object to use for the opening.
-            //Open the move node
-            Console.Write("Opening move node tree serialized file...");
-            string mvtcontent = System.IO.File.ReadAllText(MoveNodeTreePath);
-            Console.WriteLine("Opened");
-            Console.Write("Deserializing move node tree... ");
-            JsonSerializerSettings jsonsettings = new JsonSerializerSettings();
-            jsonsettings.MaxDepth = 256;
-            MoveNodeTree tree = JsonConvert.DeserializeObject<MoveNodeTree>(mvtcontent, jsonsettings);
-            Console.WriteLine("Deserialized!");
-
-            BookMoveSelector selector = new BookMoveSelector();
-            MoveNode node = selector.SelectBookMove(tree.GameStart, Color.White);
-            Console.WriteLine(node.Move);
+            FullGameEngine();
         }
 
         public static void FullGameEngine()
@@ -68,7 +55,16 @@ namespace PlayEngine
                 return;
             }
         
-
+            //Turn that boolean field into a color
+            Color PlayingAs;
+            if (PlayingWhite)
+            {
+                PlayingAs = Color.White;
+            }
+            else
+            {
+                PlayingAs = Color.Black;
+            }
 
 
             //Start the game
@@ -153,11 +149,12 @@ namespace PlayEngine
 
                         //Try to find the most popular
                         Console.WriteLine("Going to try to play a book move!");
-                        Console.Write("Looking for most popular move in this position... ");
-                        MoveNode MostPopularChildNode = PositionInMoveTree.MostPopularChildNode();
-                        if (MostPopularChildNode != null)
+                        Console.Write("Looking for best move to play...");
+                        BookMoveSelector selector = new BookMoveSelector();
+                        MoveNode SelectedNode = selector.SelectBookMove(PositionInMoveTree, PlayingAs); 
+                        if (SelectedNode != null)
                         {
-                            Console.WriteLine("I found the move I want to play: " + MostPopularChildNode.Move);
+                            Console.WriteLine("I found the move I want to play: " + SelectedNode.Move);
                             
                             //Find the move
                             Move ToPlayMove = null;
@@ -165,7 +162,7 @@ namespace PlayEngine
                             foreach (Move m in PotentialMoves)
                             {
                                 string ThisMoveAlgNot = m.ToAlgebraicNotation(GAME);
-                                if (ThisMoveAlgNot == MostPopularChildNode.Move)
+                                if (ThisMoveAlgNot == SelectedNode.Move)
                                 {
                                     ToPlayMove = m;
                                 }
@@ -174,10 +171,10 @@ namespace PlayEngine
                             //If we found the move, play it
                             if (ToPlayMove != null)
                             {
-                                Console.WriteLine("I play " + MostPopularChildNode.Move + " (" + ToPlayMove.FromPosition.ToString() + " to " + ToPlayMove.ToPosition.ToString() + ")");
+                                Console.WriteLine("I play " + SelectedNode.Move + " (" + ToPlayMove.FromPosition.ToString() + " to " + ToPlayMove.ToPosition.ToString() + ")");
                                 Console.Write("Executing move... ");
                                 GAME.ExecuteMove(ToPlayMove); //Play the move on the board
-                                PositionInMoveTree = MostPopularChildNode; //Advance the current position in the move tree.
+                                PositionInMoveTree = SelectedNode; //Advance the current position in the move tree.
                                 Console.WriteLine("Move executed!");
 
                                 //Increment the # of book moves played
