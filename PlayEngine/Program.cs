@@ -165,6 +165,9 @@ namespace PlayEngine
                                 GAME.ExecuteMove(ToPlayMove); //Play the move on the board
                                 PositionInMoveTree = MostPopularChildNode; //Advance the current position in the move tree.
                                 Console.WriteLine("Move executed!");
+
+                                //Increment the # of book moves played
+                                BookMovesPlayedSoFar = BookMovesPlayedSoFar + 1;
                             }
                             else
                             {
