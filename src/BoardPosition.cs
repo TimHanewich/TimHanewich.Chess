@@ -469,6 +469,12 @@ namespace TimHanewich.Chess
             {
                 if (m.Castling.Value == CastlingType.KingSide && ToMove == Color.White)
                 {
+                    //Ensure the space between is clear
+                    if (FindOccupyingPiece(Position.F1) != null || FindOccupyingPiece(Position.G1) != null)
+                    {
+                        throw new Exception("Unable to execute white king-side castle: there are pieces in between.");
+                    }
+
                     try
                     {
                         FindOccupyingPiece(Position.E1).Position = Position.G1; //Move the king
@@ -483,6 +489,12 @@ namespace TimHanewich.Chess
                 }
                 else if (m.Castling.Value == CastlingType.QueenSide && ToMove == Color.White)
                 {
+                    //Ensure the space between is clear
+                    if (FindOccupyingPiece(Position.B1) != null || FindOccupyingPiece(Position.C1) != null || FindOccupyingPiece(Position.D1) != null)
+                    {
+                        throw new Exception("Unable to execute white queen-side castle: there are pieces in between.");
+                    }
+
                     try
                     {
                         FindOccupyingPiece(Position.E1).Position = Position.C1; //Move the king
@@ -497,6 +509,12 @@ namespace TimHanewich.Chess
                 }
                 else if (m.Castling.Value == CastlingType.KingSide && ToMove == Color.Black)
                 {
+                    //Ensure the space between is clear
+                    if (FindOccupyingPiece(Position.F8) != null || FindOccupyingPiece(Position.G8) != null)
+                    {
+                        throw new Exception("Unable to execute black king-side castle: there are pieces in between.");
+                    }
+
                     try
                     {
                         FindOccupyingPiece(Position.E8).Position = Position.G8; //Move the king
@@ -511,6 +529,12 @@ namespace TimHanewich.Chess
                 }
                 else if (m.Castling.Value == CastlingType.QueenSide && ToMove == Color.Black)
                 {
+                    //Ensure the space between is clear
+                    if (FindOccupyingPiece(Position.B8) != null || FindOccupyingPiece(Position.C8) != null || FindOccupyingPiece(Position.D8) != null)
+                    {
+                        throw new Exception("Unable to execute black queen-side castle: there are pieces in between.");
+                    }
+
                     try
                     {
                         FindOccupyingPiece(Position.E8).Position = Position.C8; //Move the king
