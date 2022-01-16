@@ -396,32 +396,46 @@ namespace TimHanewich.Chess
             //Castling potentially?
             if (by_color == Color.White)
             {
-                if (WhiteKingSideCastlingAvailable && FindOccupyingPiece(Position.F1) == null && FindOccupyingPiece(Position.G1) == null)
+                Piece KingP = FindOccupyingPiece(Position.E1);
+                if (KingP != null)
                 {
-                    Move m = new Move();
-                    m.Castling = CastlingType.KingSide;
-                    ToReturn.Add(m);
-                }
-                if (WhiteQueenSideCastlingAvailable && FindOccupyingPiece(Position.B1) == null && FindOccupyingPiece(Position.C1) == null && FindOccupyingPiece(Position.D1) == null)
-                {
-                    Move m = new Move();
-                    m.Castling = CastlingType.QueenSide;
-                    ToReturn.Add(m);
+                    if (KingP.Color == Color.White && KingP.Type == PieceType.King)
+                    {
+                        if (WhiteKingSideCastlingAvailable && FindOccupyingPiece(Position.F1) == null && FindOccupyingPiece(Position.G1) == null)
+                        {
+                            Move m = new Move();
+                            m.Castling = CastlingType.KingSide;
+                            ToReturn.Add(m);
+                        }
+                        if (WhiteQueenSideCastlingAvailable && FindOccupyingPiece(Position.B1) == null && FindOccupyingPiece(Position.C1) == null && FindOccupyingPiece(Position.D1) == null)
+                        {
+                            Move m = new Move();
+                            m.Castling = CastlingType.QueenSide;
+                            ToReturn.Add(m);
+                        }
+                    }
                 }
             }
             else if (by_color == Color.Black)
             {
-                if (BlackKingSideCastlingAvailable && FindOccupyingPiece(Position.F8) == null && FindOccupyingPiece(Position.G8) == null)
+                Piece KingP = FindOccupyingPiece(Position.E8);
+                if (KingP != null)
                 {
-                    Move m = new Move();
-                    m.Castling = CastlingType.KingSide;
-                    ToReturn.Add(m);
-                }
-                if (BlackQueenSideCastlingAvailable && FindOccupyingPiece(Position.B8) == null && FindOccupyingPiece(Position.C8) == null && FindOccupyingPiece(Position.D8) == null)
-                {
-                    Move m = new Move();
-                    m.Castling = CastlingType.QueenSide;
-                    ToReturn.Add(m);
+                    if (KingP.Color == Color.Black && KingP.Type == PieceType.King)
+                    {
+                        if (BlackKingSideCastlingAvailable && FindOccupyingPiece(Position.F8) == null && FindOccupyingPiece(Position.G8) == null)
+                        {
+                            Move m = new Move();
+                            m.Castling = CastlingType.KingSide;
+                            ToReturn.Add(m);
+                        }
+                        if (BlackQueenSideCastlingAvailable && FindOccupyingPiece(Position.B8) == null && FindOccupyingPiece(Position.C8) == null && FindOccupyingPiece(Position.D8) == null)
+                        {
+                            Move m = new Move();
+                            m.Castling = CastlingType.QueenSide;
+                            ToReturn.Add(m);
+                        }
+                    }
                 }
             }
 
