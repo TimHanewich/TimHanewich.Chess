@@ -512,8 +512,7 @@ namespace TimHanewich.Chess
                     }
                     catch (Exception ex)
                     {
-                        //throw new Exception("Unable to execute castling move: " + ex.Message);
-                        throw new Exception("Unable to castle on position " + ToFEN() + ": " + ex.Message);
+                        throw new Exception("Unable to execute castling move: " + ex.Message);
                     }
                     WhiteKingSideCastlingAvailable = false;
                     WhiteQueenSideCastlingAvailable = false;
