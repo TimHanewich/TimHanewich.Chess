@@ -17,8 +17,8 @@ namespace PlayEngine
         public static void FullGameEngine()
         {
             //////////// SETTINGS //////////
-            int FollowOpeningBookForMoves = 8;
-            int EvalDepth = 6;
+            int FollowOpeningBookForMoves = 3;
+            int EvalDepth = 5;
 
             string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree.json"; //Path to the JSON-serialized MoveNodeTree object to use for the opening.
             ////////////////////////////////
@@ -195,6 +195,7 @@ namespace PlayEngine
                     if (GoToCalculation)
                     {
                         Console.WriteLine("Going to calculate the best move forward.");
+                        Console.WriteLine("Current Position: " + GAME.ToFEN());
                         Console.WriteLine("Finding moves...");
                         MoveAssessment[] moves = ee.FindBestMoves(GAME, EvalDepth);
                         if (moves.Length == 0)
