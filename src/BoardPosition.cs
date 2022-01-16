@@ -401,17 +401,25 @@ namespace TimHanewich.Chess
                 {
                     if (KingP.Color == Color.White && KingP.Type == PieceType.King)
                     {
-                        if (WhiteKingSideCastlingAvailable && FindOccupyingPiece(Position.F1) == null && FindOccupyingPiece(Position.G1) == null)
+                        Piece KSRook = FindOccupyingPiece(Position.H1);
+                        Piece QSRook = FindOccupyingPiece(Position.A1);
+                        if (KSRook != null)
                         {
-                            Move m = new Move();
-                            m.Castling = CastlingType.KingSide;
-                            ToReturn.Add(m);
+                            if (WhiteKingSideCastlingAvailable && FindOccupyingPiece(Position.F1) == null && FindOccupyingPiece(Position.G1) == null && KSRook.Color == Color.White && KSRook.Type == PieceType.Rook)
+                            {
+                                Move m = new Move();
+                                m.Castling = CastlingType.KingSide;
+                                ToReturn.Add(m);
+                            }
                         }
-                        if (WhiteQueenSideCastlingAvailable && FindOccupyingPiece(Position.B1) == null && FindOccupyingPiece(Position.C1) == null && FindOccupyingPiece(Position.D1) == null)
+                        if (QSRook != null)
                         {
-                            Move m = new Move();
-                            m.Castling = CastlingType.QueenSide;
-                            ToReturn.Add(m);
+                            if (WhiteQueenSideCastlingAvailable && FindOccupyingPiece(Position.B1) == null && FindOccupyingPiece(Position.C1) == null && FindOccupyingPiece(Position.D1) == null && QSRook.Color == Color.White && QSRook.Type == PieceType.Rook)
+                            {
+                                Move m = new Move();
+                                m.Castling = CastlingType.QueenSide;
+                                ToReturn.Add(m);
+                            }
                         }
                     }
                 }
@@ -423,17 +431,25 @@ namespace TimHanewich.Chess
                 {
                     if (KingP.Color == Color.Black && KingP.Type == PieceType.King)
                     {
-                        if (BlackKingSideCastlingAvailable && FindOccupyingPiece(Position.F8) == null && FindOccupyingPiece(Position.G8) == null)
+                        Piece KSRook = FindOccupyingPiece(Position.H8);
+                        Piece QSRook = FindOccupyingPiece(Position.A8);
+                        if (KSRook != null)
                         {
-                            Move m = new Move();
-                            m.Castling = CastlingType.KingSide;
-                            ToReturn.Add(m);
+                            if (BlackKingSideCastlingAvailable && FindOccupyingPiece(Position.F8) == null && FindOccupyingPiece(Position.G8) == null && KSRook.Color == Color.White && KSRook.Type == PieceType.Rook)
+                            {
+                                Move m = new Move();
+                                m.Castling = CastlingType.KingSide;
+                                ToReturn.Add(m);
+                            }
                         }
-                        if (BlackQueenSideCastlingAvailable && FindOccupyingPiece(Position.B8) == null && FindOccupyingPiece(Position.C8) == null && FindOccupyingPiece(Position.D8) == null)
+                        if (QSRook != null)
                         {
-                            Move m = new Move();
-                            m.Castling = CastlingType.QueenSide;
-                            ToReturn.Add(m);
+                            if (BlackQueenSideCastlingAvailable && FindOccupyingPiece(Position.B8) == null && FindOccupyingPiece(Position.C8) == null && FindOccupyingPiece(Position.D8) == null && QSRook.Color == Color.White && QSRook.Type == PieceType.Rook)
+                            {
+                                Move m = new Move();
+                                m.Castling = CastlingType.QueenSide;
+                                ToReturn.Add(m);
+                            }
                         }
                     }
                 }
@@ -496,7 +512,8 @@ namespace TimHanewich.Chess
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Unable to execute castling move: " + ex.Message);
+                        //throw new Exception("Unable to execute castling move: " + ex.Message);
+                        throw new Exception("Unable to castle on position " + ToFEN() + ": " + ex.Message);
                     }
                     WhiteKingSideCastlingAvailable = false;
                     WhiteQueenSideCastlingAvailable = false;
