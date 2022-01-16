@@ -435,7 +435,7 @@ namespace TimHanewich.Chess
                         Piece QSRook = FindOccupyingPiece(Position.A8);
                         if (KSRook != null)
                         {
-                            if (BlackKingSideCastlingAvailable && FindOccupyingPiece(Position.F8) == null && FindOccupyingPiece(Position.G8) == null && KSRook.Color == Color.White && KSRook.Type == PieceType.Rook)
+                            if (BlackKingSideCastlingAvailable && FindOccupyingPiece(Position.F8) == null && FindOccupyingPiece(Position.G8) == null && KSRook.Color == Color.Black && KSRook.Type == PieceType.Rook)
                             {
                                 Move m = new Move();
                                 m.Castling = CastlingType.KingSide;
@@ -444,7 +444,7 @@ namespace TimHanewich.Chess
                         }
                         if (QSRook != null)
                         {
-                            if (BlackQueenSideCastlingAvailable && FindOccupyingPiece(Position.B8) == null && FindOccupyingPiece(Position.C8) == null && FindOccupyingPiece(Position.D8) == null && QSRook.Color == Color.White && QSRook.Type == PieceType.Rook)
+                            if (BlackQueenSideCastlingAvailable && FindOccupyingPiece(Position.B8) == null && FindOccupyingPiece(Position.C8) == null && FindOccupyingPiece(Position.D8) == null && QSRook.Color == Color.Black && QSRook.Type == PieceType.Rook)
                             {
                                 Move m = new Move();
                                 m.Castling = CastlingType.QueenSide;
