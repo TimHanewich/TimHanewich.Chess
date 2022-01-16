@@ -99,23 +99,36 @@ namespace PlayEngine
             {
                 if (IsMyTurn == false)
                 {
-                    Console.WriteLine("What move do you play?");
-                    Console.Write("FROM: ");
-                    string FromSquare = Console.ReadLine();
-                    Console.Write("TO: ");
-                    string ToSquare = Console.ReadLine();
 
-                    //Construct the move
-                    Move m = new Move();
-                    m.FromPosition = PositionToolkit.Parse(FromSquare);
-                    m.ToPosition = PositionToolkit.Parse(ToSquare);
+                    Console.WriteLine("What move do you play?");
+                    Console.Write("In algebraic notation >");
+                    string algNotationPlayed = Console.ReadLine();
+
+                    //Look for the move that was played
+                    Move MoveTheyPlayed = null;
+                    Move[] MovesThatCanBePlayed = GAME.AvailableMoves();
+                    foreach (Move m in MovesThatCanBePlayed)
+                    {
+                        if (m.ToAlgebraicNotation(GAME) == algNotationPlayed)
+                        {
+                            MoveTheyPlayed = m;
+                        }
+                    }
+
+                    //If we did not find the move, cancel
+                    if (MoveTheyPlayed == null)
+                    {
+                        Console.WriteLine("I could not a find a move that matched that notation!");
+                        Console.WriteLine("This is likely because either 1) you entered the move in incorrectly or 2) The PGN of my available moves isn't up to par. Or 3) I did not properly generate all potential next moves.");
+                        return;
+                    }
 
                     //If we are still following this in the move tree, attempt to follow
                     if (PositionInMoveTree != null)
                     {
 
                         //Get the algebraic notation for this move
-                        string ThisMoveAlgebraicNotation = m.ToAlgebraicNotation(GAME);
+                        string ThisMoveAlgebraicNotation = MoveTheyPlayed.ToAlgebraicNotation(GAME);
 
                         //Look to advance the move node
                         MoveNode NextNodeToAdvanceTo = PositionInMoveTree.FindChildNode(ThisMoveAlgebraicNotation);
@@ -134,7 +147,7 @@ namespace PlayEngine
 
                     //Execute
                     Console.Write("Executing move on my local board... ");
-                    GAME.ExecuteMove(m);
+                    GAME.ExecuteMove(MoveTheyPlayed);
                     Console.WriteLine("Move executed.");
                 }
                 else //It is MY TURN!
