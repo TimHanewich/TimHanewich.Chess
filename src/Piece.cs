@@ -580,130 +580,131 @@ namespace TimHanewich.Chess
         //6 = down
         //7 = left
         
-        // private Position[] PotentialLinearMoves(BoardPosition board, int direction)
-        // {
-        //     List<Position> ToReturn = new List<Position>();
-        //     bool StopCollecting = false;
-        //     Position OnPosition = Position; //Starting position
-        //     while (StopCollecting == false)
-        //     {
-        //         //Increment to next position
-        //         if (direction == 0)
-        //         {
-        //             if (OnPosition.Rank() < 8 && OnPosition.File() != 'H')
-        //             {
-        //                 OnPosition = OnPosition.UpRight();
-        //             }
-        //             else
-        //             {
-        //                 StopCollecting = true;
-        //             }
-        //         }
-        //         else if (direction == 1)
-        //         {
-        //             if (OnPosition.Rank() > 1 && OnPosition.File() != 'H')
-        //             {
-        //                 OnPosition = OnPosition.DownRight();
-        //             }
-        //             else
-        //             {
-        //                 StopCollecting = true;
-        //             }
-        //         }
-        //         else if (direction == 2)
-        //         {
-        //             if (OnPosition.Rank() > 1 && OnPosition.File() != 'A')
-        //             {
-        //                 OnPosition = OnPosition.DownLeft();
-        //             }
-        //             else
-        //             {
-        //                 StopCollecting = true;
-        //             }
-        //         }
-        //         else if (direction == 3)
-        //         {
-        //             if (OnPosition.Rank() < 8 && OnPosition.File() != 'A')
-        //             {
-        //                 OnPosition = OnPosition.UpLeft();
-        //             }
-        //             else
-        //             {
-        //                 StopCollecting = true;
-        //             }
-        //         }
-        //         else if (direction == 4)
-        //         {
-        //             if (OnPosition.Rank() < 8)
-        //             {
-        //                 OnPosition = OnPosition.Up();
-        //             }
-        //             else
-        //             {
-        //                 StopCollecting = true;
-        //             }
-        //         }
-        //         else if (direction == 5)
-        //         {
-        //             if (OnPosition.File() != 'H')
-        //             {
-        //                 OnPosition = OnPosition.Right();
-        //             }
-        //             else
-        //             {
-        //                 StopCollecting = true;
-        //             }
-        //         }
-        //         else if (direction == 6)
-        //         {
-        //             if (OnPosition.Rank() > 1)
-        //             {
-        //                 OnPosition = OnPosition.Down();
-        //             }
-        //             else
-        //             {
-        //                 StopCollecting = true;
-        //             }
-        //         }
-        //         else if (direction == 7)
-        //         {
-        //             if (OnPosition.File() != 'A')
-        //             {
-        //                 OnPosition = OnPosition.Left();
-        //             }
-        //             else
-        //             {
-        //                 StopCollecting = true;
-        //             }
-        //         }
-
-
-        //         //Add and move on or stop here?
-        //         if (StopCollecting == false)
-        //         {
-        //             Piece OccupyingPiece = board.FindOccupyingPiece(OnPosition);
-        //             if (OccupyingPiece == null) //if the position is empty, add it and move on
-        //             {
-        //                 ToReturn.Add(OnPosition);
-        //             }
-        //             else
-        //             {
-        //                 if (OccupyingPiece.Color != Color) //It is occupied by an opposing piece. So we can capture it. Add it
-        //                 {
-        //                     ToReturn.Add(OnPosition);
-        //                     StopCollecting = true; //Stop collecting (don't go further because we cannot pass the piece)
-        //                 }
-        //                 else //It is occupied by the same color. We can't take our own piece so stop.
-        //                 {
-        //                     StopCollecting = true;
-        //                 }
-        //             }
-        //         }
-        //     }
-        //     return ToReturn.ToArray();            
-        // }
-    
         private Position[] PotentialLinearMoves(BoardPosition board, int direction)
+        {
+            List<Position> ToReturn = new List<Position>();
+            bool StopCollecting = false;
+            Position OnPosition = Position; //Starting position
+            while (StopCollecting == false)
+            {
+                //Increment to next position
+                if (direction == 0)
+                {
+                    if (OnPosition.Rank() < 8 && OnPosition.File() != 'H')
+                    {
+                        OnPosition = OnPosition.UpRight();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 1)
+                {
+                    if (OnPosition.Rank() > 1 && OnPosition.File() != 'H')
+                    {
+                        OnPosition = OnPosition.DownRight();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 2)
+                {
+                    if (OnPosition.Rank() > 1 && OnPosition.File() != 'A')
+                    {
+                        OnPosition = OnPosition.DownLeft();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 3)
+                {
+                    if (OnPosition.Rank() < 8 && OnPosition.File() != 'A')
+                    {
+                        OnPosition = OnPosition.UpLeft();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 4)
+                {
+                    if (OnPosition.Rank() < 8)
+                    {
+                        OnPosition = OnPosition.Up();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 5)
+                {
+                    if (OnPosition.File() != 'H')
+                    {
+                        OnPosition = OnPosition.Right();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 6)
+                {
+                    if (OnPosition.Rank() > 1)
+                    {
+                        OnPosition = OnPosition.Down();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+                else if (direction == 7)
+                {
+                    if (OnPosition.File() != 'A')
+                    {
+                        OnPosition = OnPosition.Left();
+                    }
+                    else
+                    {
+                        StopCollecting = true;
+                    }
+                }
+
+
+                //Add and move on or stop here?
+                if (StopCollecting == false)
+                {
+                    Piece OccupyingPiece = board.FindOccupyingPiece(OnPosition);
+                    if (OccupyingPiece == null) //if the position is empty, add it and move on
+                    {
+                        ToReturn.Add(OnPosition);
+                    }
+                    else
+                    {
+                        if (OccupyingPiece.Color != Color) //It is occupied by an opposing piece. So we can capture it. Add it
+                        {
+                            ToReturn.Add(OnPosition);
+                            StopCollecting = true; //Stop collecting (don't go further because we cannot pass the piece)
+                        }
+                        else //It is occupied by the same color. We can't take our own piece so stop.
+                        {
+                            StopCollecting = true;
+                        }
+                    }
+                }
+            }
+            return ToReturn.ToArray();            
+        }
+    
+        //Gets every position in a linear direction
+        private Position[] PotentialLinearMoves2(int direction)
         {
             List<Position> ToReturn = new List<Position>();
 
@@ -3223,5 +3224,34 @@ namespace TimHanewich.Chess
             }
             return ToReturn.ToArray();
         }
+
+        //Get the positions this piece can move to in a linear direction
+        private Position[] LinearMoves(BoardPosition board, int direction)
+        {
+            List<Position> ToReturn = new List<Position>();
+            Position[] Line = PotentialLinearMoves2(direction);
+            foreach (Position p in Line)
+            {
+                Piece occP = board.FindOccupyingPiece(p);
+                if (occP == null) //If it is empty, we can move to it
+                {
+                    ToReturn.Add(p);
+                }
+                else
+                {
+                    if (occP.Color != Color) //If it is an enemy color, we can go to this position. BUT can go no further. 
+                    {
+                        ToReturn.Add(p);
+                        break;
+                    }
+                    else //It is one of our pieces. We can't occupy this position nor can we go any further. So break.
+                    {
+                        break;
+                    }
+                }
+            }
+            return ToReturn.ToArray();
+        }
+    
     }
 }
