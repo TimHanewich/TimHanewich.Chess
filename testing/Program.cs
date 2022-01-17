@@ -14,13 +14,7 @@ namespace testing
         static void Main(string[] args)
         {
             
-            BoardPosition bp = new BoardPosition("rnbqk2r/1p2bppp/p2p1n2/4p3/4P3/1NN1BP2/PPP3PP/R2QKB1R b KQkq - 0 8");
-            Move[] moves = bp.AvailableMoves();
-            foreach (Move m in moves)
-            {
-                Console.WriteLine(m.ToAlgebraicNotation(bp));
-            }
-
+            ConstructMoveTree();
             
         }
 
@@ -30,7 +24,7 @@ namespace testing
             HanewichTimer ht = new HanewichTimer();
             Console.Write("Evaluating... ");
             ht.StartTimer();
-            float eval = bp.Evaluate(7);
+            float eval = bp.Evaluate(6);
             ht.StopTimer();
             Console.WriteLine(" eval " + eval.ToString() + " in " + ht.GetElapsedTime().TotalSeconds.ToString() + " seconds");
         }
@@ -46,7 +40,7 @@ namespace testing
             MoveNodeTreeConstructor con = new MoveNodeTreeConstructor(s);
             con.GamesProcessedUpdated += GamesProcessedUpdateHandler;
             Console.Write("Constructing... ");
-            con.ContinueConstruction(1000000, 60);
+            con.ContinueConstruction(200000, 50);
             Console.WriteLine("Construction complete!");
             
             //Save
