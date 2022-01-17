@@ -261,28 +261,28 @@ namespace TimHanewich.Chess
             }
             else if (Type == PieceType.Bishop)
             {
-                ToReturn.AddRange(PotentialLinearMoves(board, 0));
-                ToReturn.AddRange(PotentialLinearMoves(board, 1));
-                ToReturn.AddRange(PotentialLinearMoves(board, 2));
-                ToReturn.AddRange(PotentialLinearMoves(board, 3));
+                ToReturn.AddRange(LinearMoves(board, 0));
+                ToReturn.AddRange(LinearMoves(board, 1));
+                ToReturn.AddRange(LinearMoves(board, 2));
+                ToReturn.AddRange(LinearMoves(board, 3));
             }
             else if (Type == PieceType.Rook)
             {
-                ToReturn.AddRange(PotentialLinearMoves(board, 4));
-                ToReturn.AddRange(PotentialLinearMoves(board, 5));
-                ToReturn.AddRange(PotentialLinearMoves(board, 6));
-                ToReturn.AddRange(PotentialLinearMoves(board, 7));
+                ToReturn.AddRange(LinearMoves(board, 4));
+                ToReturn.AddRange(LinearMoves(board, 5));
+                ToReturn.AddRange(LinearMoves(board, 6));
+                ToReturn.AddRange(LinearMoves(board, 7));
             }
             else if (Type == PieceType.Queen)
             {
-                ToReturn.AddRange(PotentialLinearMoves(board, 0));
-                ToReturn.AddRange(PotentialLinearMoves(board, 1));
-                ToReturn.AddRange(PotentialLinearMoves(board, 2));
-                ToReturn.AddRange(PotentialLinearMoves(board, 3));
-                ToReturn.AddRange(PotentialLinearMoves(board, 4));
-                ToReturn.AddRange(PotentialLinearMoves(board, 5));
-                ToReturn.AddRange(PotentialLinearMoves(board, 6));
-                ToReturn.AddRange(PotentialLinearMoves(board, 7));
+                ToReturn.AddRange(LinearMoves(board, 0));
+                ToReturn.AddRange(LinearMoves(board, 1));
+                ToReturn.AddRange(LinearMoves(board, 2));
+                ToReturn.AddRange(LinearMoves(board, 3));
+                ToReturn.AddRange(LinearMoves(board, 4));
+                ToReturn.AddRange(LinearMoves(board, 5));
+                ToReturn.AddRange(LinearMoves(board, 6));
+                ToReturn.AddRange(LinearMoves(board, 7));
             }
             else if (Type == PieceType.King)
             {
@@ -580,131 +580,8 @@ namespace TimHanewich.Chess
         //6 = down
         //7 = left
         
-        private Position[] PotentialLinearMoves(BoardPosition board, int direction)
-        {
-            List<Position> ToReturn = new List<Position>();
-            bool StopCollecting = false;
-            Position OnPosition = Position; //Starting position
-            while (StopCollecting == false)
-            {
-                //Increment to next position
-                if (direction == 0)
-                {
-                    if (OnPosition.Rank() < 8 && OnPosition.File() != 'H')
-                    {
-                        OnPosition = OnPosition.UpRight();
-                    }
-                    else
-                    {
-                        StopCollecting = true;
-                    }
-                }
-                else if (direction == 1)
-                {
-                    if (OnPosition.Rank() > 1 && OnPosition.File() != 'H')
-                    {
-                        OnPosition = OnPosition.DownRight();
-                    }
-                    else
-                    {
-                        StopCollecting = true;
-                    }
-                }
-                else if (direction == 2)
-                {
-                    if (OnPosition.Rank() > 1 && OnPosition.File() != 'A')
-                    {
-                        OnPosition = OnPosition.DownLeft();
-                    }
-                    else
-                    {
-                        StopCollecting = true;
-                    }
-                }
-                else if (direction == 3)
-                {
-                    if (OnPosition.Rank() < 8 && OnPosition.File() != 'A')
-                    {
-                        OnPosition = OnPosition.UpLeft();
-                    }
-                    else
-                    {
-                        StopCollecting = true;
-                    }
-                }
-                else if (direction == 4)
-                {
-                    if (OnPosition.Rank() < 8)
-                    {
-                        OnPosition = OnPosition.Up();
-                    }
-                    else
-                    {
-                        StopCollecting = true;
-                    }
-                }
-                else if (direction == 5)
-                {
-                    if (OnPosition.File() != 'H')
-                    {
-                        OnPosition = OnPosition.Right();
-                    }
-                    else
-                    {
-                        StopCollecting = true;
-                    }
-                }
-                else if (direction == 6)
-                {
-                    if (OnPosition.Rank() > 1)
-                    {
-                        OnPosition = OnPosition.Down();
-                    }
-                    else
-                    {
-                        StopCollecting = true;
-                    }
-                }
-                else if (direction == 7)
-                {
-                    if (OnPosition.File() != 'A')
-                    {
-                        OnPosition = OnPosition.Left();
-                    }
-                    else
-                    {
-                        StopCollecting = true;
-                    }
-                }
-
-
-                //Add and move on or stop here?
-                if (StopCollecting == false)
-                {
-                    Piece OccupyingPiece = board.FindOccupyingPiece(OnPosition);
-                    if (OccupyingPiece == null) //if the position is empty, add it and move on
-                    {
-                        ToReturn.Add(OnPosition);
-                    }
-                    else
-                    {
-                        if (OccupyingPiece.Color != Color) //It is occupied by an opposing piece. So we can capture it. Add it
-                        {
-                            ToReturn.Add(OnPosition);
-                            StopCollecting = true; //Stop collecting (don't go further because we cannot pass the piece)
-                        }
-                        else //It is occupied by the same color. We can't take our own piece so stop.
-                        {
-                            StopCollecting = true;
-                        }
-                    }
-                }
-            }
-            return ToReturn.ToArray();            
-        }
-    
         //Gets every position in a linear direction
-        private Position[] PotentialLinearMoves2(int direction)
+        private Position[] PotentialLinearMoves(int direction)
         {
             List<Position> ToReturn = new List<Position>();
 
@@ -3229,7 +3106,7 @@ namespace TimHanewich.Chess
         private Position[] LinearMoves(BoardPosition board, int direction)
         {
             List<Position> ToReturn = new List<Position>();
-            Position[] Line = PotentialLinearMoves2(direction);
+            Position[] Line = PotentialLinearMoves(direction);
             foreach (Position p in Line)
             {
                 Piece occP = board.FindOccupyingPiece(p);
