@@ -14,7 +14,12 @@ namespace testing
         static void Main(string[] args)
         {
             
-            ConstructMoveTree();
+            BoardPosition bp = new BoardPosition("rnbqk2r/1p2bppp/p2p1n2/4p3/4P3/1NN1BP2/PPP3PP/R2QKB1R b KQkq - 0 8");
+            Move[] moves = bp.AvailableMoves();
+            foreach (Move m in moves)
+            {
+                Console.WriteLine(m.ToAlgebraicNotation(bp));
+            }
 
             
         }
@@ -29,6 +34,11 @@ namespace testing
             ht.StopTimer();
             Console.WriteLine(" eval " + eval.ToString() + " in " + ht.GetElapsedTime().TotalSeconds.ToString() + " seconds");
         }
+
+        public static void PrintStatus(string s)
+        {
+            Console.WriteLine(s);
+        }
     
         public static void ConstructMoveTree()
         {
@@ -36,12 +46,12 @@ namespace testing
             MoveNodeTreeConstructor con = new MoveNodeTreeConstructor(s);
             con.GamesProcessedUpdated += GamesProcessedUpdateHandler;
             Console.Write("Constructing... ");
-            con.ContinueConstruction(3000000, 50);
+            con.ContinueConstruction(1000000, 60);
             Console.WriteLine("Construction complete!");
             
             //Save
             Console.Write("Saving to file... ");
-            System.IO.File.WriteAllText(@"C:\Users\tahan\Downloads\MoveTree.json", JsonConvert.SerializeObject(con.ResultingMoveNodeTree));
+            System.IO.File.WriteAllText(@"C:\Users\tahan\Downloads\MoveTree2.json", JsonConvert.SerializeObject(con.ResultingMoveNodeTree));
             Console.WriteLine("Saved!");
         }
 
