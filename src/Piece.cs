@@ -846,8 +846,8 @@ namespace TimHanewich.Chess
 
 
 
-                    default:
-                        throw new Exception("Unable to find linear up-right move from position " + Position.ToString());
+                    //default:
+                        //throw new Exception("Unable to find linear up-right move from position " + Position.ToString());
 
                 }
             }
@@ -1112,8 +1112,8 @@ namespace TimHanewich.Chess
                         ToReturn.Add(Position.H7);
                         break;
 
-                    default:
-                        throw new Exception("Unable to get down-right moves from position " + Position.ToString());
+                    //default:
+                        //throw new Exception("Unable to get down-right moves from position " + Position.ToString());
 
                 }
             }
@@ -1376,8 +1376,8 @@ namespace TimHanewich.Chess
                         ToReturn.Add(Position.A1);
                         break;
 
-                    default:
-                        throw new Exception("Unable to get down-left move from position " + Position.ToString());
+                    //default:
+                        //throw new Exception("Unable to get down-left move from position " + Position.ToString());
                         
                 }
             }
@@ -1642,8 +1642,8 @@ namespace TimHanewich.Chess
                         ToReturn.Add(Position.G8);
                         break;
 
-                    default:
-                        throw new Exception("Unable to get up-left move from position " + Position.ToString());
+                    //default:
+                        //throw new Exception("Unable to get up-left move from position " + Position.ToString());
                 }
             }
             else if (direction == 4)
@@ -2006,8 +2006,8 @@ namespace TimHanewich.Chess
                         ToReturn.Add(Position.H8);
                         break;
 
-                    default:
-                        throw new Exception("Unable to get up move from position " + Position.ToString());
+                    //default:
+                        //throw new Exception("Unable to get up move from position " + Position.ToString());
 
                 }
             }
@@ -2367,8 +2367,8 @@ namespace TimHanewich.Chess
                         ToReturn.Add(Position.H8);
                         break;
 
-                    default:
-                        throw new Exception("Unable to get right move for Position " + Position.ToString());
+                    //default:
+                        //throw new Exception("Unable to get right move for Position " + Position.ToString());
 
 
                     
@@ -2729,8 +2729,8 @@ namespace TimHanewich.Chess
                         ToReturn.Add(Position.H1);
                         break;
 
-                    default:
-                        throw new Exception("Unable to get down move from position " + Position.ToString());
+                    //default:
+                        //throw new Exception("Unable to get down move from position " + Position.ToString());
                 }
             }
             else if (direction == 7)
@@ -3090,8 +3090,8 @@ namespace TimHanewich.Chess
                         ToReturn.Add(Position.A8);
                         break;
 
-                    default:
-                        throw new Exception("Unable to get left move from Position " + Position.ToString());
+                    //default:
+                        //throw new Exception("Unable to get left move from Position " + Position.ToString());
 
                 }
             }
