@@ -1238,6 +1238,270 @@ namespace TimHanewich.Chess
 
                 }
             }
+            else if (direction == 2)
+            {
+                switch (Position)
+                {
+                    //B file
+                    case Position.B2:
+                        ToReturn.Add(Position.A1);
+                        break;
+                    case Position.B3:
+                        ToReturn.Add(Position.A2);
+                        break;
+                    case Position.B4:
+                        ToReturn.Add(Position.A3);
+                        break;
+                    case Position.B5:
+                        ToReturn.Add(Position.A4);
+                        break;
+                    case Position.B6:
+                        ToReturn.Add(Position.A5);
+                        break;
+                    case Position.B7:
+                        ToReturn.Add(Position.A6);
+                        break;
+                    case Position.B8:
+                        ToReturn.Add(Position.A7);
+                        break;
+
+                    //C file
+                    case Position.C2:
+                        ToReturn.Add(Position.B1);
+                        break;
+                    case Position.C3:
+                        ToReturn.Add(Position.B2);
+                        ToReturn.Add(Position.A1);
+                        break;
+                    case Position.C4:
+                        ToReturn.Add(Position.B3);
+                        ToReturn.Add(Position.A2);
+                        break;
+                    case Position.C5:
+                        ToReturn.Add(Position.B4);
+                        ToReturn.Add(Position.A3);
+                        break;
+                    case Position.C6:
+                        ToReturn.Add(Position.B5);
+                        ToReturn.Add(Position.A4);
+                        break;
+                    case Position.C7:
+                        ToReturn.Add(Position.B6);
+                        ToReturn.Add(Position.A5);
+                        break;
+                    case Position.C8:
+                        ToReturn.Add(Position.B7);
+                        ToReturn.Add(Position.A6);
+                        break;
+
+
+                    //D file
+                    case Position.D2:
+                        ToReturn.Add(Position.C1);
+                        break;
+                    case Position.D3:
+                        ToReturn.Add(Position.C2);
+                        ToReturn.Add(Position.B1);
+                        break;
+                    case Position.D4:
+                        ToReturn.Add(Position.C3);
+                        ToReturn.Add(Position.B2);
+                        ToReturn.Add(Position.A1);
+                        break;
+                    case Position.D5:
+                        ToReturn.Add(Position.C4);
+                        ToReturn.Add(Position.B3);
+                        ToReturn.Add(Position.A2);
+                        break;
+                    case Position.D6:
+                        ToReturn.Add(Position.C5);
+                        ToReturn.Add(Position.B4);
+                        ToReturn.Add(Position.A3);
+                        break;
+                    case Position.D7:
+                        ToReturn.Add(Position.C6);
+                        ToReturn.Add(Position.B5);
+                        ToReturn.Add(Position.A4);
+                        break;
+                    case Position.D8:
+                        ToReturn.Add(Position.C7);
+                        ToReturn.Add(Position.B6);
+                        ToReturn.Add(Position.A5);
+                        break;
+
+                    //E file
+                    case Position.E2:
+                        ToReturn.Add(Position.D1);
+                        break;
+                    case Position.E3:
+                        ToReturn.Add(Position.D2);
+                        ToReturn.Add(Position.C1);
+                        break;
+                    case Position.E4:
+                        ToReturn.Add(Position.D3);
+                        ToReturn.Add(Position.C2);
+                        ToReturn.Add(Position.B1);
+                        break;
+                    case Position.E5:
+                        ToReturn.Add(Position.D4);
+                        ToReturn.Add(Position.C3);
+                        ToReturn.Add(Position.B2);
+                        ToReturn.Add(Position.A1);
+                        break;
+                    case Position.E6:
+                        ToReturn.Add(Position.D5);
+                        ToReturn.Add(Position.C4);
+                        ToReturn.Add(Position.B3);
+                        ToReturn.Add(Position.A2);
+                        break;
+                    case Position.E7:
+                        ToReturn.Add(Position.D6);
+                        ToReturn.Add(Position.C5);
+                        ToReturn.Add(Position.B4);
+                        ToReturn.Add(Position.A3);
+                        break;
+                    case Position.E8:
+                        ToReturn.Add(Position.D7);
+                        ToReturn.Add(Position.C6);
+                        ToReturn.Add(Position.B5);
+                        ToReturn.Add(Position.A4);
+                        break;
+
+                    //F file
+                    case Position.F2:
+                        ToReturn.Add(Position.E1);
+                        break;
+                    case Position.F3:
+                        ToReturn.Add(Position.E2);
+                        ToReturn.Add(Position.D1);
+                        break;
+                    case Position.F4:
+                        ToReturn.Add(Position.E3);
+                        ToReturn.Add(Position.D2);
+                        ToReturn.Add(Position.C1);
+                        break;
+                    case Position.F5:
+                        ToReturn.Add(Position.E4);
+                        ToReturn.Add(Position.D3);
+                        ToReturn.Add(Position.C2);
+                        ToReturn.Add(Position.B1);
+                        break;
+                    case Position.F6:
+                        ToReturn.Add(Position.E5);
+                        ToReturn.Add(Position.D4);
+                        ToReturn.Add(Position.C3);
+                        ToReturn.Add(Position.B2);
+                        ToReturn.Add(Position.A1);
+                        break;
+                    case Position.F7:
+                        ToReturn.Add(Position.E6);
+                        ToReturn.Add(Position.D5);
+                        ToReturn.Add(Position.C4);
+                        ToReturn.Add(Position.B3);
+                        ToReturn.Add(Position.A2);
+                        break;
+                    case Position.F8:
+                        ToReturn.Add(Position.E7);
+                        ToReturn.Add(Position.D6);
+                        ToReturn.Add(Position.C5);
+                        ToReturn.Add(Position.B4);
+                        ToReturn.Add(Position.A3);
+                        break;
+
+
+                    //G file
+                    case Position.G2:
+                        ToReturn.Add(Position.F1);
+                        break;
+                    case Position.G3:
+                        ToReturn.Add(Position.F2);
+                        ToReturn.Add(Position.E1);
+                        break;
+                    case Position.G4:
+                        ToReturn.Add(Position.F3);
+                        ToReturn.Add(Position.E2);
+                        ToReturn.Add(Position.D1);
+                        break;
+                    case Position.G5:
+                        ToReturn.Add(Position.F4);
+                        ToReturn.Add(Position.E3);
+                        ToReturn.Add(Position.D2);
+                        ToReturn.Add(Position.C1);
+                        break;
+                    case Position.G6:
+                        ToReturn.Add(Position.F5);
+                        ToReturn.Add(Position.E4);
+                        ToReturn.Add(Position.D3);
+                        ToReturn.Add(Position.C2);
+                        ToReturn.Add(Position.B1);
+                        break;
+                    case Position.G7:
+                        ToReturn.Add(Position.F6);
+                        ToReturn.Add(Position.E5);
+                        ToReturn.Add(Position.D4);
+                        ToReturn.Add(Position.C3);
+                        ToReturn.Add(Position.B2);
+                        ToReturn.Add(Position.A1);
+                        break;
+                    case Position.G8:
+                        ToReturn.Add(Position.F7);
+                        ToReturn.Add(Position.E6);
+                        ToReturn.Add(Position.D5);
+                        ToReturn.Add(Position.C4);
+                        ToReturn.Add(Position.B3);
+                        ToReturn.Add(Position.A2);
+                        break;
+
+
+                    //H file
+                    case Position.H2:
+                        ToReturn.Add(Position.G1);
+                        break;
+                    case Position.H3:
+                        ToReturn.Add(Position.G2);
+                        ToReturn.Add(Position.F1);
+                        break;
+                    case Position.H4:
+                        ToReturn.Add(Position.G3);
+                        ToReturn.Add(Position.F2);
+                        ToReturn.Add(Position.E1);
+                        break;
+                    case Position.H5:
+                        ToReturn.Add(Position.G4);
+                        ToReturn.Add(Position.F3);
+                        ToReturn.Add(Position.E2);
+                        ToReturn.Add(Position.D1);
+                        break;
+                    case Position.H6:
+                        ToReturn.Add(Position.G5);
+                        ToReturn.Add(Position.F4);
+                        ToReturn.Add(Position.E3);
+                        ToReturn.Add(Position.D2);
+                        ToReturn.Add(Position.C1);
+                        break;
+                    case Position.H7:
+                        ToReturn.Add(Position.G6);
+                        ToReturn.Add(Position.F5);
+                        ToReturn.Add(Position.E4);
+                        ToReturn.Add(Position.D3);
+                        ToReturn.Add(Position.C2);
+                        ToReturn.Add(Position.B1);
+                        break;
+                    case Position.H8:
+                        ToReturn.Add(Position.G7);
+                        ToReturn.Add(Position.F6);
+                        ToReturn.Add(Position.E5);
+                        ToReturn.Add(Position.D4);
+                        ToReturn.Add(Position.C3);
+                        ToReturn.Add(Position.B2);
+                        ToReturn.Add(Position.A1);
+                        break;
+
+                    default:
+                        throw new Exception("Unable to get down-left move from position " + Position.ToString());
+                        
+                }
+            }
         }
     }
 }
