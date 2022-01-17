@@ -410,23 +410,17 @@ namespace TimHanewich.Chess
                                 Move m = new Move();
                                 m.Castling = CastlingType.KingSide;
 
-                                //If being asked to ensure legality, check that.
-                                BoardPosition tbp = this.Copy();
-                                tbp.ExecuteMove(m);
-                                if (tbp.ToMove == Color.White) //Flip the to-move because the IsCheck method will only check if the color to move is in check.
+                                if (CheckLegality) //If we are being asked to check legality...
                                 {
-                                    tbp.ToMove = Color.Black;
+                                    if (MoveIsLegal(m)) //Only add it if it is legal
+                                    {
+                                        ToReturn.Add(m);
+                                    }
                                 }
-                                else if (tbp.ToMove == Color.Black)
+                                else //If we aren't being asked to check legality, just add it
                                 {
-                                    tbp.ToMove = Color.White;
+                                    ToReturn.Add(m);
                                 }
-                                if (tbp.IsCheck() == false)
-                                {
-
-                                }
-
-                                ToReturn.Add(m);
                             }
                         }
                         if (QSRook != null)
@@ -435,7 +429,18 @@ namespace TimHanewich.Chess
                             {
                                 Move m = new Move();
                                 m.Castling = CastlingType.QueenSide;
-                                ToReturn.Add(m);
+                                
+                                if (CheckLegality) //If we are being asked to check legality...
+                                {
+                                    if (MoveIsLegal(m)) //Only add it if it is legal
+                                    {
+                                        ToReturn.Add(m);
+                                    }
+                                }
+                                else //If we aren't being asked to check legality, just add it
+                                {
+                                    ToReturn.Add(m);
+                                }
                             }
                         }
                     }
@@ -456,7 +461,18 @@ namespace TimHanewich.Chess
                             {
                                 Move m = new Move();
                                 m.Castling = CastlingType.KingSide;
-                                ToReturn.Add(m);
+                                
+                                if (CheckLegality) //If we are being asked to check legality...
+                                {
+                                    if (MoveIsLegal(m)) //Only add it if it is legal
+                                    {
+                                        ToReturn.Add(m);
+                                    }
+                                }
+                                else //If we aren't being asked to check legality, just add it
+                                {
+                                    ToReturn.Add(m);
+                                }
                             }
                         }
                         if (QSRook != null)
@@ -465,7 +481,18 @@ namespace TimHanewich.Chess
                             {
                                 Move m = new Move();
                                 m.Castling = CastlingType.QueenSide;
-                                ToReturn.Add(m);
+                                
+                                if (CheckLegality) //If we are being asked to check legality...
+                                {
+                                    if (MoveIsLegal(m)) //Only add it if it is legal
+                                    {
+                                        ToReturn.Add(m);
+                                    }
+                                }
+                                else //If we aren't being asked to check legality, just add it
+                                {
+                                    ToReturn.Add(m);
+                                }
                             }
                         }
                     }
@@ -933,6 +960,7 @@ namespace TimHanewich.Chess
 
         #region "Legality check"
 
+        //Only checks if the move puts the king in check (cannot make that move)
         public bool MoveIsLegal(Move m)
         {
             BoardPosition test = this.Copy();
