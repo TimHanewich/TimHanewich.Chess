@@ -597,6 +597,46 @@ namespace TimHanewich.Chess
                 throw new Exception("Move " + m.FromPosition.ToString() + " to " + m.ToPosition.ToString() + " is invalid. No piece was occupying " + m.FromPosition.ToString());
             }
 
+            //If they moved the king or one of the rooks, make castling unavailable
+            if (PieceToMove.Type == PieceType.King) //If they moved the king, casting is now TOTALLY unavailable
+            {
+                if (PieceToMove.Color == Color.White)
+                {
+                    WhiteKingSideCastlingAvailable = false;
+                    WhiteQueenSideCastlingAvailable = false;
+                }
+                else if (PieceToMove.Color == Color.Black)
+                {
+                    BlackKingSideCastlingAvailable = false;
+                    BlackQueenSideCastlingAvailable = false;
+                }
+            }
+            else if (PieceToMove.Type == PieceType.Rook) //The only other move that can cause castling availability to go away is a rook move. So was it a rook move?
+            {
+                if (PieceToMove.Color == Color.White)
+                {
+                    if (PieceToMove.Position == Position.H1) //The king side rook was moved
+                    {
+                        WhiteKingSideCastlingAvailable = false;
+                    }
+                    else if (PieceToMove.Position == Position.A1) //The queen side rook was moved
+                    {
+                        WhiteQueenSideCastlingAvailable = false;
+                    }
+                }
+                else if (PieceToMove.Color == Color.Black)
+                {
+                    if (PieceToMove.Position == Position.H8)
+                    {
+                        BlackKingSideCastlingAvailable = false;
+                    }
+                    else if (PieceToMove.Position == Position.A8)
+                    {
+                        BlackQueenSideCastlingAvailable = false;
+                    }
+                }
+            }
+
             //First, If this is a pawn move, check if there is a pawn promotion
             bool IsPawnPromo = false;
             if (PieceToMove.Type == PieceType.Pawn)
