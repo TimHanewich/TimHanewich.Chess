@@ -409,6 +409,23 @@ namespace TimHanewich.Chess
                             {
                                 Move m = new Move();
                                 m.Castling = CastlingType.KingSide;
+
+                                //If being asked to ensure legality, check that.
+                                BoardPosition tbp = this.Copy();
+                                tbp.ExecuteMove(m);
+                                if (tbp.ToMove == Color.White) //Flip the to-move because the IsCheck method will only check if the color to move is in check.
+                                {
+                                    tbp.ToMove = Color.Black;
+                                }
+                                else if (tbp.ToMove == Color.Black)
+                                {
+                                    tbp.ToMove = Color.White;
+                                }
+                                if (tbp.IsCheck() == false)
+                                {
+
+                                }
+
                                 ToReturn.Add(m);
                             }
                         }
@@ -914,7 +931,30 @@ namespace TimHanewich.Chess
 
         #endregion
 
+        #region "Legality check"
 
+        public bool MoveIsLegal(Move m)
+        {
+            BoardPosition test = this.Copy();
+            test.ExecuteMove(m);
+
+            //Flip the to-move (because the IsCheck method only checks if the current color to move is being theatened. We want to check if the move that was just made puts that color in check)
+            if (test.ToMove == Color.White)
+            {
+                test.ToMove = Color.Black;
+            }
+            else if (test.ToMove == Color.Black)
+            {
+                test.ToMove = Color.White;
+            }
+
+            //Is the color that just moved in check?
+            bool InCheck = test.IsCheck();
+
+            return !InCheck;
+        }
+
+        #endregion
 
 
 
