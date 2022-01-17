@@ -69,6 +69,7 @@ namespace PlayEngine
 
             //Start the game
             BoardPosition GAME = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            MoveHistory HISTORY = new MoveHistory(); //Create a move history book to record all moves that are played (this is so we don't play moves that aren't repeated).
 
             //Create the evaluation engine
             EvaluationEngine ee = new EvaluationEngine();
@@ -149,6 +150,9 @@ namespace PlayEngine
                     Console.Write("Executing move on my local board... ");
                     GAME.ExecuteMove(MoveTheyPlayed);
                     Console.WriteLine("Move executed.");
+
+                    //Add the move that they played to the move history log
+                    HISTORY.AddNextMove(algNotationPlayed);
                 }
                 else //It is MY TURN!
                 {
