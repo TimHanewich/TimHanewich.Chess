@@ -21,7 +21,7 @@ namespace PlayEngine
             int FollowOpeningBookForMoves = 10;
             int EvalDepth = 5;
 
-            string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree.json"; //Path to the JSON-serialized MoveNodeTree object to use for the opening.
+            string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree2.json"; //Path to the JSON-serialized MoveNodeTree object to use for the opening.
             ////////////////////////////////
 
             //Open the move node
