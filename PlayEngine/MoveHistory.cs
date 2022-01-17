@@ -26,7 +26,25 @@ namespace PlayEngine
             _Moves.Add(move);
         }
 
-        public string[] MovesByColor(Color by)
+        public string[] WhiteMoves
+        {
+            get
+            {
+                return MovesByColor(Color.White);
+            }
+        }
+
+        public string[] BlackMoves
+        {
+            get
+            {
+                return MovesByColor(Color.Black);
+            }
+        }
+
+
+
+        private string[] MovesByColor(Color by)
         {
             List<string> White = new List<string>();
             List<string> Black = new List<string>();
