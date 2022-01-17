@@ -3216,6 +3216,11 @@ namespace TimHanewich.Chess
 
                 }
             }
+            else
+            {
+                throw new Exception("Direction '" + direction.ToString() + "' is not a valid direction code.");
+            }
+            return ToReturn.ToArray();
         }
     }
 }
