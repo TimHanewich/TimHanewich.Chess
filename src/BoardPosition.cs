@@ -692,9 +692,38 @@ namespace TimHanewich.Chess
             Piece Occ = FindOccupyingPiece(m.ToPosition);
             if (Occ != null)
             {
-                RemovePiece(Occ); //it was a capture
+                RemovePiece(Occ); //it was a capture, so remove it from the board
+
+                //If the piece that was captured was a rook, check if the rook was in a castling position. And if it was, turn off castling availability
+                if (Occ.Type == PieceType.Rook)
+                {
+                    if (Occ.Color == Color.White)
+                    {
+                        if (Occ.Position == Position.A1)
+                        {
+                            WhiteQueenSideCastlingAvailable = false;
+                        }
+                        else if (Occ.Position == Position.H1)
+                        {
+                            WhiteKingSideCastlingAvailable = false;
+                        }
+                    }
+                    else if (Occ.Color == Color.Black)
+                    {
+                        if (Occ.Position == Position.A8)
+                        {
+                            BlackQueenSideCastlingAvailable = false;
+                        }
+                        else if (Occ.Position == Position.H8)
+                        {
+                            BlackKingSideCastlingAvailable = false;
+                        }
+                    }
+                }
             }
             PieceToMove.Position = m.ToPosition;
+
+            
 
             //Is this was a pawn move, now promote the pawn
             if (IsPawnPromo)
