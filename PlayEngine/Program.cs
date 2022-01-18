@@ -191,6 +191,7 @@ namespace PlayEngine
                                 Console.WriteLine("I play " + SelectedNode.Move + " (" + ToPlayMove.FromPosition.ToString() + " to " + ToPlayMove.ToPosition.ToString() + ")");
                                 Console.Write("Executing move... ");
                                 GAME.ExecuteMove(ToPlayMove); //Play the move on the board
+                                HISTORY.AddNextMove(SelectedNode.Move); //Add it to the move history log.
                                 PositionInMoveTree = SelectedNode; //Advance the current position in the move tree.
                                 Console.WriteLine("Move executed!");
 
@@ -272,6 +273,7 @@ namespace PlayEngine
                         //Print and make the best move to make
                         string AsNotation = ToMake.ToAlgebraicNotation(GAME);
                         GAME.ExecuteMove(ToMake); //Execute move
+                        HISTORY.AddNextMove(AsNotation); //Record it in the game move history log
                         mdh.Add(GAME.BoardRepresentation(), ToMake);
                         Console.WriteLine("I play " + AsNotation + " (" + ToMake.FromPosition.ToString() + " --> " + ToMake.ToPosition.ToString() + ")");  
                     }
