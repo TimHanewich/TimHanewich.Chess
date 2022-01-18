@@ -243,27 +243,8 @@ namespace PlayEngine
                         }
 
                         //Select the move to make
-                        Move ToMake = null;
-                        Move MoveMadePreviouslyInThisPosition = mdh.Find(GAME.BoardRepresentation());
-                        if (MoveMadePreviouslyInThisPosition == null)
-                        {
-                            ToMake = moves[0].Move;
-                        }
-                        else //We have been in this move previously in this exact position. Try to find a different move
-                        {
-                            foreach (MoveAssessment ma in moves)
-                            {
-                                if (ma.Move.ToPosition != MoveMadePreviouslyInThisPosition.ToPosition) //This isn't the move we made last time
-                                {
-                                    ToMake = ma.Move;
-                                    break;
-                                }
-                            }
-                        }
-                        if (ToMake == null)
-                        {
-                            ToMake = moves[0].Move;
-                        }
+                        MoveAssessment ToMakeAssessment = EvaluationMoveSelection.EvaluationMoveSelector.SelectMove(GAME, moves, mdh, HISTORY);
+                        Move ToMake = ToMakeAssessment.Move;
 
 
                         //Record the move we are going to make (have selected)
