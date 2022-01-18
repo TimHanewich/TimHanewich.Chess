@@ -6,6 +6,7 @@ using TimHanewich.Toolkit;
 using System.Collections.Generic;
 using System.IO;
 using TimHanewich.Chess.MoveTree;
+using PlayEngine;
 
 namespace testing
 {
@@ -14,7 +15,7 @@ namespace testing
         static void Main(string[] args)
         {
             
-            ConstructMoveTree();
+           
             
         }
 
