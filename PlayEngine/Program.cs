@@ -12,7 +12,7 @@ namespace PlayEngine
     {
         static void Main(string[] args)
         {
-            FullGameEngine();
+            FromPositionEngine();
         }
 
         public static void FullGameEngine()
