@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using TimHanewich.Chess.MoveTree;
 using PlayEngine;
+using System.Collections;
 
 namespace testing
 {
@@ -14,8 +15,12 @@ namespace testing
     {
         static void Main(string[] args)
         {
-            
-           
+            BoardPosition bp = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            Move[] moves = bp.AvailableMoves();
+            foreach (Move m in moves)
+            {
+                Console.WriteLine(m.ToAlgebraicNotation(bp));
+            }
             
         }
 
