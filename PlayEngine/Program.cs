@@ -25,26 +25,7 @@ namespace PlayEngine
             string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree2.json"; //Path to the JSON-serialized MoveNodeTree object to use for the opening.
             ////////////////////////////////
 
-            //Verify the move node tree path is valid
-            bool MoveNodeTreeExists = System.IO.File.Exists(MoveNodeTreePath);
-            if (MoveNodeTreeExists == false)
-            {
-                ConsoleVisualsToolkit.WriteLine("The supplied move node tree path was not valid.", ConsoleColor.Red);
-                Console.WriteLine("You can download an opening move tree from the readme at: https://github.com/TimHanewich/TimHanewich.Chess#supplying-an-opening-move-tree");
-                Console.WriteLine("Please provide a path to a valid move tree: ");
-                Console.Write("> ");
-                string newpath = Console.ReadLine();
-                if (System.IO.File.Exists(newpath) == false)
-                {
-                    ConsoleVisualsToolkit.WriteLine("The path you provided is invalid.", ConsoleColor.Red);
-                    Console.WriteLine("Aborting.");
-                    return;
-                }
-                else
-                {
-                    MoveNodeTreePath = newpath;
-                }
-            }
+            
             
             //Get the opening FEN
             Console.WriteLine("Please enter the FEN of the position you would like to start from.");
@@ -63,6 +44,30 @@ namespace PlayEngine
                 MyPlayMode = PlayMode.FromPosition;
             }
 
+
+            //If we are playing a full game, we will need an opening book. So verify the move node tree path is valid if we are playing a full game
+            if (MyPlayMode == PlayMode.FullGame)
+            {
+                bool MoveNodeTreeExists = System.IO.File.Exists(MoveNodeTreePath);
+                if (MoveNodeTreeExists == false)
+                {
+                    ConsoleVisualsToolkit.WriteLine("The supplied move node tree path was not valid.", ConsoleColor.Red);
+                    Console.WriteLine("You can download an opening move tree from the readme at: https://github.com/TimHanewich/TimHanewich.Chess#supplying-an-opening-move-tree");
+                    Console.WriteLine("Please provide a path to a valid move tree: ");
+                    Console.Write("> ");
+                    string newpath = Console.ReadLine();
+                    if (System.IO.File.Exists(newpath) == false)
+                    {
+                        ConsoleVisualsToolkit.WriteLine("The path you provided is invalid.", ConsoleColor.Red);
+                        Console.WriteLine("Aborting.");
+                        return;
+                    }
+                    else
+                    {
+                        MoveNodeTreePath = newpath;
+                    }
+                }
+            }
 
             //What color should the bot play?
             bool PlayingWhite = false;
