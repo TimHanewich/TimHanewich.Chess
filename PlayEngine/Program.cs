@@ -51,20 +51,7 @@ namespace PlayEngine
             Console.WriteLine("If you would like to start a new game from the opening position, leave blank.");
             Console.Write("> ");
             string OpeningPositionFen = Console.ReadLine();
-            
 
-
-
-
-            //Open the move node
-            Console.Write("Opening move node tree serialized file...");
-            string mvtcontent = System.IO.File.ReadAllText(MoveNodeTreePath);
-            Console.WriteLine("Opened");
-            Console.Write("Deserializing move node tree... ");
-            JsonSerializerSettings jsonsettings = new JsonSerializerSettings();
-            jsonsettings.MaxDepth = 256;
-            MoveNodeTree tree = JsonConvert.DeserializeObject<MoveNodeTree>(mvtcontent, jsonsettings);
-            Console.WriteLine("Deserialized!");
 
             //What color should the bot play?
             bool PlayingWhite = false;
@@ -86,7 +73,26 @@ namespace PlayEngine
                 Console.WriteLine("I did not understand that.");
                 return;
             }
-        
+
+
+            //Set up MoveNodeTree Variable (for later)
+            MoveNodeTree tree = null;
+
+            //If we need the opening move tree (we are playing a FULL game), open it
+            if (OpeningPositionFen == null || OpeningPositionFen == "")
+            {
+                //Open the move node
+                Console.Write("Opening move node tree serialized file...");
+                string mvtcontent = System.IO.File.ReadAllText(MoveNodeTreePath);
+                Console.WriteLine("Opened");
+                Console.Write("Deserializing move node tree... ");
+                JsonSerializerSettings jsonsettings = new JsonSerializerSettings();
+                jsonsettings.MaxDepth = 256;
+                tree = JsonConvert.DeserializeObject<MoveNodeTree>(mvtcontent, jsonsettings);
+                Console.WriteLine("Deserialized!");
+            }
+
+            
             //Turn that boolean field into a color
             Color PlayingAs;
             if (PlayingWhite)
