@@ -52,6 +52,17 @@ namespace PlayEngine
             Console.Write("> ");
             string OpeningPositionFen = Console.ReadLine();
 
+            //Set a variable for the play mode (from position or opening)
+            PlayMode MyPlayMode;
+            if (OpeningPositionFen == null || OpeningPositionFen == "") //If it was blank, we are playing a full game
+            {
+                MyPlayMode = PlayMode.FullGame;
+            }
+            else
+            {
+                MyPlayMode = PlayMode.FromPosition;
+            }
+
 
             //What color should the bot play?
             bool PlayingWhite = false;
@@ -79,7 +90,7 @@ namespace PlayEngine
             MoveNodeTree tree = null;
 
             //If we need the opening move tree (we are playing a FULL game), open it
-            if (OpeningPositionFen == null || OpeningPositionFen == "")
+            if (MyPlayMode == PlayMode.FullGame)
             {
                 //Open the move node
                 Console.Write("Opening move node tree serialized file...");
@@ -106,7 +117,15 @@ namespace PlayEngine
 
 
             //Start the game
-            BoardPosition GAME = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            BoardPosition GAME = null;
+            if (MyPlayMode == PlayMode.FullGame)
+            {
+                GAME = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+            }
+            else if (MyPlayMode == PlayMode.FromPosition)
+            {
+                GAME = new BoardPosition(OpeningPositionFen);
+            }
             MoveHistory HISTORY = new MoveHistory(); //Create a move history book to record all moves that are played (this is so we don't play moves that aren't repeated).
 
             //Create the evaluation engine
