@@ -55,6 +55,7 @@ namespace PlayEngine
                 try
                 {
                     EvalDepth = Convert.ToInt32(NewEvalDepth);
+                    ConsoleVisualsToolkit.WriteLine("Eval depth set to " + EvalDepth.ToString("#,##0"), ConsoleColor.Blue);
                 }
                 catch
                 {
@@ -84,6 +85,29 @@ namespace PlayEngine
                     else
                     {
                         MoveNodeTreePath = newpath;
+                    }
+                }
+            }
+
+            //If we are playing a full game, verify the number of book moves to play is acceptable
+            if (MyPlayMode == PlayMode.FullGame)
+            {
+                Console.WriteLine("Number of book moves that will be played is set to " + FollowOpeningBookForMoves.ToString("#,##0"));
+                Console.WriteLine("If you would like to change it, enter the number of moves you would like to play.");
+                Console.WriteLine("If this is acceptable, press enter.");
+                Console.Write("Play book moves #:");
+                string NewBookMovesNumber = Console.ReadLine();
+                if (NewBookMovesNumber != null && NewBookMovesNumber != "")
+                {
+                    try
+                    {
+                        FollowOpeningBookForMoves = Convert.ToInt32(NewBookMovesNumber);
+                        ConsoleVisualsToolkit.WriteLine("Will play " + FollowOpeningBookForMoves.ToString("#,##0") + " book moves during the opening", ConsoleColor.Blue);
+                    }
+                    catch
+                    {
+                        ConsoleVisualsToolkit.WriteLine("Invalid book move number provided! Aborting.", ConsoleColor.Red);
+                        return;
                     }
                 }
             }
