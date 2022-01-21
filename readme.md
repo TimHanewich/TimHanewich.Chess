@@ -28,6 +28,23 @@ foreach (Move m in PossibleMoves)
 ```
 Note that you must supply the `BoardPosition` instance that the move originated from (it must know which piece is being moved from the `FromPosition` property). Also, if you do not specify a second parameter in the `ToAlgebraicNotation` method, the piece type to promote to if it is a pawn promotion, promotion to a queen will be assumed (for example, "b8=Q").
 
+## Using the Play Engine
+You can use console app location in [the PlayEngine folder](./PlayEngine/) to play a full game of chess.
+
+### Supplying an opening move tree
+The PlayEngine console app will require you to supply it with a path to a JSON-serialized opening move tree. You can download an opening move tree that will work below:
+|Name|Notes|Size|
+|-|-|-|
+|[Move Tree 1](https://tahmst.blob.core.windows.net/chessmovetrees/MoveTree.json?sp=r&st=2022-01-21T22:19:56Z&se=2099-01-22T06:19:56Z&sv=2020-08-04&sr=b&sig=JfvYVS6e2ESBCSOUUA8hDRGTcD9h7EClGq16yzYTjs0%3D)|30,000 games at a depth of ~40 opening moves|130 MB|
+|[Move Tree 2](https://tahmst.blob.core.windows.net/chessmovetrees/MoveTree2.json?sp=r&st=2022-01-21T22:23:03Z&se=2099-01-22T06:23:03Z&sv=2020-08-04&sr=b&sig=k%2BlbQIaOWYMZKJ1hHjRoy55y%2BFGIjQhTdt%2FvvllqitI%3D)|1,000,000 games at a depth of ~50 opening moves|844 MB|
+
+After downloading a move tree from the source above, set the `MoveNodeTreePath` variable to the path of your move tree file.
+
+For example:
+```
+string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree2.json";
+```
+
 
 ## Known Issues
 - The bot plays very slowly
