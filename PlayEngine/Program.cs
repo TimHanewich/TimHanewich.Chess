@@ -44,6 +44,25 @@ namespace PlayEngine
                 MyPlayMode = PlayMode.FromPosition;
             }
 
+            //Verify eval depth is acceptable, or offer to change it
+            Console.WriteLine("Eval depth is set to " + EvalDepth.ToString("#,##0"));
+            Console.WriteLine("If you would like to change it, enter the depth you would like");
+            Console.WriteLine("If this is acceptable, press enter.");
+            Console.Write("Eval Depth: ");
+            string NewEvalDepth = Console.ReadLine();
+            if (NewEvalDepth != null && NewEvalDepth != "")
+            {
+                try
+                {
+                    EvalDepth = Convert.ToInt32(NewEvalDepth);
+                }
+                catch
+                {
+                    ConsoleVisualsToolkit.WriteLine("Invalid eval depth provided! Aborting.", ConsoleColor.Red);
+                    return;
+                }
+            }
+
 
             //If we are playing a full game, we will need an opening book. So verify the move node tree path is valid if we are playing a full game
             if (MyPlayMode == PlayMode.FullGame)
