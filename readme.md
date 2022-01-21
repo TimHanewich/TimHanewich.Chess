@@ -18,3 +18,5 @@ To use the engine, run the console app in the [PlayEngine folder](./PlayEngine/)
     - This occurs in positions where the King must "cross the path" of an attacking piece in order to castle.
     - For example, from position 2r1k2r/p4ppp/3Qpq2/8/8/1P6/P4PPP/R2R2K1 b k - 5 21
     - In the above position, King-side castling will still be listed as an available move although castling is not legal.
+- The engine will generate "next moves" even if checkmate has already been reached.
+    - Obviously the game is over if the current position is a checkmate. In spite of this, the `BoardPostion` class will still generate potential next moves.
