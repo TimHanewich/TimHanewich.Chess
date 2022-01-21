@@ -46,6 +46,12 @@ namespace PlayEngine
                 }
             }
             
+            //Get the opening FEN
+            Console.WriteLine("Please enter the FEN of the position you would like to start from.");
+            Console.WriteLine("If you would like to start a new game from the opening position, leave blank.");
+            Console.Write("> ");
+            string OpeningPositionFen = Console.ReadLine();
+            
 
 
 
