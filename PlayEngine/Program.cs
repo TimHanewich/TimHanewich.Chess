@@ -90,6 +90,17 @@ namespace PlayEngine
                 return;
             }
 
+            //Turn that boolean field into a color
+            Color PlayingAs;
+            if (PlayingWhite)
+            {
+                PlayingAs = Color.White;
+            }
+            else
+            {
+                PlayingAs = Color.Black;
+            }
+
 
             //Set up MoveNodeTree Variable (for later)
             //If we need the opening move tree (we are playing a FULL game), open it
@@ -106,19 +117,6 @@ namespace PlayEngine
                 tree = JsonConvert.DeserializeObject<MoveNodeTree>(mvtcontent, jsonsettings);
                 Console.WriteLine("Deserialized!");
             }
-
-            
-            //Turn that boolean field into a color
-            Color PlayingAs;
-            if (PlayingWhite)
-            {
-                PlayingAs = Color.White;
-            }
-            else
-            {
-                PlayingAs = Color.Black;
-            }
-
 
             //Start the game
             BoardPosition GAME = null;
