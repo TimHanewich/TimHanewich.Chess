@@ -118,9 +118,12 @@ namespace PlayEngine
 
             //Start the game
             BoardPosition GAME = null;
+            MoveNode PositionInMoveTree = null; //For tracking of book move play
+            int BookMovesPlayedSoFar = 0; //For if we play book moves, to not play a number beyond what we are supposed to.
             if (MyPlayMode == PlayMode.FullGame)
             {
                 GAME = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+                PositionInMoveTree = tree.GameStart; //This would have been fine because the tree variable (move tree) would have been loaded earlier, given we are playing a full game.
             }
             else if (MyPlayMode == PlayMode.FromPosition)
             {
@@ -136,10 +139,6 @@ namespace PlayEngine
             //Create a history of move decisions (so there are no repeats)
             MoveDecisionHistory mdh = new MoveDecisionHistory();
             
-            //For tracking of book move play
-            MoveNode PositionInMoveTree = tree.GameStart;
-            int BookMovesPlayedSoFar = 0;
-
             //If it is my turn?
             bool IsMyTurn;
             if (PlayingWhite)
