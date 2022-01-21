@@ -92,9 +92,8 @@ namespace PlayEngine
 
 
             //Set up MoveNodeTree Variable (for later)
-            MoveNodeTree tree = null;
-
             //If we need the opening move tree (we are playing a FULL game), open it
+            MoveNodeTree tree = null;
             if (MyPlayMode == PlayMode.FullGame)
             {
                 //Open the move node
