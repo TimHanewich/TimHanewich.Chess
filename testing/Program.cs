@@ -8,6 +8,8 @@ using System.IO;
 using TimHanewich.Chess.MoveTree;
 using PlayEngine;
 using System.Collections;
+using PlayEngine.PerpetualEvaluation;
+using System.Threading.Tasks;
 
 namespace testing
 {
@@ -15,13 +17,16 @@ namespace testing
     {
         static void Main(string[] args)
         {
-            BoardPosition bp = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-            Move[] moves = bp.AvailableMoves();
-            foreach (Move m in moves)
-            {
-                Console.WriteLine(m.ToAlgebraicNotation(bp));
-            }
-            
+
+            PerpetualEvaluationEngine pee = new PerpetualEvaluationEngine();
+            pee.Depth = 5;
+            pee.StatusUpdated += PrintStatus;
+            pee.SetEvaluateFromPosition(new BoardPosition("1kb4r/3q4/8/4N3/3R2R1/8/1B2K3/8 b k - 0 1"));
+            TranspositionTable tt = new TranspositionTable();
+            Task.Run(() => pee.PerpetuallyEvaluate(tt));
+            Task.Delay(20000).Wait();
+            Console.WriteLine("DONE!");
+            Console.WriteLine("TT's: " + tt.Values.Length.ToString("#,##0"));
         }
 
         public static void TimeEvaluationTest()
