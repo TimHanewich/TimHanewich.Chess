@@ -187,16 +187,45 @@ namespace PlayEngine
             //Create a history of move decisions (so there are no repeats)
             MoveDecisionHistory mdh = new MoveDecisionHistory();
             
-            //If it is my turn?
+            //Determine who's turn it is
             bool IsMyTurn;
-            if (PlayingWhite)
+            if (MyPlayMode == PlayMode.FullGame)
             {
-                IsMyTurn = true;
+                if (PlayingWhite)
+                {
+                    IsMyTurn = true;
+                }
+                else
+                {
+                    IsMyTurn = false;
+                }
             }
-            else
+            else //We are starting from a position. So it is the turn of the color that was parsed in the FEN position
             {
-                IsMyTurn = false;
+                if (GAME.ToMove == Color.White)
+                {
+                    if (PlayingWhite)
+                    {
+                        IsMyTurn = true;
+                    }
+                    else
+                    {
+                        IsMyTurn = false;
+                    }
+                }
+                else //To move is black
+                {
+                    if (PlayingWhite == false) //I am playing black
+                    {
+                        IsMyTurn = true;
+                    }
+                    else
+                    {
+                        IsMyTurn = false;
+                    }
+                }
             }
+            
 
 
             //Move
