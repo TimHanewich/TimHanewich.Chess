@@ -161,6 +161,9 @@ namespace PlayEngine
                 Console.WriteLine("Deserialized!");
             }
 
+            //Create a transposition table to serve as a long list of positions and their evaluation (so we don't duplicate efforts later)
+            TranspositionTable tt = new TranspositionTable();
+
             //Start the game
             BoardPosition GAME = null;
             MoveNode PositionInMoveTree = null; //For tracking of book move play
@@ -348,7 +351,7 @@ namespace PlayEngine
                         Console.WriteLine("Going to calculate the best move forward.");
                         Console.WriteLine("Current Position: " + GAME.ToFEN());
                         Console.WriteLine("Finding moves...");
-                        MoveAssessment[] moves = ee.FindBestMoves(GAME, EvalDepth);
+                        MoveAssessment[] moves = ee.FindBestMoves(GAME, EvalDepth, tt);
                         if (moves.Length == 0)
                         {
                             Console.WriteLine("I have no moves to play! I resign.");
