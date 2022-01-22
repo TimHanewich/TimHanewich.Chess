@@ -202,20 +202,38 @@ namespace PlayEngine
                 if (IsMyTurn == false)
                 {
 
-                    Console.WriteLine("What move do you play?");
-                    Console.Write("In algebraic notation >");
-                    string algNotationPlayed = Console.ReadLine();
-
-                    //Look for the move that was played
+                    //Get their move
                     Move MoveTheyPlayed = null;
-                    Move[] MovesThatCanBePlayed = GAME.AvailableMoves();
-                    foreach (Move m in MovesThatCanBePlayed)
+                    string algNotationPlayed = null;
+                    while (MoveTheyPlayed == null)
                     {
-                        if (m.ToAlgebraicNotation(GAME) == algNotationPlayed)
+                        //Ask what move they played (in algebraic notation)
+                        Console.WriteLine("What move do you play?");
+                        Console.Write("In algebraic notation >");
+                        algNotationPlayed = Console.ReadLine();
+
+                        //Find it be comparing what they wrote to our generation of the moves
+                        Move[] MovesThatCanBePlayed = GAME.AvailableMoves();
+                        foreach (Move m in MovesThatCanBePlayed)
                         {
-                            MoveTheyPlayed = m;
+                            if (m.ToAlgebraicNotation(GAME) == algNotationPlayed)
+                            {
+                                MoveTheyPlayed = m;
+                            }
+                        }
+
+                        //If we still haven't found it, say it
+                        if (MoveTheyPlayed == null)
+                        {
+                            Console.WriteLine("You enter moved '" + algNotationPlayed + "'");
+                            Console.WriteLine("Are you sure this is correct? I don't have a move with notation that matches that.");
+                            Console.WriteLine("Trying entering it in again please.");
+                            Console.WriteLine("If this keeps up, it is probably an issue of the algebraic notation generation not being correct");
+                            Console.WriteLine("OR you entered in moves incorrectly before and now the board I am looking at is different to the board you are looking at.");
                         }
                     }
+                    
+
 
                     //If we did not find the move, cancel
                     if (MoveTheyPlayed == null)
