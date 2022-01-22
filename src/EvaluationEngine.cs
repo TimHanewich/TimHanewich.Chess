@@ -37,7 +37,7 @@ namespace TimHanewich.Chess
                 {
 
                 }
-                Console.WriteLine("Evaluating move " + (t+1).ToString("#,##0") + " / " + PotentialMoves.Length.ToString("#,##0") + " (" + PercentComplete.ToString("#0%") + ")...");
+                UpdateStatus("Evaluating move " + (t+1).ToString("#,##0") + " / " + PotentialMoves.Length.ToString("#,##0") + " (" + PercentComplete.ToString("#0%") + ")...");
                 BoardPosition np = position.Copy();
                 np.ExecuteMove(PotentialMoves[t]);
 
