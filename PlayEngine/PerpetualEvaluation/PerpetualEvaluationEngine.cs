@@ -13,7 +13,7 @@ namespace PlayEngine.PerpetualEvaluation
 
         private BoardPosition EvaluateFromPosition; //The position we should currently focus on evaluating from. Get the next best move in this posiiton, then the next best move for that position, then so on. This class will be used by a play engine. When the opponent finally DOES make their move, this will just be updated to the resulting position of the move they made. So that way it evaluate from there
 
-        public void PerpetuallyEvaluate(BoardPosition starting_position, TranspositionTable tt)
+        public void PerpetuallyEvaluate(TranspositionTable tt)
         {
 
             EvaluationEngine ee = new EvaluationEngine();
@@ -23,7 +23,7 @@ namespace PlayEngine.PerpetualEvaluation
             while (StopPerpetuallyEvaluating == false)
             {
                 //Evaluate, find best move
-                UpdateStatus("Evaluating moves...");
+                UpdateStatus("Finding best move for " + EvaluateFromPosition.ToMove.ToString() + " in this position...");
                 MoveAssessment[] assessments = ee.FindBestMoves(EvaluateFromPosition, Depth, tt);
                 UpdateStatus(assessments.Length.ToString() + " assessments made.");
 
@@ -41,7 +41,7 @@ namespace PlayEngine.PerpetualEvaluation
             }
         }
 
-        public void UpdateEvaluationFromPosition(BoardPosition root)
+        public void SetEvaluateFromPosition(BoardPosition root)
         {
             EvaluateFromPosition = root;
         }
