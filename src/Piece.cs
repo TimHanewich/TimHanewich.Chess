@@ -565,8 +565,10 @@ namespace TimHanewich.Chess
                     return new Piece(Color.White, PieceType.Pawn);
                 case 7:
                     return new Piece(Color.Black, PieceType.King);
-                case 9:
+                case 8:
                     return new Piece(Color.Black, PieceType.Queen);
+                case 9:
+                    return new Piece(Color.Black, PieceType.Rook);
                 case 10:
                     return new Piece(Color.Black, PieceType.Bishop);
                 case 11:
