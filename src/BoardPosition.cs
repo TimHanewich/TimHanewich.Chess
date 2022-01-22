@@ -996,8 +996,8 @@ namespace TimHanewich.Chess
                 if (ThisDecodedPiece != null) //This is actually a piece. NOT a blank square (If it is null, it is a blank square)
                 {
                     ThisDecodedPiece.Position = (Position)pos;
+                    ToReturn._Pieces.Add(ThisDecodedPiece);
                 }
-                ToReturn._Pieces.Add(ThisDecodedPiece);
             }
 
             //Who is to move?
