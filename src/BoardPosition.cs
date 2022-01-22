@@ -985,6 +985,34 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
 
+        public static BoardPosition FromBoardRepresentation(int[] rep)
+        {
+            BoardPosition ToReturn = new BoardPosition();
+
+            //Get a list of pieces
+            for (int pos = 0; pos < 64; pos++) //Go through the first 64 integers in the array (64 squares)
+            {
+                Piece ThisDecodedPiece = Piece.FromCode(rep[pos]);
+                if (ThisDecodedPiece != null) //This is actually a piece. NOT a blank square (If it is null, it is a blank square)
+                {
+                    ThisDecodedPiece.Position = (Position)pos;
+                }
+                ToReturn._Pieces.Add(ThisDecodedPiece);
+            }
+
+            //Who is to move?
+            if (rep[64] == 0)
+            {
+                ToReturn.ToMove = Color.White;
+            }
+            else if (rep[64] == 1)
+            {
+                ToReturn.ToMove = Color.Black;
+            }
+
+            return ToReturn;
+        }
+
         #endregion
 
         #region "Legality check"
