@@ -249,6 +249,49 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
     
+        public string ToLongAlgebraicNotation(BoardPosition position, PieceType promote_pawn_to = PieceType.Queen)
+        {
+
+            //Take care of castling separately
+            if (Castling.HasValue)
+            {
+                if (position.ToMove == Color.White)
+                {
+                    if (Castling.Value == CastlingType.KingSide)
+                    {
+                        return "e1g1";
+                    }
+                    else if (Castling.Value == CastlingType.QueenSide)
+                    {
+                        return "e1c1";
+                    }
+                }
+                else if (position.ToMove == Color.Black)
+                {
+                    if (Castling.Value == CastlingType.KingSide)
+                    {
+                        return "e8g8";
+                    }
+                    else if (Castling.Value == CastlingType.QueenSide)
+                    {
+                        return "e8c8";
+                    }
+                }
+            }
+
+            //Preapre normal
+            string ToReturn = FromPosition.ToString().ToLower() + ToPosition.ToString().ToLower();
+
+            //Append pawn promotion code?
+            if (IsPawnPromotion(position))
+            {
+                ToReturn = ToReturn + GetPieceNotation(promote_pawn_to).ToLower();
+            }
+
+            return ToReturn;
+
+        }
+
         private string GetPieceNotation(PieceType type)
         {
             string ToReturn = "";
