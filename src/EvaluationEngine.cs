@@ -10,7 +10,13 @@ namespace TimHanewich.Chess
         public event FloatHandler EvaluationProgressUpdated;
         public event TimeSpanHandler EvaluationEstimatedTimeRemainingUpdated;
 
+
         public MoveAssessment[] FindBestMoves(BoardPosition position, int depth)
+        {
+            return FindBestMoves(position, depth, new TranspositionTable()); //A throw away transposition table
+        }
+
+        public MoveAssessment[] FindBestMoves(BoardPosition position, int depth, TranspositionTable tt)
         {
             //Identify the next moves that can be made
             UpdateStatus("Identifying potential moves...");
@@ -37,7 +43,7 @@ namespace TimHanewich.Chess
 
                 //Evaluate
                 DateTime evalBegin = DateTime.UtcNow;
-                float eval = np.Evaluate(depth - 1); //Minus one because this is already one step down
+                float eval = np.Evaluate(depth - 1, tt); //Minus one because this is already one step down
                 DateTime evalEnd = DateTime.UtcNow;
                 TimeSpan evalTime = evalEnd - evalBegin;
                 ProcessingTimeSeconds.Add(Convert.ToSingle(evalTime.TotalSeconds));
