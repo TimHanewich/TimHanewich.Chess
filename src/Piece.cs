@@ -9,6 +9,29 @@ namespace TimHanewich.Chess
         public PieceType Type {get; set;}
         public Position Position {get; set;}
         
+        #region "Constructors"
+
+        public Piece()
+        {
+
+        }
+
+        public Piece(Color c, PieceType type)
+        {
+            Color = c;
+            Type = type;
+        }
+
+        public Piece(Color c, PieceType type, Position p)
+        {
+            Color = c;
+            Type = type;
+            Position = p;
+        }
+
+        #endregion
+
+
         public float Value
         {
             get
@@ -445,25 +468,26 @@ namespace TimHanewich.Chess
             }
         }
 
+        #region "Encoding"
+
+        //Piece code
+        //0 = empty
+        //1 = White king
+        //2 = White queen
+        //3 = White rook
+        //4 = White bishop
+        //5 = White knight
+        //6 = White pawn
+        //7 = Black king
+        //8 = Black queen
+        //9 = Black rook
+        //10 = Black bishop
+        //11 = Black knight
+        //12 = Black pawn
+
         public int ToCode()
         {
             
-            //Piece code
-            //0 = empty
-            //1 = White king
-            //2 = White queen
-            //3 = White rook
-            //4 = White bishop
-            //5 = White knight
-            //6 = White pawn
-            //7 = Black king
-            //8 = Black queen
-            //9 = Black rook
-            //10 = Black bishop
-            //11 = Black knight
-            //12 = Black pawn
-
-
             if (Color == Color.White)
             {
                 if (Type == PieceType.King)
@@ -520,6 +544,44 @@ namespace TimHanewich.Chess
             }
             throw new Exception("Fatal error while converting piece to byte.");
         }
+
+        public static Piece FromCode(int code)
+        {
+            switch (code)
+            {
+                case 0:
+                    return null;
+                case 1:
+                    return new Piece(Color.White, PieceType.King);
+                case 2:
+                    return new Piece(Color.White, PieceType.Queen);
+                case 3:
+                    return new Piece(Color.White, PieceType.Rook);
+                case 4:
+                    return new Piece(Color.White, PieceType.Bishop);
+                case 5:
+                    return new Piece(Color.White, PieceType.Knight);
+                case 6:
+                    return new Piece(Color.White, PieceType.Pawn);
+                case 7:
+                    return new Piece(Color.Black, PieceType.King);
+                case 9:
+                    return new Piece(Color.Black, PieceType.Queen);
+                case 10:
+                    return new Piece(Color.Black, PieceType.Bishop);
+                case 11:
+                    return new Piece(Color.Black, PieceType.Knight);
+                case 12:
+                    return new Piece(Color.Black, PieceType.Pawn);
+                default:
+                    throw new Exception("Code '" + code.ToString() + "' not a valid piece code.");
+            }
+        }
+
+        #endregion
+
+
+
 
         //For example, filter out moves that put the king in check
         private Position[] FilterOutIllegalMoves(BoardPosition board, Position[] moves)
