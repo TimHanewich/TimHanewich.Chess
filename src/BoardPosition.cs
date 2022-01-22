@@ -881,16 +881,16 @@ namespace TimHanewich.Chess
         public float Evaluate(int depth)
         {
             TranspositionTable tt = new TranspositionTable();
-            return Evaluate(depth, ref tt);
+            return Evaluate(depth, tt);
         }
 
-        public float Evaluate(int depth, ref TranspositionTable tt)
+        public float Evaluate(int depth, TranspositionTable tt)
         {
-            float eval = EvaluateWithPruning(depth, float.MinValue, float.MaxValue, ref tt);
+            float eval = EvaluateWithPruning(depth, float.MinValue, float.MaxValue, tt);
             return eval;
         }
 
-        private float EvaluateWithPruning(int depth, float alpha, float beta, ref TranspositionTable tt)
+        private float EvaluateWithPruning(int depth, float alpha, float beta, TranspositionTable tt)
         {
             //If depth is 0, return this evaluation via material difference
             if (depth == 0)
@@ -916,7 +916,7 @@ namespace TimHanewich.Chess
                 float MaxEvaluationSeen = float.MinValue;
                 foreach (BoardPosition bp in AvailableMovePositions())
                 {
-                    float eval = bp.EvaluateWithPruning(depth - 1, alpha, beta, ref tt);
+                    float eval = bp.EvaluateWithPruning(depth - 1, alpha, beta, tt);
                     MaxEvaluationSeen = Math.Max(MaxEvaluationSeen, eval);
                     alpha = Math.Max(alpha, eval);
                     if (beta <= alpha)
@@ -931,7 +931,7 @@ namespace TimHanewich.Chess
                 float MinEvaluationSeen = float.MaxValue;
                 foreach (BoardPosition bp in AvailableMovePositions())
                 {
-                    float eval = bp.EvaluateWithPruning(depth - 1, alpha, beta, ref tt);
+                    float eval = bp.EvaluateWithPruning(depth - 1, alpha, beta, tt);
                     MinEvaluationSeen = Math.Min(MinEvaluationSeen, eval);
                     beta = Math.Min(beta, eval);
                     if (beta <= alpha)
