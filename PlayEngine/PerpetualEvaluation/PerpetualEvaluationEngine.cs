@@ -14,7 +14,6 @@ namespace PlayEngine.PerpetualEvaluation
         public int Depth {get; set;}
 
         private TranspositionTable LocalTranspositionTableBuffer;
-        private BoardPosition EvaluateFromPosition; //The position we should currently focus on evaluating from. Get the next best move in this posiiton, then the next best move for that position, then so on. This class will be used by a play engine. When the opponent finally DOES make their move, this will just be updated to the resulting position of the move they made. So that way it evaluate from there
 
         public PerpetualEvaluationEngine()
         {
@@ -25,7 +24,7 @@ namespace PlayEngine.PerpetualEvaluation
 
         //Starting
         private bool StopPerpetuallyEvaluating;
-        public void Start()
+        public void Start(BoardPosition EvaluateFromPosition)
         {
 
             EvaluationEngine ee = new EvaluationEngine();
@@ -67,12 +66,6 @@ namespace PlayEngine.PerpetualEvaluation
             }
         }
 
-        public void SetEvaluateFromPosition(BoardPosition root)
-        {
-            EvaluateFromPosition = root;
-        }
-
-
         #region "Dumping of TranspositionTable"
 
         public void DumpTranspositionTable(TranspositionTable dump_to)
@@ -91,7 +84,6 @@ namespace PlayEngine.PerpetualEvaluation
         }
 
         #endregion
-
 
         #region "Toolkit"
 
