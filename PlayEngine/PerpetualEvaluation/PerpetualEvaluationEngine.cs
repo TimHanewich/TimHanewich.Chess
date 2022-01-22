@@ -1,5 +1,6 @@
 using System;
 using TimHanewich.Chess;
+using System.Threading.Tasks;
 
 
 namespace PlayEngine.PerpetualEvaluation
@@ -11,20 +12,30 @@ namespace PlayEngine.PerpetualEvaluation
         public event StringHandler StatusUpdated;
         public int Depth {get; set;}
 
+        private TranspositionTable LocalTranspositionTableBuffer;
         private BoardPosition EvaluateFromPosition; //The position we should currently focus on evaluating from. Get the next best move in this posiiton, then the next best move for that position, then so on. This class will be used by a play engine. When the opponent finally DOES make their move, this will just be updated to the resulting position of the move they made. So that way it evaluate from there
 
-        public void PerpetuallyEvaluate(TranspositionTable tt)
+        public PerpetualEvaluationEngine()
+        {
+            LocalTranspositionTableBuffer = new TranspositionTable();
+        }
+
+
+
+        //Starting
+        private bool StopPerpetuallyEvaluating;
+        public void Start()
         {
 
             EvaluationEngine ee = new EvaluationEngine();
 
             //Continuously evaluate
-            bool StopPerpetuallyEvaluating = false;
+            StopPerpetuallyEvaluating = false;
             while (StopPerpetuallyEvaluating == false)
             {
                 //Evaluate, find best move
                 UpdateStatus("Finding best move for " + EvaluateFromPosition.ToMove.ToString() + " in this position...");
-                MoveAssessment[] assessments = ee.FindBestMoves(EvaluateFromPosition, Depth, tt);
+                MoveAssessment[] assessments = ee.FindBestMoves(EvaluateFromPosition, Depth, LocalTranspositionTableBuffer);
                 UpdateStatus(assessments.Length.ToString() + " assessments made.");
 
                 //If there are no more moves forward, kill
@@ -39,12 +50,26 @@ namespace PlayEngine.PerpetualEvaluation
                 EvaluateFromPosition.ExecuteMove(assessments[0].Move);
                 UpdateStatus("Move executed!");
             }
+            UpdateStatus("Stopped!");
+        }
+
+        //Stopping
+        private bool StopConfirmed;
+        public async Task StopAsync()
+        {
+            StopConfirmed = false; //When this turns true, the stop is confirmed.
+            StopPerpetuallyEvaluating = true; //Asking it to stop
+            while (StopConfirmed == false)
+            {
+                await Task.Delay(100);
+            }
         }
 
         public void SetEvaluateFromPosition(BoardPosition root)
         {
             EvaluateFromPosition = root;
         }
+
 
 
         #region "Toolkit"
