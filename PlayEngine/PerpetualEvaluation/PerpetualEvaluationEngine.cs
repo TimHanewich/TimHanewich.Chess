@@ -11,7 +11,6 @@ namespace PlayEngine.PerpetualEvaluation
     public class PerpetualEvaluationEngine
     {
         public event StringHandler StatusUpdated;
-        public int Depth {get; set;}
 
         private TranspositionTable LocalTranspositionTableBuffer;
 
@@ -19,12 +18,10 @@ namespace PlayEngine.PerpetualEvaluation
         {
             LocalTranspositionTableBuffer = new TranspositionTable();
         }
-
-
-
+        
         //Starting
         private bool StopPerpetuallyEvaluating;
-        public void Start(BoardPosition EvaluateFromPosition)
+        public void Start(BoardPosition EvaluateFromPosition, int Depth)
         {
 
             EvaluationEngine ee = new EvaluationEngine();
