@@ -530,7 +530,7 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
 
-        public void ExecuteMove(Move m, PieceType promote_pawn_to = PieceType.Queen)
+        public void ExecuteMove(Move m)
         {
             //Is it castling? If so, take care of it separately
             if (m.Castling.HasValue)
@@ -724,17 +724,17 @@ namespace TimHanewich.Chess
             {
 
                 //Check for illegal
-                if (promote_pawn_to == PieceType.Pawn)
+                if (m.PromotePawnTo == PieceType.Pawn)
                 {
                     throw new Exception("Invalid move. Unable to promote pawn to pawn.");
                 }
-                else if (promote_pawn_to == PieceType.King)
+                else if (m.PromotePawnTo == PieceType.King)
                 {
                     throw new Exception("Invalid move. Unable to promote pawn to king.");
                 }
                 
                 //Do the promotion
-                PieceToMove.Type = promote_pawn_to;
+                PieceToMove.Type = m.PromotePawnTo;
             }
 
 
@@ -755,35 +755,9 @@ namespace TimHanewich.Chess
             List<BoardPosition> ToReturn = new List<BoardPosition>();
             foreach (Move m in moves)
             {
-
-                //If this is a pawn promotion, add all of the potential promotions (rook, bishop, knight, queen)
-                if (m.IsPawnPromotion(this))
-                {
-                    //Create boards
-                    BoardPosition PromoQueen = this.Copy();
-                    BoardPosition PromoRook = this.Copy();
-                    BoardPosition PromoBishop = this.Copy();
-                    BoardPosition PromoKnight = this.Copy();
-                    
-                    //Execute
-                    PromoQueen.ExecuteMove(m, PieceType.Queen);
-                    PromoRook.ExecuteMove(m, PieceType.Rook);
-                    PromoBishop.ExecuteMove(m, PieceType.Bishop);
-                    PromoKnight.ExecuteMove(m, PieceType.Knight);
-
-                    //Add
-                    ToReturn.Add(PromoQueen);
-                    ToReturn.Add(PromoRook);
-                    ToReturn.Add(PromoBishop);
-                    ToReturn.Add(PromoKnight);
-                }
-                else //If it is not a pawn promotion, execute it
-                {
-                    BoardPosition ThisMoveBoard = this.Copy();
-                    ThisMoveBoard.ExecuteMove(m);
-                    ToReturn.Add(ThisMoveBoard);
-                }
-                
+                BoardPosition ThisMoveBoard = this.Copy();
+                ThisMoveBoard.ExecuteMove(m);
+                ToReturn.Add(ThisMoveBoard); 
             }
             return ToReturn.ToArray();
         }
