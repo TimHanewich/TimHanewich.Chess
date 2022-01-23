@@ -60,3 +60,4 @@ string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree2.json";
     - Obviously the game is over if the current position is a checkmate. In spite of this, the `BoardPostion` class will still generate potential next moves.
 
 ## To-Do
+- In the AvailableMoves method in the `Piece` class, there are optimizations to be made (simplifications) for detecting pawn promotion, both for moving 1 move ahead and taking left or right. The code that is used right now is probably not optimal and can be simplified.
