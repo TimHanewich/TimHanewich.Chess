@@ -14,6 +14,33 @@ namespace TimHanewich.Chess
         //Pawn promotion store
         public PieceType PromotePawnTo {get; set;}
 
+        #region "Constructors"
+
+        public Move()
+        {
+
+        }
+
+        public Move(Position from, Position to)
+        {
+            FromPosition = from;
+            ToPosition = to;
+        }
+
+        public Move(Position from, Position to, PieceType promote_pawn_to)
+        {
+            FromPosition = from;
+            ToPosition = to;
+            PromotePawnTo = promote_pawn_to;
+        }
+
+        public Move(CastlingType castling)
+        {
+            Castling = castling;
+        }
+
+        #endregion
+
         public bool IsPawnPromotion(BoardPosition position)
         {
             Piece p = position.FindOccupyingPiece(FromPosition);
