@@ -61,3 +61,6 @@ string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree2.json";
 
 ## To-Do
 - In the AvailableMoves method in the `Piece` class, there are optimizations to be made (simplifications) for detecting pawn promotion, both for moving 1 move ahead and taking left or right. The code that is used right now is probably not optimal and can be simplified.
+- Algebraic notation disambiguating moves needs some work
+    - Example: Position 8/1q4Q1/2k5/1n6/8/8/7Q/4K3 w - - 3 3
+        - Queen to G2. There are two queens that can move to G2 yet the disambiguating move is not being added.
