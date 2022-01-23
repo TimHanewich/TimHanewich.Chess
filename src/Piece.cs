@@ -110,7 +110,17 @@ namespace TimHanewich.Chess
                         {
                             if (PotCap.Color == Color.Black)
                             {
-                                ToReturn.Add(new Move(Position, PotCap.Position));
+                                if (PotCap.Position.Rank() == 8) //It is also a promotion
+                                {
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Knight));  
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Bishop));  
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Queen));  
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Rook));  
+                                }
+                                else //It is not a promotion too
+                                {
+                                    ToReturn.Add(new Move(Position, PotCap.Position));  
+                                }
                             }
                         }
                     }
@@ -123,7 +133,17 @@ namespace TimHanewich.Chess
                         {
                             if (PotCap.Color == Color.Black)
                             {
-                                ToReturn.Add(new Move(Position, PotCap.Position));
+                                if (PotCap.Position.Rank() == 8)
+                                {
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Knight));  
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Bishop));  
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Queen));  
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Rook));
+                                }
+                                else
+                                {
+                                    ToReturn.Add(new Move(Position, PotCap.Position));
+                                }
                             }
                         }
                     }
@@ -165,7 +185,17 @@ namespace TimHanewich.Chess
                         {
                             if (PotCap.Color == Color.White)
                             {
-                                ToReturn.Add(new Move(Position, PotCap.Position));
+                                if (PotCap.Position.Rank() == 1)
+                                {
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Bishop));
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Knight));
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Rook));
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Queen));
+                                }
+                                else
+                                {
+                                    ToReturn.Add(new Move(Position, PotCap.Position));  
+                                }
                             }
                         }
                     }
@@ -178,7 +208,17 @@ namespace TimHanewich.Chess
                         {
                             if (PotCap.Color == Color.White)
                             {
-                                ToReturn.Add(new Move(Position, PotCap.Position));
+                                if (PotCap.Position.Rank() == 1)
+                                {
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Bishop));
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Knight));
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Rook));
+                                    ToReturn.Add(new Move(Position, PotCap.Position, PieceType.Queen));
+                                }
+                                else
+                                {
+                                    ToReturn.Add(new Move(Position, PotCap.Position));
+                                }
                             }
                         }
                     }
