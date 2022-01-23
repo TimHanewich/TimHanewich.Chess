@@ -220,6 +220,8 @@ namespace TimHanewich.Chess
                         {
                             if (p.Type == MovingPiece.Type)
                             { 
+                                Console.WriteLine("Checking if this similar piece can move to the same place.");
+
                                 //Can this piece also move to the destination?
                                 bool ThisPieceCanMoveThereToo = false;
                                 foreach (Move ppp in p.AvailableMoves(position, true))
@@ -229,6 +231,8 @@ namespace TimHanewich.Chess
                                         ThisPieceCanMoveThereToo = true;
                                     }
                                 }
+
+                                Console.WriteLine("THis piece can also hit there: " + ThisPieceCanMoveThereToo.ToString());
                                 
                                 //If it can move there too, disambiguate
                                 if (ThisPieceCanMoveThereToo)
@@ -241,6 +245,10 @@ namespace TimHanewich.Chess
                                     else if (p.Position.File() == MovingPiece.Position.File())
                                     {
                                         DisambiguatingNotation = MovingPiece.Position.Rank().ToString();
+                                    }
+                                    else //For example, moving a queen to G2 in this position: 8/1q4Q1/2k5/1n6/8/8/7Q/4K3 w - - 3 3
+                                    {
+                                        DisambiguatingNotation = MovingPiece.Position.File().ToString().ToLower();
                                     }
                                 }   
                             }
