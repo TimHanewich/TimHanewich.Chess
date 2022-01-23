@@ -67,26 +67,38 @@ namespace TimHanewich.Chess
             }
         }
     
-        public Position[] AvailableMoves(BoardPosition board, bool EnsureLegality)
+        public Move[] AvailableMoves(BoardPosition board, bool EnsureLegality)
         {
-            List<Position> ToReturn = new List<Position>();
+            List<Move> ToReturn = new List<Move>();
 
             if (Type == PieceType.Pawn)
             {
                 if (Color == Color.White)
                 {
                     //Up 1?
-                    if (board.PositionIsOccupied(Position.Up()) == false)
+                    Position Up1 = Position.Up();
+                    if (board.PositionIsOccupied(Up1) == false)
                     {
-                        ToReturn.Add(Position.Up());
+                        if (Up1.Rank() == 8) //Is promotion for white
+                        {
+                            ToReturn.Add(new Move(Position, Up1, PieceType.Knight));
+                            ToReturn.Add(new Move(Position, Up1, PieceType.Bishop));
+                            ToReturn.Add(new Move(Position, Up1, PieceType.Queen));
+                            ToReturn.Add(new Move(Position, Up1, PieceType.Rook));
+                        }
+                        else //Is not a promotion, just a normal move
+                        {
+                            ToReturn.Add(new Move(Position, Up1));
+                        }
                     }
 
                     //Up 2?
                     if (Position.Rank() == 2)
                     {
+                        Position Up2 = Position.Up().Up();
                         if (board.PositionIsOccupied(Position.Up().Up()) == false)
                         {
-                            ToReturn.Add(Position.Up().Up());
+                            ToReturn.Add(new Move(Position, Up2));
                         }
                     }
 
@@ -98,7 +110,7 @@ namespace TimHanewich.Chess
                         {
                             if (PotCap.Color == Color.Black)
                             {
-                                ToReturn.Add(PotCap.Position);
+                                ToReturn.Add(new Move(Position, PotCap.Position));
                             }
                         }
                     }
@@ -111,7 +123,7 @@ namespace TimHanewich.Chess
                         {
                             if (PotCap.Color == Color.Black)
                             {
-                                ToReturn.Add(PotCap.Position);
+                                ToReturn.Add(new Move(Position, PotCap.Position));
                             }
                         }
                     }
@@ -119,17 +131,29 @@ namespace TimHanewich.Chess
                 else
                 {
                     //Down 1?
-                    if (board.PositionIsOccupied(Position.Down()) == false)
+                    Position Down1 = Position.Down();
+                    if (board.PositionIsOccupied(Down1) == false)
                     {
-                        ToReturn.Add(Position.Down());
+                        if (Down1.Rank() == 1) //This would be a pawn promotion for black
+                        {
+                            ToReturn.Add(new Move(Position, Down1, PieceType.Bishop));
+                            ToReturn.Add(new Move(Position, Down1, PieceType.Knight));
+                            ToReturn.Add(new Move(Position, Down1, PieceType.Rook));
+                            ToReturn.Add(new Move(Position, Down1, PieceType.Queen));
+                        }
+                        else //It is a normal pawn move (not promotion)
+                        {
+                            ToReturn.Add(new Move(Position, Down1));
+                        }
                     }
 
                     //Down 2?
+                    Position Down2 = Position.Down().Down();
                     if (Position.Rank() == 7)
                     {
-                        if (board.PositionIsOccupied(Position.Down().Down()) == false)
+                        if (board.PositionIsOccupied(Down2) == false)
                         {
-                            ToReturn.Add(Position.Down().Down());
+                            ToReturn.Add(new Move(Position, Down2));
                         }
                     }
 
@@ -141,7 +165,7 @@ namespace TimHanewich.Chess
                         {
                             if (PotCap.Color == Color.White)
                             {
-                                ToReturn.Add(PotCap.Position);
+                                ToReturn.Add(new Move(Position, PotCap.Position));
                             }
                         }
                     }
@@ -154,7 +178,7 @@ namespace TimHanewich.Chess
                         {
                             if (PotCap.Color == Color.White)
                             {
-                                ToReturn.Add(PotCap.Position);
+                                ToReturn.Add(new Move(Position, PotCap.Position));
                             }
                         }
                     }
@@ -169,11 +193,11 @@ namespace TimHanewich.Chess
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else if (Occ.Color != Color) //If it is an opposing color, we can take
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                 }
 
@@ -184,11 +208,11 @@ namespace TimHanewich.Chess
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else if (Occ.Color != Color) //If it is an opposing color, we can take
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                 }
 
@@ -199,11 +223,11 @@ namespace TimHanewich.Chess
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else if (Occ.Color != Color) //If it is an opposing color, we can take
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                 }
 
@@ -214,11 +238,11 @@ namespace TimHanewich.Chess
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else if (Occ.Color != Color) //If it is an opposing color, we can take
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                 }
 
@@ -229,11 +253,11 @@ namespace TimHanewich.Chess
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else if (Occ.Color != Color) //If it is an opposing color, we can take
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                 }
 
@@ -244,11 +268,11 @@ namespace TimHanewich.Chess
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else if (Occ.Color != Color) //If it is an opposing color, we can take
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                 }
 
@@ -259,11 +283,11 @@ namespace TimHanewich.Chess
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else if (Occ.Color != Color) //If it is an opposing color, we can take
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                 }
 
@@ -274,38 +298,53 @@ namespace TimHanewich.Chess
                     Piece Occ = board.FindOccupyingPiece(PotMove);
                     if (Occ == null) //If it is empty we can jump to it
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else if (Occ.Color != Color) //If it is an opposing color, we can take
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                 }
             }
             else if (Type == PieceType.Bishop)
             {
-                ToReturn.AddRange(LinearMoves(board, 0));
-                ToReturn.AddRange(LinearMoves(board, 1));
-                ToReturn.AddRange(LinearMoves(board, 2));
-                ToReturn.AddRange(LinearMoves(board, 3));
+                List<Position> MPs = new List<Position>();
+                MPs.AddRange(LinearMoves(board, 0));
+                MPs.AddRange(LinearMoves(board, 1));
+                MPs.AddRange(LinearMoves(board, 2));
+                MPs.AddRange(LinearMoves(board, 3));
+                foreach (Position pos in MPs)
+                {
+                    ToReturn.Add(new Move(Position, pos));
+                }
             }
             else if (Type == PieceType.Rook)
             {
-                ToReturn.AddRange(LinearMoves(board, 4));
-                ToReturn.AddRange(LinearMoves(board, 5));
-                ToReturn.AddRange(LinearMoves(board, 6));
-                ToReturn.AddRange(LinearMoves(board, 7));
+                List<Position> MPs = new List<Position>();
+                MPs.AddRange(LinearMoves(board, 4));
+                MPs.AddRange(LinearMoves(board, 5));
+                MPs.AddRange(LinearMoves(board, 6));
+                MPs.AddRange(LinearMoves(board, 7));
+                foreach (Position pos in MPs)
+                {
+                    ToReturn.Add(new Move(Position, pos));
+                }
             }
             else if (Type == PieceType.Queen)
             {
-                ToReturn.AddRange(LinearMoves(board, 0));
-                ToReturn.AddRange(LinearMoves(board, 1));
-                ToReturn.AddRange(LinearMoves(board, 2));
-                ToReturn.AddRange(LinearMoves(board, 3));
-                ToReturn.AddRange(LinearMoves(board, 4));
-                ToReturn.AddRange(LinearMoves(board, 5));
-                ToReturn.AddRange(LinearMoves(board, 6));
-                ToReturn.AddRange(LinearMoves(board, 7));
+                List<Position> MPs = new List<Position>();
+                MPs.AddRange(LinearMoves(board, 0));
+                MPs.AddRange(LinearMoves(board, 1));
+                MPs.AddRange(LinearMoves(board, 2));
+                MPs.AddRange(LinearMoves(board, 3));
+                MPs.AddRange(LinearMoves(board, 4));
+                MPs.AddRange(LinearMoves(board, 5));
+                MPs.AddRange(LinearMoves(board, 6));
+                MPs.AddRange(LinearMoves(board, 7));
+                foreach (Position pos in MPs)
+                {
+                    ToReturn.Add(new Move(Position, pos));
+                }
             }
             else if (Type == PieceType.King)
             {
@@ -318,13 +357,13 @@ namespace TimHanewich.Chess
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else
                     {
                         if (OccPiece.Color != Color)
                         {
-                            ToReturn.Add(PotMove);
+                            ToReturn.Add(new Move(Position, PotMove));
                         }
                     }
                 }
@@ -336,13 +375,13 @@ namespace TimHanewich.Chess
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else
                     {
                         if (OccPiece.Color != Color)
                         {
-                            ToReturn.Add(PotMove);
+                            ToReturn.Add(new Move(Position, PotMove));
                         }
                     }
                 }
@@ -354,13 +393,13 @@ namespace TimHanewich.Chess
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else
                     {
                         if (OccPiece.Color != Color)
                         {
-                            ToReturn.Add(PotMove);
+                            ToReturn.Add(new Move(Position, PotMove));
                         }
                     }
                 }
@@ -372,13 +411,13 @@ namespace TimHanewich.Chess
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else
                     {
                         if (OccPiece.Color != Color)
                         {
-                            ToReturn.Add(PotMove);
+                            ToReturn.Add(new Move(Position, PotMove));
                         }
                     }
                 }
@@ -390,13 +429,13 @@ namespace TimHanewich.Chess
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else
                     {
                         if (OccPiece.Color != Color)
                         {
-                            ToReturn.Add(PotMove);
+                            ToReturn.Add(new Move(Position, PotMove));
                         }
                     }
                 }
@@ -408,13 +447,13 @@ namespace TimHanewich.Chess
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else
                     {
                         if (OccPiece.Color != Color)
                         {
-                            ToReturn.Add(PotMove);
+                            ToReturn.Add(new Move(Position, PotMove));
                         }
                     }
                 }
@@ -426,13 +465,13 @@ namespace TimHanewich.Chess
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else
                     {
                         if (OccPiece.Color != Color)
                         {
-                            ToReturn.Add(PotMove);
+                            ToReturn.Add(new Move(Position, PotMove));
                         }
                     }
                 }
@@ -444,13 +483,13 @@ namespace TimHanewich.Chess
                     Piece OccPiece = board.FindOccupyingPiece(PotMove);
                     if (OccPiece == null)
                     {
-                        ToReturn.Add(PotMove);
+                        ToReturn.Add(new Move(Position, PotMove));
                     }
                     else
                     {
                         if (OccPiece.Color != Color)
                         {
-                            ToReturn.Add(PotMove);
+                            ToReturn.Add(new Move(Position, PotMove));
                         }
                     }
                 }
@@ -586,26 +625,23 @@ namespace TimHanewich.Chess
 
 
         //For example, filter out moves that put the king in check
-        private Position[] FilterOutIllegalMoves(BoardPosition board, Position[] moves)
+        private Move[] FilterOutIllegalMoves(BoardPosition board, Move[] moves)
         {
-            List<Position> ToReturn = new List<Position>();
-            foreach (Position pos in moves)
+            List<Move> ToReturn = new List<Move>();
+            foreach (Move m in moves)
             {
-                bool IsLegal = MoveIsLegal(board, pos);
+                bool IsLegal = MoveIsLegal(board, m);
                 if (IsLegal)
                 {
-                    ToReturn.Add(pos);
+                    ToReturn.Add(m);
                 }
             }
             return ToReturn.ToArray();
         }
 
-        private bool MoveIsLegal(BoardPosition board, Position destination)
+        private bool MoveIsLegal(BoardPosition board, Move m)
         {
             BoardPosition copy = board.Copy();
-            Move m = new Move();
-            m.FromPosition = Position;
-            m.ToPosition = destination;
             copy.ExecuteMove(m);
 
             //Executing the move above flips the color.
