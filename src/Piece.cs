@@ -158,7 +158,7 @@ namespace TimHanewich.Chess
                     }
 
                     //Capture left?
-                    if (Position.File() != 'A')
+                    if (Position.File() != 'H')
                     {
                         Piece PotCap = board.FindOccupyingPiece(Position.DownLeft());
                         if (PotCap != null)
@@ -171,7 +171,7 @@ namespace TimHanewich.Chess
                     }
 
                     //Capture right?
-                    if (Position.File() != 'H')
+                    if (Position.File() != 'A')
                     {
                         Piece PotCap = board.FindOccupyingPiece(Position.DownRight());
                         if (PotCap != null)
