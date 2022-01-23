@@ -222,9 +222,9 @@ namespace TimHanewich.Chess
                             { 
                                 //Can this piece also move to the destination?
                                 bool ThisPieceCanMoveThereToo = false;
-                                foreach (Position ppp in p.AvailableMoves(position, true))
+                                foreach (Move ppp in p.AvailableMoves(position, true))
                                 {
-                                    if (ppp == ToPosition)
+                                    if (ppp.ToPosition == ToPosition)
                                     {
                                         ThisPieceCanMoveThereToo = true;
                                     }
@@ -349,11 +349,6 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
     
-        public Move()
-        {
-
-        }
-
         public Move(string algebraic_notation, BoardPosition position)
         {
             string disecting = algebraic_notation;
