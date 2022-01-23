@@ -7,7 +7,12 @@ namespace TimHanewich.Chess
     {
         public Position FromPosition {get; set;}
         public Position ToPosition {get; set;}
+
+        //Castling store
         public CastlingType? Castling {get; set;}
+
+        //Pawn promotion store
+        public PieceType PromotePawnTo {get; set;}
 
         public bool IsPawnPromotion(BoardPosition position)
         {
@@ -46,7 +51,6 @@ namespace TimHanewich.Chess
             }
         }
     
-
         #region "Move sorting"
 
         public bool IsCapture(BoardPosition position)
@@ -130,7 +134,7 @@ namespace TimHanewich.Chess
 
         #region "Algebraic notation"
 
-        public string ToAlgebraicNotation(BoardPosition position, PieceType promote_pawn_to = PieceType.Queen)
+        public string ToAlgebraicNotation(BoardPosition position)
         {
             //Castling?
             if (Castling.HasValue)
@@ -227,7 +231,7 @@ namespace TimHanewich.Chess
             string PromotionNotation = "";
             if (IsPawnPromotion(position))
             {
-                PromotionNotation = "=" + GetPieceNotation(promote_pawn_to);
+                PromotionNotation = "=" + GetPieceNotation(PromotePawnTo);
             }
 
             //Is it it a check or check mate?
@@ -249,7 +253,7 @@ namespace TimHanewich.Chess
             return ToReturn;
         }
     
-        public string ToLongAlgebraicNotation(BoardPosition position, PieceType promote_pawn_to = PieceType.Queen)
+        public string ToLongAlgebraicNotation(BoardPosition position)
         {
 
             //Take care of castling separately
@@ -285,7 +289,7 @@ namespace TimHanewich.Chess
             //Append pawn promotion code?
             if (IsPawnPromotion(position))
             {
-                ToReturn = ToReturn + GetPieceNotation(promote_pawn_to).ToLower();
+                ToReturn = ToReturn + GetPieceNotation(PromotePawnTo).ToLower();
             }
 
             return ToReturn;
