@@ -382,14 +382,8 @@ namespace TimHanewich.Chess
             {
                 if (p.Color == by_color)
                 {
-                    Position[] PosMovesForPiece = p.AvailableMoves(this, CheckLegality);
-                    foreach (Position PotMove in PosMovesForPiece)
-                    {
-                        Move m = new Move();
-                        m.FromPosition = p.Position;
-                        m.ToPosition = PotMove;
-                        ToReturn.Add(m);
-                    }
+                    Move[] PotMovesForPiece = p.AvailableMoves(this, CheckLegality);
+                    ToReturn.AddRange(PotMovesForPiece);
                 }
             }
 
