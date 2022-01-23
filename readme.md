@@ -60,6 +60,3 @@ string MoveNodeTreePath = @"C:\Users\tahan\Downloads\MoveTree2.json";
     - Obviously the game is over if the current position is a checkmate. In spite of this, the `BoardPostion` class will still generate potential next moves.
 
 ## To-Do
-- The piece that a pawn is being promoted to should a property of the `Move` class. That way, when generating next moves, 4 different moves can be generated for a pawn promotion (promotion to queen, rook, bishop, knight).
-    - After doing this, remove the `promote_pawn_to` piece parameter.
-    - When generating potential next moves in a position where a pawn promotion is possible, ensure a promotion to every piece type is available.
