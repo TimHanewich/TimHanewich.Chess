@@ -397,10 +397,10 @@ namespace TimHanewich.Chess
                 {
                     if (p.Type == Moving)
                     {
-                        Position[] moves = p.AvailableMoves(position, true);
-                        foreach (Position pos in moves)
+                        Move[] moves = p.AvailableMoves(position, true);
+                        foreach (Move m in moves)
                         {
-                            if (pos == ToPosition)
+                            if (m.ToPosition == ToPosition)
                             {
                                 FromPosition = p.Position;
                             }
