@@ -219,8 +219,7 @@ namespace TimHanewich.Chess
                         if (p.Color == MovingPiece.Color)
                         {
                             if (p.Type == MovingPiece.Type)
-                            { 
-                                Console.WriteLine("Checking if this similar piece can move to the same place.");
+                            {
 
                                 //Can this piece also move to the destination?
                                 bool ThisPieceCanMoveThereToo = false;
@@ -231,8 +230,6 @@ namespace TimHanewich.Chess
                                         ThisPieceCanMoveThereToo = true;
                                     }
                                 }
-
-                                Console.WriteLine("THis piece can also hit there: " + ThisPieceCanMoveThereToo.ToString());
                                 
                                 //If it can move there too, disambiguate
                                 if (ThisPieceCanMoveThereToo)
