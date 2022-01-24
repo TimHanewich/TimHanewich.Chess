@@ -339,7 +339,13 @@ namespace PlayEngine
                             //If we found the move, play it
                             if (ToPlayMove != null)
                             {
-                                Console.WriteLine("I play " + SelectedNode.Move + " (" + ToPlayMove.FromPosition.ToString() + " to " + ToPlayMove.ToPosition.ToString() + ")");
+                                Console.Write("I play ");
+                                ConsoleVisualsToolkit.Write(SelectedNode.Move, ConsoleColor.Blue);
+                                Console.Write(" (");
+                                ConsoleVisualsToolkit.Write(ToPlayMove.FromPosition.ToString(), ConsoleColor.Blue);
+                                Console.Write(" to ");
+                                ConsoleVisualsToolkit.Write(ToPlayMove.ToPosition.ToString(), ConsoleColor.Blue);
+                                Console.WriteLine(")");
                                 Console.Write("Executing move... ");
                                 GAME.ExecuteMove(ToPlayMove); //Play the move on the board
                                 HISTORY.AddNextMove(SelectedNode.Move); //Add it to the move history log.
