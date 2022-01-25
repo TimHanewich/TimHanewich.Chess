@@ -743,8 +743,7 @@ namespace TimHanewich.Chess
             PieceToMove.Position = m.ToPosition;
 
             
-
-            //Is this was a pawn move, now promote the pawn
+            //Is this was a pawn promotion, now promote the pawn
             if (IsPawnPromo)
             {
 
@@ -761,6 +760,43 @@ namespace TimHanewich.Chess
                 //Do the promotion
                 PieceToMove.Type = m.PromotePawnTo;
             }
+
+
+            //Detect if this was an en passant move? If it was an en passant move, find and remove the captured pawn
+            if (EnPassantTarget.HasValue)
+            {
+                if (PieceToMove.Type == PieceType.Pawn)
+                {
+                    if (m.ToPosition == EnPassantTarget.Value) //If this pawn moved to the en passant target square, it is an en passant move
+                    {
+
+                        //We are here, so it was an en passant move.
+                        //We must find the position of the pawn that was taken as a result of en passant
+
+                        //Get the position to search for the pawn that will be taken as a result of En Passant
+                        Position PositionOfPawnBeingTaken = m.ToPosition;
+                        if (ToMove == Color.White)
+                        {
+                            PositionOfPawnBeingTaken = m.ToPosition.Down();
+                        }
+                        else if (ToMove == Color.Black)
+                        {
+                            PositionOfPawnBeingTaken = m.ToPosition.Up();
+                        }
+
+                        //Find the pawn
+                        Piece CapturedPawn = FindOccupyingPiece(PositionOfPawnBeingTaken);
+                        if (CapturedPawn == null)
+                        {
+                            throw new Exception("Unable to execute detect en passant move. Unable to find captured piece.");
+                        }
+
+                        //Remove the pawn
+                        RemovePiece(CapturedPawn);
+                    }
+                }
+            }
+
 
             
             //No matter what, turn the En Passant target square off
