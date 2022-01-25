@@ -539,6 +539,9 @@ namespace TimHanewich.Chess
             ToReturn.BlackKingSideCastlingAvailable = BlackKingSideCastlingAvailable;
             ToReturn.BlackQueenSideCastlingAvailable = BlackQueenSideCastlingAvailable;
 
+            //Copy en passant
+            ToReturn.EnPassantTarget = EnPassantTarget;
+
             //Copy each piece
             foreach (Piece p in _Pieces)
             {
