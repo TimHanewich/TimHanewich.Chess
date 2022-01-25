@@ -69,8 +69,6 @@ namespace TimHanewich.Chess
     
         public Move[] AvailableMoves(BoardPosition board, bool EnsureLegality)
         {
-            Console.WriteLine("Getting available moves for position: " + board.ToFEN());
-
             List<Move> ToReturn = new List<Move>();
 
             if (Type == PieceType.Pawn)
