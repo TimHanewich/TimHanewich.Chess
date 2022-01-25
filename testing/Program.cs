@@ -18,28 +18,21 @@ namespace testing
         static void Main(string[] args)
         {
 
-            BoardPosition bp = new BoardPosition("8/5pk1/Q5p1/P7/7p/5K1P/3prPP1/8 b - - 0 1");
-            TranspositionTable tt = new TranspositionTable();
+            BoardPosition bp = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+
+            // BoardPosition[] afterWhiteMove = bp.AvailableMovePositions();
+            // foreach (BoardPosition pbp in afterWhiteMove)
+            // {
+            //     BoardPosition[] avail = pbp.AvailableMovePositions();
+            //     Console.WriteLine(avail.Length.ToString());
+            // }
+            
             HanewichTimer ht = new HanewichTimer();
-
-            //Eval
             ht.StartTimer();
-            Console.Write("Evaluating... ");
-            float eval1 = bp.Evaluate(8, tt);
+            PerftTestResult ptr = PerftTestResult.PerformTest(5);
             ht.StopTimer();
-            Console.WriteLine(ht.GetElapsedTime().TotalSeconds.ToString("#,##0.000"));
 
-            //Eval 2
-            ht.StartTimer();
-            Console.Write("Evaluating again... ");
-            float eval2 = bp.Evaluate(8, tt);
-            ht.StopTimer();
-            Console.WriteLine(ht.GetElapsedTime().TotalSeconds.ToString("#,##0.000"));
-
-
-            Console.WriteLine("Eval 1: " + eval1.ToString("#,##0.000"));
-            Console.WriteLine("Eval 2: " + eval2.ToString("#,##0.000"));
-            Console.WriteLine("In transposition table: " + tt.Values.Length.ToString("#,##0"));
+            Console.WriteLine(ptr.Nodes.ToString("#,##0") + " nodes found in " + ht.GetElapsedTime().TotalSeconds.ToString("#,##0.0") +  " seconds");
             
             
         }
