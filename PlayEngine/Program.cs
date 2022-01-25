@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using PlayEngine.BookMoveSelection;
 using ConsoleVisuals;
+using PlayEngine.PerpetualEvaluation;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PlayEngine
 {
@@ -225,6 +228,15 @@ namespace PlayEngine
                     }
                 }
             }
+
+
+            //Launch the perpetual check engine
+            Console.Write("Starting up perpetual evaluation engine... ");
+            PerpetualEvaluationEngine pee = new PerpetualEvaluationEngine();
+            pee.ExceptionEncountered += PrintStatusError;
+            Task.Run(() => pee.Start(GAME, EvalDepth));
+            ConsoleVisualsToolkit.WriteLine("Started!", ConsoleColor.Green);
+            
             
 
 
@@ -308,6 +320,9 @@ namespace PlayEngine
                 else //It is MY TURN!
                 {
 
+                    
+
+
                     //Go to calculation?
                     bool GoToCalculation = false;
 
@@ -383,6 +398,20 @@ namespace PlayEngine
                     //Should we calculte? if so, do it
                     if (GoToCalculation)
                     {
+
+                        //Before calculating/ making my move, dump the perpetual evaluation engine local transposition table
+                        Console.Write("Suspending perpetual evaluation engine... ");
+                        pee.StopAsync().Wait();
+                        ConsoleVisualsToolkit.WriteLine("Stopped!", ConsoleColor.Green);
+                        Console.Write("Dumping perpetual evaluation transposition table... ");
+                        pee.DumpTranspositionTable(tt);
+                        ConsoleVisualsToolkit.WriteLine("Dumped!", ConsoleColor.Green);
+                        Console.Write("The transposition table now contains ");
+                        ConsoleVisualsToolkit.Write(tt.Values.Length.ToString("#,##0"), ConsoleColor.Blue);
+                        Console.WriteLine(" evaluations.");
+
+
+
                         Console.WriteLine("Going to calculate the best move forward.");
                         Console.WriteLine("Current Position: " + GAME.ToFEN());
                         Console.WriteLine("Finding moves...");
@@ -413,7 +442,14 @@ namespace PlayEngine
                         GAME.ExecuteMove(ToMake); //Execute move
                         HISTORY.AddNextMove(AsNotation); //Record it in the game move history log
                         mdh.Add(GAME.BoardRepresentation(), ToMake);
-                        Console.WriteLine("I play " + AsNotation + " (" + ToMake.FromPosition.ToString() + " --> " + ToMake.ToPosition.ToString() + ")");  
+                        Console.WriteLine("I play " + AsNotation + " (" + ToMake.FromPosition.ToString() + " --> " + ToMake.ToPosition.ToString() + ")"); 
+
+                    
+
+                        //Now re-start the perpetual eval engine
+                        Console.Write("Restarting perpetual evaluation engine... ");
+                        Task.Run(() => pee.Start(GAME, EvalDepth));
+                        ConsoleVisualsToolkit.WriteLine("Restarted!", ConsoleColor.Green);
                     }
 
 
@@ -509,6 +545,11 @@ namespace PlayEngine
         public static void PrintStatus(string s)
         {
             Console.WriteLine(s);
+        }
+
+        public static void PrintStatusError(string error)
+        {
+            ConsoleVisualsToolkit.WriteLine(error, ConsoleColor.Red);
         }
 
         public static void PrintPercentComplete(float f)
