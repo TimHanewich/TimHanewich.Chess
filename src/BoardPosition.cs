@@ -762,6 +762,11 @@ namespace TimHanewich.Chess
                 PieceToMove.Type = m.PromotePawnTo;
             }
 
+            
+            //No matter what, turn the En Passant target square off
+            //This is because whether the player took the en passant opportunity or not, that no longer exists
+            EnPassantTarget = null;
+
 
             //Flip ToMove
             if (PieceToMove.Color == Color.White)
