@@ -11,6 +11,7 @@ namespace PlayEngine.PerpetualEvaluation
     public class PerpetualEvaluationEngine
     {
         public event StringHandler StatusUpdated;
+        public event StringHandler ExceptionEncountered;
 
         private TranspositionTable LocalTranspositionTableBuffer;
 
@@ -24,31 +25,42 @@ namespace PlayEngine.PerpetualEvaluation
         public void Start(BoardPosition EvaluateFromPosition, int Depth)
         {
 
-            EvaluationEngine ee = new EvaluationEngine();
-
-            //Continuously evaluate
-            StopPerpetuallyEvaluating = false;
-            while (StopPerpetuallyEvaluating == false)
+            try
             {
-                //Evaluate, find best move
-                UpdateStatus("Finding best move for " + EvaluateFromPosition.ToMove.ToString() + " in this position...");
-                MoveAssessment[] assessments = ee.FindBestMoves(EvaluateFromPosition, Depth, LocalTranspositionTableBuffer);
-                UpdateStatus(assessments.Length.ToString() + " assessments made.");
+                EvaluationEngine ee = new EvaluationEngine();
 
-                //If there are no more moves forward, kill
-                if (assessments.Length == 0)
+                //Continuously evaluate
+                StopPerpetuallyEvaluating = false;
+                while (StopPerpetuallyEvaluating == false)
                 {
-                    UpdateStatus("There were no more moves forward. Weird! Aborting perpetual evaluation...");
-                    return;
-                }
+                    //Evaluate, find best move
+                    UpdateStatus("Finding best move for " + EvaluateFromPosition.ToMove.ToString() + " in this position...");
+                    MoveAssessment[] assessments = ee.FindBestMoves(EvaluateFromPosition, Depth, LocalTranspositionTableBuffer);
+                    UpdateStatus(assessments.Length.ToString() + " assessments made.");
 
-                //Execute the best move
-                UpdateStatus("Executing best move: " + assessments[0].Move.ToAlgebraicNotation(EvaluateFromPosition));
-                EvaluateFromPosition.ExecuteMove(assessments[0].Move);
-                UpdateStatus("Move executed!");
+                    //If there are no more moves forward, kill
+                    if (assessments.Length == 0)
+                    {
+                        UpdateStatus("There were no more moves forward. Weird! Aborting perpetual evaluation...");
+                        return;
+                    }
+
+                    //Execute the best move
+                    UpdateStatus("Executing best move: " + assessments[0].Move.ToAlgebraicNotation(EvaluateFromPosition));
+                    EvaluateFromPosition.ExecuteMove(assessments[0].Move);
+                    UpdateStatus("Move executed!");
+                }
+                UpdateStatus("Stopped!");
+                StopConfirmed = true; //Signal that the stop is indeed successful.
+
+
             }
-            UpdateStatus("Stopped!");
-            StopConfirmed = true; //Signal that the stop is indeed successful.
+            catch (Exception ex)
+            {
+                string msg = "Exception encountered in perpetual evaluation engine: " + ex.Message;
+                RaiseExceptionEvent(msg);
+            }
+
         }
 
         //Stopping
@@ -93,6 +105,18 @@ namespace PlayEngine.PerpetualEvaluation
             catch
             {
                 
+            }
+        }
+
+        private void RaiseExceptionEvent(string msg)
+        {
+            try
+            {
+                ExceptionEncountered.Invoke(msg);
+            }
+            catch
+            {
+
             }
         }
     
