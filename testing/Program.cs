@@ -18,15 +18,30 @@ namespace testing
         static void Main(string[] args)
         {
 
-            PerpetualEvaluationEngine pee = new PerpetualEvaluationEngine();
-            pee.Depth = 5;
-            pee.StatusUpdated += PrintStatus;
-            pee.SetEvaluateFromPosition(new BoardPosition("1kb4r/3q4/8/4N3/3R2R1/8/1B2K3/8 b k - 0 1"));
+            BoardPosition bp = new BoardPosition("8/5pk1/Q5p1/P7/7p/5K1P/3prPP1/8 b - - 0 1");
             TranspositionTable tt = new TranspositionTable();
-            Task.Run(() => pee.PerpetuallyEvaluate(tt));
-            Task.Delay(20000).Wait();
-            Console.WriteLine("DONE!");
-            Console.WriteLine("TT's: " + tt.Values.Length.ToString("#,##0"));
+            HanewichTimer ht = new HanewichTimer();
+
+            //Eval
+            ht.StartTimer();
+            Console.Write("Evaluating... ");
+            float eval1 = bp.Evaluate(8, tt);
+            ht.StopTimer();
+            Console.WriteLine(ht.GetElapsedTime().TotalSeconds.ToString("#,##0.000"));
+
+            //Eval 2
+            ht.StartTimer();
+            Console.Write("Evaluating again... ");
+            float eval2 = bp.Evaluate(8, tt);
+            ht.StopTimer();
+            Console.WriteLine(ht.GetElapsedTime().TotalSeconds.ToString("#,##0.000"));
+
+
+            Console.WriteLine("Eval 1: " + eval1.ToString("#,##0.000"));
+            Console.WriteLine("Eval 2: " + eval2.ToString("#,##0.000"));
+            Console.WriteLine("In transposition table: " + tt.Values.Length.ToString("#,##0"));
+            
+            
         }
 
         public static void TimeEvaluationTest()
