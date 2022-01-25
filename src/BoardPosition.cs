@@ -5,11 +5,19 @@ namespace TimHanewich.Chess
 {
     public class BoardPosition
     {
+        //To move
         public Color ToMove {get; set;}
+
+        //Castling record
         public bool WhiteKingSideCastlingAvailable {get; set;}
         public bool WhiteQueenSideCastlingAvailable {get; set;}
         public bool BlackKingSideCastlingAvailable {get; set;}
         public bool BlackQueenSideCastlingAvailable {get; set;}
+
+        //En passant target square
+        public Position? EnPassantTarget {get; set;}
+
+        //Pieces list
         private List<Piece> _Pieces;
 
         public BoardPosition()
@@ -181,6 +189,20 @@ namespace TimHanewich.Chess
                 if (CastlingComponent.Contains("q"))
                 {
                     BlackQueenSideCastlingAvailable = true;
+                }
+            }
+
+            //En passant target?
+            if (FenComponents.Length >= 4)
+            {
+                string EnPassantPart = FenComponents[3];
+                if (EnPassantPart != "-")
+                {
+                    EnPassantTarget = PositionToolkit.Parse(EnPassantPart);
+                }
+                else
+                {
+                    EnPassantTarget = null;
                 }
             }
         }
