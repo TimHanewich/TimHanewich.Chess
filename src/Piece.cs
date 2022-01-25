@@ -69,6 +69,8 @@ namespace TimHanewich.Chess
     
         public Move[] AvailableMoves(BoardPosition board, bool EnsureLegality)
         {
+            Console.WriteLine("Getting available moves for position: " + board.ToFEN());
+
             List<Move> ToReturn = new List<Move>();
 
             if (Type == PieceType.Pawn)
@@ -168,9 +170,9 @@ namespace TimHanewich.Chess
                     }
 
                     //Down 2?
-                    Position Down2 = Position.Down().Down();
                     if (Position.Rank() == 7)
                     {
+                        Position Down2 = Position.Down().Down();
                         if (board.PositionIsOccupied(Down2) == false)
                         {
                             ToReturn.Add(new Move(Position, Down2));
