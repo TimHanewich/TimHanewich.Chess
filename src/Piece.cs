@@ -75,10 +75,12 @@ namespace TimHanewich.Chess
             {
                 if (Color == Color.White)
                 {
-                    //Up 1?
+                    //Up 1 or 2?
                     Position Up1 = Position.Up();
                     if (board.PositionIsOccupied(Up1) == false)
                     {
+
+                        //Up 1?
                         if (Up1.Rank() == 8) //Is promotion for white
                         {
                             ToReturn.Add(new Move(Position, Up1, PieceType.Knight));
@@ -90,17 +92,19 @@ namespace TimHanewich.Chess
                         {
                             ToReturn.Add(new Move(Position, Up1));
                         }
+
+                        //Up 2?
+                        if (Position.Rank() == 2)
+                        {
+                            Position Up2 = Position.Up().Up();
+                            if (board.PositionIsOccupied(Position.Up().Up()) == false)
+                            {
+                                ToReturn.Add(new Move(Position, Up2));
+                            }
+                        }
+
                     }
 
-                    //Up 2?
-                    if (Position.Rank() == 2)
-                    {
-                        Position Up2 = Position.Up().Up();
-                        if (board.PositionIsOccupied(Position.Up().Up()) == false)
-                        {
-                            ToReturn.Add(new Move(Position, Up2));
-                        }
-                    }
 
                     //Capture left?
                     if (Position.File() != 'A')
@@ -150,10 +154,12 @@ namespace TimHanewich.Chess
                 }
                 else
                 {
-                    //Down 1?
+                    //Down 1 or 2?
                     Position Down1 = Position.Down();
                     if (board.PositionIsOccupied(Down1) == false)
                     {
+
+                        //Down 1?
                         if (Down1.Rank() == 1) //This would be a pawn promotion for black
                         {
                             ToReturn.Add(new Move(Position, Down1, PieceType.Bishop));
@@ -165,17 +171,19 @@ namespace TimHanewich.Chess
                         {
                             ToReturn.Add(new Move(Position, Down1));
                         }
-                    }
 
-                    //Down 2?
-                    if (Position.Rank() == 7)
-                    {
-                        Position Down2 = Position.Down().Down();
-                        if (board.PositionIsOccupied(Down2) == false)
+                        //Down 2?
+                        if (Position.Rank() == 7)
                         {
-                            ToReturn.Add(new Move(Position, Down2));
+                            Position Down2 = Position.Down().Down();
+                            if (board.PositionIsOccupied(Down2) == false)
+                            {
+                                ToReturn.Add(new Move(Position, Down2));
+                            }
                         }
                     }
+
+                    
 
                     //Capture left?
                     if (Position.File() != 'A')
