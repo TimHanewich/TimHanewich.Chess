@@ -27,7 +27,10 @@ namespace testing
             BoardPosition[] PossibleNextPositions = root.AvailableMovePositions();
             foreach (BoardPosition pbp in PossibleNextPositions)
             {
-                result.Nodes += 1; //Increment node by 1
+                if (depth == 1)
+                {
+                    result.Nodes += 1; //Increment node by 1
+                }
 
                 //Trigger
                 PerftTestToDepth(pbp, depth - 1, result);
