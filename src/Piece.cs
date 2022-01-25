@@ -105,7 +105,6 @@ namespace TimHanewich.Chess
 
                     }
 
-
                     //Capture left?
                     if (Position.File() != 'A')
                     {
@@ -211,8 +210,6 @@ namespace TimHanewich.Chess
                         }
                     }
 
-                    
-
                     //Capture left?
                     if (Position.File() != 'A')
                     {
@@ -258,6 +255,35 @@ namespace TimHanewich.Chess
                             }
                         }
                     }
+                
+                    //En passant capture?
+                    if (board.EnPassantTarget.HasValue)
+                    {                        
+                        //Set up variables
+                        //Just default to the current position
+                        Position ForwardRight = Position;
+                        Position ForwardLeft = Position;
+
+                        //Get variables
+                        if (Position.File() != 'A')
+                        {
+                            ForwardLeft = Position.DownLeft();
+                        }
+                        if (Position.File() != 'H')
+                        {
+                            ForwardRight = Position.DownRight();
+                        }
+
+                        //Can we reach that?
+                        if (ForwardRight == board.EnPassantTarget.Value || ForwardLeft == board.EnPassantTarget.Value)
+                        {
+                            Move PotCap = new Move();
+                            PotCap.FromPosition = Position;
+                            PotCap.ToPosition = board.EnPassantTarget.Value;
+                            ToReturn.Add(PotCap);
+                        }
+                    }
+                
                 }
             }
             else if (Type == PieceType.Knight)
