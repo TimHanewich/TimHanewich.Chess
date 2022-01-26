@@ -433,19 +433,24 @@ namespace TimHanewich.Chess
                         {
                             if (WhiteKingSideCastlingAvailable && FindOccupyingPiece(Position.F1) == null && FindOccupyingPiece(Position.G1) == null && KSRook.Color == Color.White && KSRook.Type == PieceType.Rook)
                             {
-                                Move m = new Move();
-                                m.Castling = CastlingType.KingSide;
-
-                                if (CheckLegality) //If we are being asked to check legality...
+                                //Last step: ensure nothing is attacking the squares the king moves through
+                                bool PathInAttack = PositionsAttackable(Color.Black, Position.E1, Position.F1, Position.G1);
+                                if (PathInAttack == false)
                                 {
-                                    if (MoveIsLegal(m)) //Only add it if it is legal
+                                    Move m = new Move();
+                                    m.Castling = CastlingType.KingSide;
+
+                                    if (CheckLegality) //If we are being asked to check legality...
+                                    {
+                                        if (MoveIsLegal(m)) //Only add it if it is legal
+                                        {
+                                            ToReturn.Add(m);
+                                        }
+                                    }
+                                    else //If we aren't being asked to check legality, just add it
                                     {
                                         ToReturn.Add(m);
                                     }
-                                }
-                                else //If we aren't being asked to check legality, just add it
-                                {
-                                    ToReturn.Add(m);
                                 }
                             }
                         }
@@ -453,19 +458,23 @@ namespace TimHanewich.Chess
                         {
                             if (WhiteQueenSideCastlingAvailable && FindOccupyingPiece(Position.B1) == null && FindOccupyingPiece(Position.C1) == null && FindOccupyingPiece(Position.D1) == null && QSRook.Color == Color.White && QSRook.Type == PieceType.Rook)
                             {
-                                Move m = new Move();
-                                m.Castling = CastlingType.QueenSide;
-                                
-                                if (CheckLegality) //If we are being asked to check legality...
+                                bool PathInAttack = PositionsAttackable(Color.Black, Position.E1, Position.D1, Position.C1);
+                                if (PathInAttack == false)
                                 {
-                                    if (MoveIsLegal(m)) //Only add it if it is legal
+                                    Move m = new Move();
+                                    m.Castling = CastlingType.QueenSide;
+                                    
+                                    if (CheckLegality) //If we are being asked to check legality...
+                                    {
+                                        if (MoveIsLegal(m)) //Only add it if it is legal
+                                        {
+                                            ToReturn.Add(m);
+                                        }
+                                    }
+                                    else //If we aren't being asked to check legality, just add it
                                     {
                                         ToReturn.Add(m);
                                     }
-                                }
-                                else //If we aren't being asked to check legality, just add it
-                                {
-                                    ToReturn.Add(m);
                                 }
                             }
                         }
@@ -485,19 +494,23 @@ namespace TimHanewich.Chess
                         {
                             if (BlackKingSideCastlingAvailable && FindOccupyingPiece(Position.F8) == null && FindOccupyingPiece(Position.G8) == null && KSRook.Color == Color.Black && KSRook.Type == PieceType.Rook)
                             {
-                                Move m = new Move();
-                                m.Castling = CastlingType.KingSide;
-                                
-                                if (CheckLegality) //If we are being asked to check legality...
+                                bool PathInAttack = PositionsAttackable(Color.White, Position.E8, Position.F8, Position.G8);
+                                if (PathInAttack == false)
                                 {
-                                    if (MoveIsLegal(m)) //Only add it if it is legal
+                                    Move m = new Move();
+                                    m.Castling = CastlingType.KingSide;
+                                    
+                                    if (CheckLegality) //If we are being asked to check legality...
+                                    {
+                                        if (MoveIsLegal(m)) //Only add it if it is legal
+                                        {
+                                            ToReturn.Add(m);
+                                        }
+                                    }
+                                    else //If we aren't being asked to check legality, just add it
                                     {
                                         ToReturn.Add(m);
                                     }
-                                }
-                                else //If we aren't being asked to check legality, just add it
-                                {
-                                    ToReturn.Add(m);
                                 }
                             }
                         }
@@ -505,19 +518,23 @@ namespace TimHanewich.Chess
                         {
                             if (BlackQueenSideCastlingAvailable && FindOccupyingPiece(Position.B8) == null && FindOccupyingPiece(Position.C8) == null && FindOccupyingPiece(Position.D8) == null && QSRook.Color == Color.Black && QSRook.Type == PieceType.Rook)
                             {
-                                Move m = new Move();
-                                m.Castling = CastlingType.QueenSide;
-                                
-                                if (CheckLegality) //If we are being asked to check legality...
+                                bool PathInAttack = PositionsAttackable(Color.White, Position.E8, Position.D8, Position.C8);
+                                if (PathInAttack == false)
                                 {
-                                    if (MoveIsLegal(m)) //Only add it if it is legal
+                                    Move m = new Move();
+                                    m.Castling = CastlingType.QueenSide;
+                                    
+                                    if (CheckLegality) //If we are being asked to check legality...
+                                    {
+                                        if (MoveIsLegal(m)) //Only add it if it is legal
+                                        {
+                                            ToReturn.Add(m);
+                                        }
+                                    }
+                                    else //If we aren't being asked to check legality, just add it
                                     {
                                         ToReturn.Add(m);
                                     }
-                                }
-                                else //If we aren't being asked to check legality, just add it
-                                {
-                                    ToReturn.Add(m);
                                 }
                             }
                         }
@@ -1128,8 +1145,8 @@ namespace TimHanewich.Chess
 
 
 
-        /// TOOLKIT BELOW
-        
+        #region "toolkit"
+
         private void RemovePiece(Piece p)
         {
             _Pieces.Remove(p);
@@ -1177,6 +1194,46 @@ namespace TimHanewich.Chess
             }
 
         }
+
+        //If any of the positions are attackable by the color, it will return true.
+        //If none are attackable by the color, it will return false
+        private bool PositionsAttackable(Color by_color, params Position[] positions)
+        {
+            foreach (Piece p in Pieces)
+            {
+                if (p.Color == by_color)
+                {
+                    //Get moves
+                    Move[] moves = null;
+                    try
+                    {
+                        moves = p.AvailableMoves(this, false); //False to check legality, because a white long castle is not allowed in this position: r3k2r/8/2r5/1B6/8/8/8/R3K2R w KQkq - 0 1
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("There was a fatal error while generating moves to check if positions are attackble: " + ex.Message);
+                    }
+                    
+                    //Check each
+                    foreach (Position pos in positions)
+                    {
+                        foreach (Move m in moves)
+                        {
+                            if (m.ToPosition == pos) //A move by this piece of this color can attack one of the positions that was listed to test. So return true
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //We made it here... so false!
+            return false;
+        }
+
+
+        #endregion
 
     }
 }
