@@ -773,6 +773,7 @@ namespace TimHanewich.Chess
 
 
             //Is it a pawn move that potentiall could cause an en passant target square?
+            bool EnPassantTargetCreated = false;
             if (PieceToMove.Type == PieceType.Pawn)
             {
                 if (Math.Abs(m.ToPosition.Rank() - m.FromPosition.Rank()) == 2) //If it was a move of two
@@ -800,7 +801,8 @@ namespace TimHanewich.Chess
                                         EnPassantTarget = m.ToPosition.Up();
                                     }
 
-
+                                    //Flag that an en passant square was created
+                                    EnPassantTargetCreated = true;
 
                                 }
                             }
@@ -845,10 +847,12 @@ namespace TimHanewich.Chess
             }
 
 
+            //If an en passant square was not CREATED by this move, turn it off.
+            if (EnPassantTargetCreated == false)
+            {
+                EnPassantTarget = null;
+            }
             
-            //No matter what, turn the En Passant target square off
-            //This is because whether the player took the en passant opportunity or not, that no longer exists
-            EnPassantTarget = null;
 
 
             //Flip ToMove
