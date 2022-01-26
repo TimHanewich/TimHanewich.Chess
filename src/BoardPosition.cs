@@ -335,6 +335,16 @@ namespace TimHanewich.Chess
                 }
             }
 
+            //Add en passant
+            if (EnPassantTarget.HasValue)
+            {
+                ToReturn = ToReturn + " " + EnPassantTarget.Value.ToString().ToLower();
+            }
+            else
+            {
+                ToReturn = ToReturn + " -";
+            }
+
             return ToReturn;
         }
 
@@ -762,7 +772,44 @@ namespace TimHanewich.Chess
             }
 
 
-            //Detect if this was an en passant move? If it was an en passant move, find and remove the captured pawn
+            //Is it a pawn move that potentiall could cause an en passant target square?
+            if (PieceToMove.Type == PieceType.Pawn)
+            {
+                if (Math.Abs(m.ToPosition.Rank() - m.FromPosition.Rank()) == 2) //If it was a move of two
+                {
+                    //Get the positions that may have an enemy pawn that could attack via en passant
+                    Position[] PotentialEnPassantAttackOrigins = PotentialEnPassantAttackerPositions(m.ToPosition);
+                    foreach (Position pos in PotentialEnPassantAttackOrigins)
+                    {
+                        Piece PotentialEnPassantAttacker = FindOccupyingPiece(pos);
+                        if (PotentialEnPassantAttacker != null)
+                        {
+                            if (PotentialEnPassantAttacker.Type == PieceType.Pawn) //It is a pawn
+                            {
+                                if (PotentialEnPassantAttacker.Color != ToMove) //It is an enemy pawn
+                                {
+
+                                    //There is a potential en passant capture available!
+
+                                    if (ToMove == Color.White) // if it is white, the en passant capture would be one below where the pawn that moved two forward moved to
+                                    {
+                                        EnPassantTarget = m.ToPosition.Down();
+                                    }
+                                    else if (ToMove == Color.Black) //Inverse for black
+                                    {
+                                        EnPassantTarget = m.ToPosition.Up();
+                                    }
+
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Detect if this was an en passant capture? If it was an en passant move, find and remove the captured pawn
             if (EnPassantTarget.HasValue)
             {
                 if (PieceToMove.Type == PieceType.Pawn)
@@ -1082,6 +1129,49 @@ namespace TimHanewich.Chess
         private void RemovePiece(Piece p)
         {
             _Pieces.Remove(p);
+        }
+
+        //For example, for a white pawn that just moved two squares forward to square B4, this would return A4 and C4, because those are the two squares that need to be checked for black pawns that could threaten this white pawn
+        private Position[] PotentialEnPassantAttackerPositions(Position ForPawnOn)
+        {
+            switch (ForPawnOn)
+            {
+                case Position.A4:
+                    return new Position[]{Position.B4};
+                case Position.B4:
+                    return new Position[]{Position.A4, Position.C4};
+                case Position.C4:
+                    return new Position[]{Position.B4, Position.D4};
+                case Position.D4:
+                    return new Position[]{Position.C4, Position.E4};
+                case Position.E4:
+                    return new Position[]{Position.D4, Position.F4};
+                case Position.F4:
+                    return new Position[]{Position.E4, Position.G4};
+                case Position.G4:
+                    return new Position[]{Position.F4, Position.H4};
+                case Position.H4:
+                    return new Position[]{Position.G4};
+                case Position.A5:
+                    return new Position[]{Position.B5};
+                case Position.B5:
+                    return new Position[]{Position.A5, Position.C5};
+                case Position.C5:
+                    return new Position[]{Position.B5, Position.D5};
+                case Position.D5:
+                    return new Position[]{Position.C5, Position.E5};
+                case Position.E5:
+                    return new Position[]{Position.D5, Position.F5};
+                case Position.F5:
+                    return new Position[]{Position.E5, Position.G5};
+                case Position.G5:
+                    return new Position[]{Position.F5, Position.H5};
+                case Position.H5:
+                    return new Position[]{Position.G5};
+                default:
+                    throw new Exception("There are no en passant risk squares for a pawn on " + ForPawnOn.ToString());
+            }
+
         }
 
     }
