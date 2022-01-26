@@ -56,7 +56,7 @@ namespace TimHanewich.Chess
             //Check
             if (p.Color == Color.White)
             {
-                if (FromPosition.Rank() == 7 && ToPosition.Rank() == 8)
+                if (ToPosition.Rank() == 8)
                 {
                     return true;
                 }
@@ -67,7 +67,7 @@ namespace TimHanewich.Chess
             }
             else
             {
-                if (FromPosition.Rank() == 2 && ToPosition.Rank() == 1)
+                if (ToPosition.Rank() == 1)
                 {
                     return true;
                 }
