@@ -1144,13 +1144,24 @@ namespace TimHanewich.Chess
         #endregion
 
 
+        #region "Add/Remove pieces"
 
-        #region "toolkit"
-
-        private void RemovePiece(Piece p)
+        public void RemovePiece(Piece p)
         {
             _Pieces.Remove(p);
         }
+
+        public void AddPiece(Piece p)
+        {
+            _Pieces.Add(p);
+        }
+
+        #endregion
+
+
+        #region "toolkit"
+
+        
 
         //For example, for a white pawn that just moved two squares forward to square B4, this would return A4 and C4, because those are the two squares that need to be checked for black pawns that could threaten this white pawn
         private Position[] PotentialEnPassantAttackerPositions(Position ForPawnOn)
