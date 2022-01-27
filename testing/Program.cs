@@ -18,22 +18,28 @@ namespace testing
         static void Main(string[] args)
         {
 
-            BoardPosition bp = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 
-            // BoardPosition[] afterWhiteMove = bp.AvailableMovePositions();
-            // foreach (BoardPosition pbp in afterWhiteMove)
-            // {
-            //     BoardPosition[] avail = pbp.AvailableMovePositions();
-            //     Console.WriteLine(avail.Length.ToString());
-            // }
-            
-            HanewichTimer ht = new HanewichTimer();
-            ht.StartTimer();
-            PerftTestResult ptr = PerftTestResult.PerformTest(5);
-            ht.StopTimer();
+            foreach (Position p in Enum.GetValues(typeof(Position)))
+            {
+                BoardPosition bp = new BoardPosition();
+                Piece pie = new Piece();
+                pie.Color = Color.White;
+                pie.Position = p;
+                pie.Type = PieceType.Knight;
+                bp.AddPiece(pie);
 
-            Console.WriteLine(ptr.Nodes.ToString("#,##0") + " nodes found in " + ht.GetElapsedTime().TotalSeconds.ToString("#,##0.0") +  " seconds");
-            
+                //dict.Add(Position.A1, new Position[]{Position.B3, Position.C2});
+
+                string PRINT = "dict.Add(Position." + p.ToString() + ", new Position[]{";
+                Move[] moves = pie.AvailableMoves(bp, false);
+                foreach (Move m in moves)
+                {
+                    PRINT = PRINT + "Position." + m.ToPosition.ToString() + ",";
+                }
+                PRINT = PRINT.Substring(0, PRINT.Length - 1);
+                PRINT = PRINT + "});";
+                Console.WriteLine(PRINT);
+            }    
             
         }
 
