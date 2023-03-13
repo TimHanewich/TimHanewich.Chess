@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TimHanewich.Chess
 {
@@ -356,15 +357,29 @@ namespace TimHanewich.Chess
     
         public Move(string algebraic_notation, BoardPosition position)
         {
+            if (algebraic_notation == "O-O") 
+            {
+                Castling = CastlingType.KingSide;
+                return;
+            }
+            if (algebraic_notation == "O-O-O")
+            {
+                Castling = CastlingType.QueenSide;
+                return;
+            }
             string disecting = algebraic_notation;
 
             //Strip out the x
             disecting = disecting.Replace("x", "");
 
             //Get the to position
-            int DestinationRank = FindLastNumber(disecting).Value;
-            int DestinationRankPosition = disecting.LastIndexOf(DestinationRank.ToString());
-            string DestinationFile = disecting.Substring(DestinationRankPosition - 1, 1);
+            int? DestinationRankPosition = FindLastNumber(disecting);
+            if (!DestinationRankPosition.HasValue)
+            {
+                throw new InvalidOperationException("Invalid move");
+            }
+            int DestinationRank = disecting[DestinationRankPosition.Value] - '0';
+            string DestinationFile = disecting.Substring(DestinationRankPosition.Value - 1, 1);
             ToPosition = PositionToolkit.Parse(DestinationFile.Trim().ToUpper() + DestinationRank.ToString());
 
             //What piece is this moving?
@@ -386,7 +401,7 @@ namespace TimHanewich.Chess
             {
                 Moving = PieceType.Bishop;
             }
-            else if (PieceNotation == "K")
+            else if (PieceNotation == "N")
             {
                 Moving = PieceType.Knight;
             }
@@ -396,23 +411,41 @@ namespace TimHanewich.Chess
             }
 
             //Get the from position
-            foreach (Piece p in position.Pieces)
+            var pieces = position.Pieces.Where(p => p.Color == position.ToMove && p.Type == Moving);
+            pieces = FilterOutAmbiguous(pieces, disecting, Moving);
+            foreach (Piece p in pieces)
             {
-                if (p.Color == position.ToMove)
+                Move[] moves = p.AvailableMoves(position, true);
+                foreach (Move m in moves)
                 {
-                    if (p.Type == Moving)
+                    if (m.ToPosition == ToPosition)
                     {
-                        Move[] moves = p.AvailableMoves(position, true);
-                        foreach (Move m in moves)
-                        {
-                            if (m.ToPosition == ToPosition)
-                            {
-                                FromPosition = p.Position;
-                            }
-                        }
+                        FromPosition = p.Position;
                     }
                 }
             }
+        }
+
+        //Handle eg. Ned4, R8a3, Qa2xb3
+        private IEnumerable<Piece> FilterOutAmbiguous(IEnumerable<Piece> pieces, string move, PieceType pieceType)
+        {
+            var disambFrom = pieceType == PieceType.Pawn ? 0 : 1;
+            var disambiguitatingSigns = move.Substring(disambFrom, move.Length - disambFrom - 2).ToArray();
+            if (disambiguitatingSigns.Length == 0)
+            {
+                return pieces;
+            }
+            return pieces.Where(p => disambiguitatingSigns.All(ds =>
+            {
+                if (Char.IsDigit(ds))
+                {
+                    return p.Position.ToString()[1] == ds;
+                }
+                else
+                {
+                    return p.Position.ToString()[0] == Char.ToUpper(ds);
+                }
+            }));
         }
 
         private int? FindLastNumber(string inside)
