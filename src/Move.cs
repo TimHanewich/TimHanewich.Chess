@@ -369,11 +369,12 @@ namespace TimHanewich.Chess
             }
             string disecting = algebraic_notation;
 
-            //Strip out the x
+            //Strip out the x, +, #
             disecting = disecting.Replace("x", "");
+            disecting = disecting.TrimEnd('+', '#');
 
             //Get the to position
-            int? DestinationRankPosition = FindLastNumber(disecting);
+            int? DestinationRankPosition = FindIndexOfLastNumber(disecting);
             if (!DestinationRankPosition.HasValue)
             {
                 throw new InvalidOperationException("Invalid move");
@@ -448,28 +449,17 @@ namespace TimHanewich.Chess
             }));
         }
 
-        private int? FindLastNumber(string inside)
+        private int? FindIndexOfLastNumber(string input)
         {
-            int? ToReturn = null;
-            for (int t = 1; t <= 8; t++)
+            for (int i = input.Length - 1; i >= 0; i--)
             {
-                int val = inside.LastIndexOf(t.ToString());
-                if (val != -1)
+                char c = input[i];
+                if (c >= '1' && c <= '8')
                 {
-                    if (ToReturn == null)
-                    {
-                        ToReturn = val;
-                    }
-                    else
-                    {
-                        if (val > ToReturn.Value)
-                        {
-                            ToReturn = val;
-                        }
-                    }
+                    return i;
                 }
             }
-            return ToReturn;
+            return null;
         }
     
         public override string ToString()

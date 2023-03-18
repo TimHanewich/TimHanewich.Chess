@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TimHanewich.Chess.Extensions;
 
 namespace TimHanewich.Chess.PGN
 {
@@ -26,7 +27,8 @@ namespace TimHanewich.Chess.PGN
 
         public static PgnFile ParsePgn(string pgn)
         {
-
+            //Turn all the series of whitespaces into a single space
+            pgn = pgn.NormalizeSpaces();
             PgnFile ppl = new PgnFile();
             try
             {
