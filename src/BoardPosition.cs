@@ -5,6 +5,8 @@ namespace TimHanewich.Chess
 {
     public class BoardPosition
     {
+        private const string InitialPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
         //To move
         public Color ToMove {get; set;}
 
@@ -16,6 +18,13 @@ namespace TimHanewich.Chess
 
         //En passant target square
         public Position? EnPassantTarget {get; set;}
+
+        //Halfmove clock - The number of halfmoves since the last capture or pawn advance, used for the fifty-move rule.
+        public int HalfmoveClock { get; set; } = 0;
+
+        //Fullmove number - The number of the full moves. It starts at 1 and is incremented after Black's move.
+        public int FullmoveNumber { get; set; } = 1;
+
 
         //Pieces list
         private List<Piece> _Pieces;
@@ -205,6 +214,23 @@ namespace TimHanewich.Chess
                     EnPassantTarget = null;
                 }
             }
+
+            //Halfmove clock
+            if (FenComponents.Length >= 5)
+            {
+                HalfmoveClock = int.Parse(FenComponents[4]);
+            }
+
+            //Fullmove number
+            if (FenComponents.Length >= 6)
+            {
+                FullmoveNumber = int.Parse(FenComponents[5]);
+            }
+        }
+
+        public static BoardPosition NewGame()
+        {
+            return new BoardPosition(InitialPosition);
         }
 
         public Piece[] Pieces
@@ -344,6 +370,12 @@ namespace TimHanewich.Chess
             {
                 ToReturn = ToReturn + " -";
             }
+
+            //Add halfmove clock
+            ToReturn += $" {HalfmoveClock}";
+
+            //Add Fullmove number
+            ToReturn += $" {FullmoveNumber}";
 
             return ToReturn;
         }
@@ -584,6 +616,12 @@ namespace TimHanewich.Chess
 
         public void ExecuteMove(Move m)
         {
+            //Increment number of moves
+            if(ToMove == Color.Black)
+            {
+                FullmoveNumber++;
+            }
+
             //Is it castling? If so, take care of it separately
             if (m.Castling.HasValue)
             {
@@ -667,6 +705,9 @@ namespace TimHanewich.Chess
                     BlackKingSideCastlingAvailable = false;
                     BlackQueenSideCastlingAvailable = false;
                 }
+
+                //It's not a pawn move, so
+                HalfmoveClock++;
 
                 //Flip to-move
                 if (ToMove == Color.White)
@@ -829,11 +870,12 @@ namespace TimHanewich.Chess
             }
 
             //Detect if this was an en passant capture? If it was an en passant move, find and remove the captured pawn
+            bool isEnPassant = false;
             if (EnPassantTarget.HasValue)
             {
                 if (PieceToMove.Type == PieceType.Pawn)
                 {
-                    if (m.ToPosition == EnPassantTarget.Value) //If this pawn moved to the en passant target square, it is an en passant move
+                    if (isEnPassant = m.ToPosition == EnPassantTarget.Value) //If this pawn moved to the en passant target square, it is an en passant move
                     {
 
                         //We are here, so it was an en passant move.
@@ -870,7 +912,15 @@ namespace TimHanewich.Chess
                 EnPassantTarget = null;
             }
             
-
+            //if pawn move or capture then reset counter
+            if(PieceToMove.Type == PieceType.Pawn || Occ != null || isEnPassant)
+            {
+                HalfmoveClock = 0;
+            }
+            else
+            {
+                HalfmoveClock++;
+            }
 
             //Flip ToMove
             if (PieceToMove.Color == Color.White)
