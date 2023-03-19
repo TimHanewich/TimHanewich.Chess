@@ -2,7 +2,7 @@ using System.Text;
 
 namespace TimHanewich.Chess.Extensions
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         public static string NormalizeSpaces(this string input)
         {
