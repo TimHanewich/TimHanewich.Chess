@@ -445,9 +445,10 @@ namespace TimHanewich.Chess
                 //Is this a number (specifies the moving piece's rank) or is it a letter (specifies the moving piece's file)
                 if (char.IsDigit(disambiguating[0])) //If it is a number (rank)
                 {
+                    int originating_rank = Convert.ToInt32(disambiguating[0].ToString());
                     foreach (Piece p in PotentialMovingPieces)
                     {
-                        if (p.Position.Rank() == Convert.ToInt32(disambiguating[0]))
+                        if (p.Position.Rank() == originating_rank)
                         {
                             FromPosition = p.Position;
                         }
