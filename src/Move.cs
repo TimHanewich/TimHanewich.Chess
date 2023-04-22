@@ -468,7 +468,7 @@ namespace TimHanewich.Chess
                 disambiguating = disambiguating.Replace("#", "");
                 disambiguating = disambiguating.Replace(ToPosition.ToString().ToLower(), "");
                 
-
+                
                 //If this is a pawn moving, the entire string above will be lowercase (only one character left at this point, the disambigurating rank or file). And if that is the case, the entire thing would be in lower case because pawn moves to not start their algebraic notation with a capital letter, or a letter at all at that.
                 //So, in other words, if the leftover string has a capital in it (checked via the conditional statement below), the first letter must be the notation of the piece being moved (i.e. N, R).
                 //And if the first letter is the piece being moved, we don't want that. We have interest in the single character that comes after it. That is the disambiguating rank or file.
@@ -476,30 +476,41 @@ namespace TimHanewich.Chess
                 {
                     disambiguating = disambiguating.Substring(1);
                 }
-                
-                
-                //Is this a number (specifies the moving piece's rank) or is it a letter (specifies the moving piece's file)
-                if (char.IsDigit(disambiguating[0])) //If it is a number (rank)
+
+                //If the disambiguation is TWO characters - a full position, just parse it from there
+                if (disambiguating.Length == 2)
                 {
-                    int originating_rank = Convert.ToInt32(disambiguating[0].ToString());
-                    foreach (Piece p in PotentialMovingPieces)
+                    Position pos = PositionToolkit.Parse(disambiguating.ToUpper());
+                    FromPosition = pos;
+                }
+                else //It is a single character (either a rank or file alone)
+                {
+                    //Is this a number (specifies the moving piece's rank) or is it a letter (specifies the moving piece's file)
+                    if (char.IsDigit(disambiguating[0])) //If it is a number (rank)
                     {
-                        if (p.Position.Rank() == originating_rank)
+                        int originating_rank = Convert.ToInt32(disambiguating[0].ToString());
+                        foreach (Piece p in PotentialMovingPieces)
                         {
-                            FromPosition = p.Position;
+                            if (p.Position.Rank() == originating_rank)
+                            {
+                                FromPosition = p.Position;
+                            }
+                        }
+                    }
+                    else //If it is a letter (file)
+                    {
+                        foreach (Piece p in PotentialMovingPieces)
+                        {
+                            if (p.Position.File().ToString().ToLower() == disambiguating[0].ToString().ToLower())
+                            {
+                                FromPosition = p.Position;
+                            }
                         }
                     }
                 }
-                else //If it is a letter (file)
-                {
-                    foreach (Piece p in PotentialMovingPieces)
-                    {
-                        if (p.Position.File().ToString().ToLower() == disambiguating[0].ToString().ToLower())
-                        {
-                            FromPosition = p.Position;
-                        }
-                    }
-                }
+                
+                
+                
             }
 
 
