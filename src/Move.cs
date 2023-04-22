@@ -410,6 +410,30 @@ namespace TimHanewich.Chess
                 Moving = PieceType.Pawn;
             }
 
+            //Is this a pawn promotion (has "=" in it)
+            if (algebraic_notation.Contains("="))
+            {
+                int loc1 = algebraic_notation.IndexOf("=");
+                string promote_pawn_to = algebraic_notation.Substring(loc1 + 1, 1).ToUpper();
+                if (promote_pawn_to == "Q")
+                {
+                    PromotePawnTo = PieceType.Queen;
+                }
+                else if (promote_pawn_to == "R")
+                {
+                    PromotePawnTo = PieceType.Rook;
+                }
+                else if (promote_pawn_to == "B")
+                {
+                    PromotePawnTo = PieceType.Bishop;
+                }
+                else if (promote_pawn_to == "N")
+                {
+                    PromotePawnTo = PieceType.Knight;
+                }
+            }
+            
+            
             //Get the from position
             var pieces = position.Pieces.Where(p => p.Color == position.ToMove && p.Type == Moving); //List of pieces that meet this criteria (same color, same type)
             
