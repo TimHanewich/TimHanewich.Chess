@@ -677,6 +677,10 @@ namespace TimHanewich.Chess
                 {
                     ToMove = Color.White;
                 }
+
+                //Remove en passant availability
+                EnPassantTarget = null;
+
                 return;
             }
 
