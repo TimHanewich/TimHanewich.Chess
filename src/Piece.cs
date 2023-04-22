@@ -495,7 +495,8 @@ namespace TimHanewich.Chess
             //Filter out any moves that would be illegal
             if (EnsureLegality)
             {
-                return FilterOutIllegalMoves(board, ToReturn.ToArray());
+                Move[] LegalMovesToReturn = FilterOutIllegalMoves(board, ToReturn.ToArray());
+                return LegalMovesToReturn;
             }
             else
             {
