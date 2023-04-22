@@ -436,7 +436,8 @@ namespace TimHanewich.Chess
             
             //Get the from position
             var pieces = position.Pieces.Where(p => p.Color == position.ToMove && p.Type == Moving); //List of pieces that meet this criteria (same color, same type)
-            
+            Console.WriteLine(pieces.Count().ToString());
+
             //Compile a list of pieces that have the capability of moving to this position
             List<Piece> PotentialMovingPieces = new List<Piece>();
             foreach (Piece p in pieces)
@@ -453,6 +454,8 @@ namespace TimHanewich.Chess
                     }
                 }
             }
+            Console.WriteLine(PotentialMovingPieces.Count.ToString());
+            Console.ReadLine();
 
             //If there is only a single piece on the board that meets the criteria and is capable of moving to the destination position, that must be it!
             if (PotentialMovingPieces.Count == 1)

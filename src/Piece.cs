@@ -1003,7 +1003,7 @@ namespace TimHanewich.Chess
                         break;
                     case Position.B3:
                         ToReturn.Add(Position.C2);
-                        ToReturn.Add(Position.C1);
+                        ToReturn.Add(Position.D1);
                         break;
                     case Position.B4:
                         ToReturn.Add(Position.C3);
