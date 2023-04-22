@@ -412,18 +412,15 @@ namespace TimHanewich.Chess
 
             //Get the from position
             var pieces = position.Pieces.Where(p => p.Color == position.ToMove && p.Type == Moving); //List of pieces that meet this criteria (same color, same type)
-            pieces = FilterOutAmbiguous(pieces, disecting, Moving);
-            foreach (Piece p in pieces)
+            
+            //If multiple moves on the board for this color and this piece type are capable of moving to that position, filter it down to a single piece using the disamiguating move notation
+            if (pieces.Count() > 1)
             {
-                Move[] moves = p.AvailableMoves(position, true);
-                foreach (Move m in moves)
-                {
-                    if (m.ToPosition == ToPosition)
-                    {
-                        FromPosition = p.Position;
-                    }
-                }
+                pieces = FilterOutAmbiguous(pieces, disecting, Moving);
             }
+            
+            //At this point, there should only be a single piece in the `pieces` array. So that is our moving piece!
+            FromPosition = pieces.First().Position;
         }
 
         //Handle eg. Ned4, R8a3, Qa2xb3
