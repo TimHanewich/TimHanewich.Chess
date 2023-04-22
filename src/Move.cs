@@ -413,13 +413,8 @@ namespace TimHanewich.Chess
             //Get the from position
             var pieces = position.Pieces.Where(p => p.Color == position.ToMove && p.Type == Moving); //List of pieces that meet this criteria (same color, same type)
             
-            //If multiple moves on the board for this color and this piece type are capable of moving to that position, filter it down to a single piece using the disamiguating move notation
-            if (pieces.Count() > 1)
-            {
-                pieces = FilterOutAmbiguous(pieces, disecting, Moving);
-            }
-
-            //Now that we have a list of pieces that meet the criteria for what we are looking for (color, type), and disambiguous move pieces have been filtered out, check which of them is capable of making a move to that position. 
+            //Compile a list of pieces that have the capability of moving to this position
+            List<Piece> PotentialMovingPieces = new List<Piece>();
             foreach (Piece p in pieces)
             {
                 Move[] moves = p.AvailableMoves(position, true);
@@ -427,10 +422,50 @@ namespace TimHanewich.Chess
                 {
                     if (m.ToPosition == ToPosition)
                     {
-                        FromPosition = p.Position;
+                        PotentialMovingPieces.Add(p);
                     }
                 }
             }
+
+            //If there is only a single piece on the board that meets the criteria and is capable of moving to the destination position, that must be it!
+            if (PotentialMovingPieces.Count == 1)
+            {
+                FromPosition = PotentialMovingPieces[0].Position;
+            }
+            else //There are multiple pieces of that type and color that can make this move. So we must use the disambiguating move notation to determine which it is.
+            {
+                string disambiguating = algebraic_notation;
+                disambiguating = disambiguating.Replace("x", "");
+                disambiguating = disambiguating.Replace("+", "");
+                disambiguating = disambiguating.Replace("=", "");
+                disambiguating = disambiguating.Replace("#", "");
+                disambiguating = disambiguating.Replace(ToPosition.ToString().ToLower(), "");
+                disambiguating = disambiguating.Substring(1);
+                
+                //Is this a number (specifies the moving piece's rank) or is it a letter (specifies the moving piece's file)
+                if (char.IsDigit(disambiguating[0])) //If it is a number (rank)
+                {
+                    foreach (Piece p in PotentialMovingPieces)
+                    {
+                        if (p.Position.Rank() == Convert.ToInt32(disambiguating[0]))
+                        {
+                            FromPosition = p.Position;
+                        }
+                    }
+                }
+                else //If it is a letter (file)
+                {
+                    foreach (Piece p in PotentialMovingPieces)
+                    {
+                        if (p.Position.File().ToString().ToLower() == disambiguating[0].ToString().ToLower())
+                        {
+                            FromPosition = p.Position;
+                        }
+                    }
+                }
+            }
+
+
         }
 
         //Handle eg. Ned4, R8a3, Qa2xb3
@@ -497,6 +532,18 @@ namespace TimHanewich.Chess
             {
                 return FromPosition.ToString() + " --> " + ToPosition.ToString();
             }
+        }
+
+        public Position FindDestinationPosition(string algebraic_notation)
+        {
+            foreach (Position p in Enum.GetValues(typeof(Position)))
+            {
+                if (algebraic_notation.ToLower().Contains(p.ToString().ToLower()))
+                {
+                    return p;
+                }
+            }
+            throw new Exception("Unable to find destinaton position (square to move to) in algebraic notation '" + algebraic_notation + "'");
         }
 
         #endregion
