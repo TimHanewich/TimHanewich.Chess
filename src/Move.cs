@@ -448,6 +448,7 @@ namespace TimHanewich.Chess
             }));
         }
 
+        //Returns the position of the last number in a string, not the number itself. If a rank number (1-8) is not found, returns null.
         private int? FindLastNumber(string inside)
         {
             int? ToReturn = null;
