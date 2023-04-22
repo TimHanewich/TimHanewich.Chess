@@ -372,7 +372,7 @@ namespace TimHanewich.Chess
             //Strip out the x
             disecting = disecting.Replace("x", "");
 
-            //Get the to position
+            //Get the to position - may be able to replace this later with the new `FindDestinationPosition` method below
             int? DestinationRankPosition = FindLastNumber(disecting);
             if (!DestinationRankPosition.HasValue)
             {
