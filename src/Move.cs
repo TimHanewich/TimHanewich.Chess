@@ -357,16 +357,20 @@ namespace TimHanewich.Chess
     
         public Move(string algebraic_notation, BoardPosition position)
         {
-            if (algebraic_notation.ToLower().Contains("O-O".ToLower()))  //Must be contains, not ==, because there could be a castling that puts the king in check ("O-O+") and that would not trigger this to determine it as castling.
-            {
-                Castling = CastlingType.KingSide;
-                return;
-            }
+
+            //Check for castling
+            //Since this uses "contains", the queen side castling check MUST come first. Because the king-side castling notation is a substring of the queenside, if we put the king side check first, it would deem even queenside castle notation (O-O-O) as king-side.
             if (algebraic_notation.ToLower().Contains("O-O-O".ToLower())) //Must be contains, not ==, because there could be a castling that puts the king in check ("O-O-O+") and that would not trigger this to determine it as castling.
             {
                 Castling = CastlingType.QueenSide;
                 return;
             }
+            else if (algebraic_notation.ToLower().Contains("O-O".ToLower()))  //Must be contains, not ==, because there could be a castling that puts the king in check ("O-O+") and that would not trigger this to determine it as castling.
+            {
+                Castling = CastlingType.KingSide;
+                return;
+            }
+            
             string disecting = algebraic_notation;
 
             //Strip out the x
