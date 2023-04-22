@@ -376,7 +376,7 @@ namespace TimHanewich.Chess
             int? DestinationRankPosition = FindLastNumber(disecting);
             if (!DestinationRankPosition.HasValue)
             {
-                throw new InvalidOperationException("Invalid move");
+                throw new InvalidOperationException("Invalid move notation!");
             }
             int DestinationRank = disecting[DestinationRankPosition.Value] - '0';
             string DestinationFile = disecting.Substring(DestinationRankPosition.Value - 1, 1);
