@@ -357,12 +357,12 @@ namespace TimHanewich.Chess
     
         public Move(string algebraic_notation, BoardPosition position)
         {
-            if (algebraic_notation == "O-O") 
+            if (algebraic_notation.ToLower().Contains("O-O".ToLower()))  //Must be contains, not ==, because there could be a castling that puts the king in check ("O-O+") and that would not trigger this to determine it as castling.
             {
                 Castling = CastlingType.KingSide;
                 return;
             }
-            if (algebraic_notation == "O-O-O")
+            if (algebraic_notation.ToLower().Contains("O-O-O".ToLower())) //Must be contains, not ==, because there could be a castling that puts the king in check ("O-O-O+") and that would not trigger this to determine it as castling.
             {
                 Castling = CastlingType.QueenSide;
                 return;
