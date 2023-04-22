@@ -511,7 +511,7 @@ namespace TimHanewich.Chess
                                     {
                                         ToReturn.Add(m);
                                     }
-                                }
+                                }                        
                             }
                         }
                         if (QSRook != null)
@@ -934,13 +934,16 @@ namespace TimHanewich.Chess
                             PotentialMovesByOpponent = AvailableMoves(Color.White, false, false);
                         }
 
-                        //If any of the moves of the opponent are to my kinds position, I am in check
+                        //If any of the moves of the opponent are to my king's position, I am in check
                         bool InCheck = false;
                         foreach (Move m in PotentialMovesByOpponent)
                         {
-                            if (m.ToPosition == p.Position)
+                            if (m.Castling.HasValue == false) //By default, a castling move will still have A1 as the FromPosition and A1 as the to position. This has caused issues in the past where, if for example, the white king was wanting to move to A1 and it was actually a legal move, it wouldn't be seen as a legal move IF black could perform a castle after that, because the black castle would still have A1 as the value to ToPosition by default, seemingly meaning that the black castle can "hit" the A1 position but this is incorrect.
                             {
-                                InCheck = true;
+                                if (m.ToPosition == p.Position)
+                                {
+                                    InCheck = true;
+                                }
                             }
                         }
                         return InCheck;
