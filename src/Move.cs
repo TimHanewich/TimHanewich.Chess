@@ -422,7 +422,10 @@ namespace TimHanewich.Chess
                 {
                     if (m.ToPosition == ToPosition)
                     {
-                        PotentialMovingPieces.Add(p);
+                        if (PotentialMovingPieces.Contains(p) == false)
+                        {
+                            PotentialMovingPieces.Add(p);
+                        }
                     }
                 }
             }
