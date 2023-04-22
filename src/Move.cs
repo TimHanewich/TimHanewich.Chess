@@ -411,7 +411,7 @@ namespace TimHanewich.Chess
             }
 
             //Get the from position
-            var pieces = position.Pieces.Where(p => p.Color == position.ToMove && p.Type == Moving);
+            var pieces = position.Pieces.Where(p => p.Color == position.ToMove && p.Type == Moving); //List of pieces that meet this criteria (same color, same type)
             pieces = FilterOutAmbiguous(pieces, disecting, Moving);
             foreach (Piece p in pieces)
             {
