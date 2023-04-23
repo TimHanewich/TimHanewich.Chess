@@ -472,7 +472,10 @@ namespace TimHanewich.Chess
                 string disambiguating = algebraic_notation;
                 disambiguating = disambiguating.Replace("x", "");
                 disambiguating = disambiguating.Replace("+", "");
-                disambiguating = disambiguating.Replace("=", "");
+                disambiguating = disambiguating.Replace("=Q", "");
+                disambiguating = disambiguating.Replace("=R", "");
+                disambiguating = disambiguating.Replace("=B", "");
+                disambiguating = disambiguating.Replace("=N", "");
                 disambiguating = disambiguating.Replace("#", "");
                 disambiguating = disambiguating.Replace(ToPosition.ToString().ToLower(), "");
                 
