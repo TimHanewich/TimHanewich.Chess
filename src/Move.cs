@@ -459,11 +459,15 @@ namespace TimHanewich.Chess
             }
 
             //If there is only a single piece on the board that meets the criteria and is capable of moving to the destination position, that must be it!
-            if (PotentialMovingPieces.Count == 1)
+            if (PotentialMovingPieces.Count == 0)
+            {
+                throw new Exception("No pieces of the specified piece type in the notation are able to move to the destination position '" + ToPosition.ToString() + "'");
+            }
+            else if (PotentialMovingPieces.Count == 1)
             {
                 FromPosition = PotentialMovingPieces[0].Position;
             }
-            else //There are multiple pieces of that type and color that can make this move. So we must use the disambiguating move notation to determine which it is.
+            else if (PotentialMovingPieces.Count > 1) //There are multiple pieces of that type and color that can make this move. So we must use the disambiguating move notation to determine which it is.
             {
                 string disambiguating = algebraic_notation;
                 disambiguating = disambiguating.Replace("x", "");
