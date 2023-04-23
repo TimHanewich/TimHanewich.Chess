@@ -23,114 +23,35 @@ namespace testing
         static void Main(string[] args)
         {
 
-            List<SimpleMove> moves = new List<SimpleMove>();
-            foreach (PieceType pt in Enum.GetValues(typeof(PieceType)))
+
+
+
+            //BoardPosition bp = new BoardPosition("1r3r2/P1P5/1Pk2p2/4p3/6P1/8/4K2P/8 w - - 0 1");
+            //Move m = new Move("cxb8=Q", bp);
+            
+
+
+            Stream s = System.IO.File.OpenRead(@"C:\Users\timh\Downloads\lichess_db_standard_rated_2023-03.pgn\lichess_db_standard_rated_2023-03.pgn");
+            MassivePgnFileSplitter splitter = new MassivePgnFileSplitter(s);
+            
+            while (true)
             {
-                foreach (Position pos in Enum.GetValues(typeof(Position)))
+                string pgn_ = splitter.NextGame();
+                Console.WriteLine(pgn_);
+                PgnFile pgn = PgnFile.ParsePgn(pgn_);
+
+                BoardPosition bp = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+                foreach (string m in pgn.Moves)
                 {
-
-                    if ((pt == PieceType.Pawn && (pos.Rank() == 1 || pos.Rank() == 8)) == false)
-                    {
-                        BoardPosition bp = new BoardPosition("8/8/8/8/8/8/8/8 w - - 0 1");
-                        Piece p = new Piece();
-                        p.Color = Color.White;
-                        p.Type = pt;
-                        p.Position = pos;
-                        bp.AddPiece(p);
-
-                        Move[] amoves = p.AvailableMoves(bp, false);
-                        foreach (Move m in amoves)
-                        {
-                            //See if any are contained like this one
-                            bool already_have_it = false;
-                            foreach (SimpleMove sm in moves)
-                            {
-                                if (sm.from == m.FromPosition && sm.to == m.ToPosition)
-                                {
-                                    already_have_it = true;
-                                }
-                            }
-
-                            //If we do not already have it, save it
-                            if (already_have_it == false)
-                            {
-                                SimpleMove sm = new SimpleMove();
-                                sm.from = m.FromPosition;
-                                sm.to = m.ToPosition;
-                                moves.Add(sm);
-                            }
-                        }
-                    }
-
+                    Console.Write(m + " ");
+                    Move move = new Move(m, bp);
+                    bp.ExecuteMove(move);
+                    Console.WriteLine(" made! " + bp.ToFEN());
                 }
+
+                Console.Write(JsonConvert.SerializeObject(pgn.Moves, Formatting.None));
+                Console.Clear();
             }
-
-            //Sort
-            List<SimpleMove> sorted = new List<SimpleMove>();
-            foreach (Position p in Enum.GetValues(typeof(Position)))
-            {
-                //Get from this pos
-                List<SimpleMove> FromThisPosition = new List<SimpleMove>();
-                foreach (SimpleMove sm in moves)
-                {
-                    if (sm.from == p)
-                    {
-                        FromThisPosition.Add(sm);
-                    }
-                }
-
-                //Sort by to pos
-                List<SimpleMove> s2 = new List<SimpleMove>();
-                foreach (Position p2 in Enum.GetValues(typeof(Position)))
-                {
-                    foreach (SimpleMove sm in FromThisPosition)
-                    {
-                        if (sm.to == p2)
-                        {
-                            s2.Add(sm);
-                        }
-                    }
-                }
-
-                sorted.AddRange(s2);
-            }
-            
-
-
-            Console.WriteLine(JsonConvert.SerializeObject(sorted));
-            
-
-
-            // BoardPosition bp = new BoardPosition("1n2k2r/r4ppp/4p2n/p2pP1NQ/b1pP1PP1/q1P5/P2NB1P1/1K3R1R w k - 1 1");
-            // Move m = new Move("Ka1", bp);
-            
-
-
-
-
-
-
-            // Stream s = System.IO.File.OpenRead(@"C:\Users\timh\Downloads\lichess_db_standard_rated_2023-03.pgn\lichess_db_standard_rated_2023-03.pgn");
-            // MassivePgnFileSplitter splitter = new MassivePgnFileSplitter(s);
-            
-            // while (true)
-            // {
-            //     string pgn_ = splitter.NextGame();
-            //     Console.WriteLine(pgn_);
-            //     PgnFile pgn = PgnFile.ParsePgn(pgn_);
-
-            //     BoardPosition bp = new BoardPosition("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
-            //     foreach (string m in pgn.Moves)
-            //     {
-            //         Console.Write(m + " ");
-            //         Move move = new Move(m, bp);
-            //         bp.ExecuteMove(move);
-            //         Console.WriteLine(" made! " + bp.ToFEN());
-            //     }
-
-            //     Console.Write(JsonConvert.SerializeObject(pgn.Moves, Formatting.None));
-            //     Console.Clear();
-            // }
 
         }
             
